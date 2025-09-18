@@ -1,0 +1,303 @@
+/* ===========================
+   General Color Palette
+=========================== */
+:root {
+  --color-1: #E6451D;      
+  --color-2: #2B1E2C;    
+  --color-3: #b7fecc;        
+  --color-4: #F8E7D2;    
+  --color-5: #ffffff;    
+  --color-6: #FFD60A;    
+  --color-7: #dbdbdb;    
+  --color-8: #e2e8f0;    
+  --color-9: #fe9d9d;    
+  --color-10: #c2defc;   
+  --color-11: #000; 
+  --color-12: #FF7B24; 
+  --color-13: #fed2a8; 
+  --color-14: #149644;
+  --color-15: #DC2626;;
+  --color-16: #ff6600;;
+}
+
+/* 
+🔥 Flame
+
+Orange: #FF7B24
+
+Dark Orange/Red: #E6451D
+
+Yellow: #FFC533
+
+Dark inner flame: #6C1F1F
+
+📖 Book
+
+Pages (light cream): #F8E7D2
+
+Page shadows (tan/brown): #9B7653
+
+Outline & folds (dark brown): #3B2A1E
+
+🖤 Background & Text
+
+Background (deep purple/black): #2B1E2C
+
+Text ("FlareBook", white): #FFFFFF
+*/
+
+/* ===========================
+   Reset & Base
+=========================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  display: grid;
+  grid-template-areas:
+    "menu header"
+    "menu content"
+    "menu footer";
+  grid-template-columns: 200px 1fr;
+  grid-template-rows: 60px 1fr 40px;
+  height: 100vh;
+}
+
+body.menu-collapsed {
+  grid-template-areas:
+    "header header"
+    "content content"
+    "footer footer";
+  grid-template-columns: repeat(2, 1fr);
+}
+
+/* ===========================
+   Header
+=========================== */
+header {
+  grid-area: header;
+  background: var(--color-1);
+  color: var(--color-5);
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--color-1);
+  padding: 0.5rem 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+header .header-left {
+  display: flex;
+  align-items: center;
+}
+
+header .menu-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--color-5);
+}
+
+header .header-right {
+  display: flex;
+  align-items: center;
+}
+
+header .user-menu {
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+header .user-avatar {
+  border-radius: 50%;
+  margin-right: 0.5rem;
+}
+
+header .user-menu .dropdown {
+  display: none;
+  position: absolute;
+  right: 0;
+  background: var(--color-2);
+  color: var(--color-5);
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  top: 35px;
+  min-width: 150px;
+}
+
+header .user-menu:hover .dropdown {
+  display: block;
+}
+
+header .user-menu .dropdown a {
+  display: block;
+  padding: 0.5rem;
+  text-decoration: none;
+  color: var(--color-dark);
+}
+
+header .user-menu .dropdown a:hover {
+  background: var(--color-2);
+  color: var(--color-5);
+}
+
+
+/* ===========================
+   Sidebar
+=========================== */
+aside#menu {
+  grid-area: menu;
+  background: var(--color-2);
+  color: var(--color-5);
+  padding: 1rem;
+  position: fixed;
+  height: 100vh;       /* full height of screen */
+  width: 200px;        /* match your grid-template-columns */
+}
+
+
+aside#menu .web-heading {
+  font-weight: bold;
+  margin-bottom: 2.4rem;
+  display: flex;
+  align-items: center;
+}
+
+aside#menu nav ul {
+  list-style: none;
+}
+
+aside#menu nav ul li {
+  margin: 0.5rem 0;
+}
+
+aside#menu nav ul li a {
+  text-decoration: none;
+  color: var(--color-5);
+  display: block;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: background 0.3s;
+}
+
+aside#menu nav ul li a:hover,
+aside#menu nav ul li.active a {
+  background: var(--color-6);
+}
+
+aside#menu.hidden {
+  transform: translateX(-100%);
+  display: none;
+}
+
+/* ===========================
+   Main Content
+=========================== */
+main#content {
+  grid-area: content;
+  background: var(--color-13);
+  padding: 1rem;
+  color: var(--color-11);
+
+  .content-heading {
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    border-bottom: 3px solid var(--color-12);
+  }
+}
+
+/* ===========================
+   Footer
+=========================== */
+footer {
+  grid-area: footer;
+  background: var(--color-1);
+  color: var(--color-5);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 1rem;
+}
+
+/* ===========================
+   Global
+=========================== */
+.status {
+  padding: 6px 8px;
+  min-width: 80px;
+  border-radius: 10px;
+  border: none;
+}
+
+.online {
+  color: var(--color-14);
+  background-color: var(--color-3);
+}
+
+.offline {
+  color: var(--color-15);
+  background-color: var(--color-9);
+}
+
+.button {
+  padding: 6px 0;
+  min-width: 40px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+  background: none;
+}
+
+.button.default {
+  background-color: var(--color-6);
+  color: var(--color-16);
+  min-width: 80px;
+}
+
+.button.safe {
+  color: var(--color-14);
+}
+
+.button.danger {
+  color: var(--color-15);
+}
+
+.button:hover {
+  color: var(--color-10);
+}
+
+#web-logo {
+  width: 40px;
+}
+
+#web-title {
+  padding-top: 7px;
+  padding-left: 4px;
+}
+
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: var(--color-11);
+}

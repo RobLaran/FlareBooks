@@ -1,0 +1,132 @@
+.table-container {
+    display: grid;
+    row-gap: 20px;
+
+    .empty-notif {
+        text-align: center;
+        margin-top: 80px;
+    }
+
+    .row.one,
+    .row.two,
+    .row.four {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .row.two {
+        #search-input {
+            padding: 4px;
+        }
+
+        select,
+        input#search-input,
+        button {
+            font-size: 1rem;
+            border-radius: 5px;
+            padding: 4px;
+        }
+    }
+
+    .row.three  {
+        overflow-x: auto;
+
+        .table-zebra {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: sans-serif;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        
+            thead {
+                background-color: var(--color-12); /* A dark blue-grey header */
+                color: var(--color-5);
+
+                button.sortable {
+                    appearance: none;
+                    background: none;
+                    border: none;
+                    cursor: pointer;
+                }
+
+                button.sortable:active {
+                    outline: 1px solid var(--color-11);
+                }
+            }
+
+            th,
+            td {
+                max-width: 120px;
+                padding: 12px 15px;
+                text-align: center;
+                border-bottom: 1px solid var(--color-12);
+                color: var(--color-11);
+                white-space: normal;   /* allow wrapping */
+                word-wrap: break-word; /* wrap long words */
+            }
+
+            td {
+                .action-buttons {
+                    display: flex;
+                    column-gap: 10px;
+                    justify-content: center;
+
+                    i {
+                        font-weight: 700;
+                    }
+                }
+            }
+
+            /* This is the magic for the zebra-striping */
+            tbody tr:nth-of-type(odd) {
+                background-color: var(--color-4);
+            }
+
+            tbody tr:nth-of-type(even) {
+                background-color: var(--color-5);
+            }
+
+            tbody tr:last-of-type {
+                border-bottom: 2px solid var(--color-1);
+            }
+
+            /* Optional: Add a hover effect for better user interaction */
+            tbody tr:hover {
+                background-color: var(--color-8);
+                cursor: pointer;
+            }
+        }
+
+        
+    }
+
+    
+
+    .row.four {
+            display: flex;
+            justify-content: space-between;
+
+            .pagination {
+                display: flex;
+                justify-content: space-evenly;
+                column-gap: 8px;
+
+                li.page {
+                    background-color: var(--color-5);
+                    border: 1px solid var(--color-12);
+                    padding: 4px;
+                }
+
+                li.page.previous,
+                li.page.next {
+                    min-width: 60px;
+                    text-align: center;
+                }
+
+                li.page.current {
+                    background-color: var(--color-10);
+                }
+            }
+        }
+}
