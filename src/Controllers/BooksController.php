@@ -7,10 +7,12 @@ use App\Models\Genre;
 
 class BooksController extends Controller {
     private $bookModel;
+    private $genreModel;
 
     public function __construct() {
         $this->title = "Book List";
         $this->bookModel = new Book();
+        $this->genreModel = new Genre();
     }
     public function index() {
         $params = $this->getRequestParams(
@@ -28,10 +30,9 @@ class BooksController extends Controller {
             $offset = ($params['page'] - 1) * $params['limit'];
 
             $books = $this->bookModel->getPaginatedBooks($params['limit'], $offset, $params['sortBy'], $params['sortDir'], $params['search']);
-            $genreModel = new Genre();
 
             foreach ($books as &$book) {
-                $book['genre'] = $genreModel->getBookGenre($book['genre_id']);
+                $book['genre'] = $this->genreModel->getBookGenre($book['genre_id']);
             }
             unset($book); // break the reference
 
@@ -47,15 +48,34 @@ class BooksController extends Controller {
         ]));
     }
 
-    public function addBook() {
-        $this->view("books/add-book", [ "title" => "Add Book" ]);
+    public function create() {
+        $genres = $this->genreModel->getAllGenres();
+
+        $this->view("books/add-book", [ 
+            "title" => "Add Book", 
+            "genres" => $genres 
+        ]);
     }
 
-    public function editBook() {
+    public function add() {
+        dd($_POST);
 
+        header("Location: " . routeTo('/books'));
+        exit;
     }
 
-    public function removeBook() {
+    public function edit($id) {
+        $book = $this->bookModel->getBook($id);
+
+        $this->view("books/edit-book", [ "title" => "Edit Book" ]);
+    }
+
+    public function update() {
+        header("Location: " . routeTo('/books'));
+        exit;
+    }
+
+    public function delete() {
 
     }
 }

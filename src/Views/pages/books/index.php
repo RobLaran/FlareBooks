@@ -1,7 +1,7 @@
 <div class="books-page-content">
     <div class="table-container">
         <div class="row one">
-            <a href="<?= routeTo('/books/add')?>" class="button default">Add Book</a>
+            <a href="<?= routeTo('/books/add') ?>" class="button default">Add Book</a>
         </div>
 
         <div class="row two">
@@ -45,6 +45,7 @@
             <table class="table-zebra">
                 <thead>
                     <tr class="table-heading">
+                        <th>Image</th>
                         <?php 
                         $columns = [
                             "ISBN" => "ISBN",
@@ -77,6 +78,7 @@
 
                         <?php foreach ($books as $book): ?>
                             <tr>
+                                <td><img src="<?= $book['image'] ?>" alt="Book Image"></td>
                                 <td><?= $book['ISBN'] ?></td>
                                 <td><?= $book['author'] ?></td>
                                 <td><?= $book['publisher'] ?></td>
@@ -86,7 +88,7 @@
                                 <td><span class="status <?= $book['status'] == "Available" ? "online" : "offline" ?>"><?= $book['status'] ?></span></td>
                                 <td>
                                     <div class="action-buttons">
-                                        <button class="button act-edit safe"><i class="fa-solid fa-pen-to-square"></i></button>
+                                        <a href="<?= routeTo("/books/edit/" . $book['ISBN']) ?>" class="button act-edit safe"><i class="fa-solid fa-pen-to-square"></i></a>
                                         <button class="button act-remove danger"><i class="fa-regular fa-trash"></i></button>
                                     </div>
                                 </td>

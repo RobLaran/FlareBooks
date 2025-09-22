@@ -6,7 +6,9 @@ Router::get('/dashboard', 'DashboardController@index');
 
 // Book Routes
 Router::get('/books', 'BooksController@index');
-Router::get('/books/add', 'BooksController@addBook');
+Router::get('/books/add', 'BooksController@create');
+Router::post('/books/add', 'BooksController@add');
+Router::get('/books/edit/{id}', 'BooksController@editBook');
 
 Router::get('/genres', 'GenresController@index');
 Router::get('/borrowers', 'BorrowersController@index');

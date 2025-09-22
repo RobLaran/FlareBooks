@@ -10,7 +10,7 @@ function getFile($path=""): string {
  function isURL($URL): bool {
     $PATH = getURI();
 
-    return  $PATH == $URL;
+    return  $PATH == $URL || str_contains($PATH, $URL);
 }
 
 function routeTo($endPoint): string {

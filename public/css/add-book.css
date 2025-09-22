@@ -1,0 +1,85 @@
+.add-book-page {
+    .form-container {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(200px, 1fr));
+        grid-template-rows: repeat(2, 1fr) 100px repeat(2, 1fr);
+        grid-template-areas: 
+            "isbn-field status-field"
+            "author-field publisher-field"
+            "title-field title-field"
+            "quantity-field genre-field"
+            "button-container button-container"
+        ;
+        gap: 1rem;
+
+        .input-container {
+            display: flex;
+            flex-direction: column;
+
+            label {
+                font-weight: 700;
+            }
+
+            input,
+            select,
+            textarea {
+                padding: 10px 4px;
+                font-size: 1.1rem;
+                border-width: 2px;
+                border-color: var(--color-12);
+                border-radius: 10px;
+                background-color: var(--color-4);
+            }
+
+            
+
+            input:focus,
+            select:focus,
+            textarea:focus {
+                border-color: var(--color-10);
+                outline-color: var(--color-10);
+            }
+        }
+
+        .isbn-field.input-container {
+            grid-area: isbn-field;
+        }
+
+        .status-field.input-container {
+            grid-area: status-field;
+        }
+
+        .author-field.input-container {
+            grid-area: author-field;
+        }
+
+        .publisher-field.input-container {
+            grid-area: publisher-field;
+        }
+
+        .title-field.input-container {
+            grid-area: title-field;
+            
+            textarea {
+                resize: none;
+                flex: 1;
+            }
+        }
+
+        .quantity-field.input-container {
+            grid-area: quantity-field;
+        }
+
+        .genre-field.input-container {
+            grid-area: genre-field;
+        }
+
+        .button-container {
+            grid-area: button-container;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            column-gap: 1.4rem;
+        }
+    }
+}

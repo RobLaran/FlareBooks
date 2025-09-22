@@ -6,8 +6,17 @@ use App\Core\Model;
 
 class Book extends Model {
 
-    public function addBook() {
+    public function addBook($book) {
+        $ISBN = $book['ISBN'];
+        $author = $book['author'];
+        $title = $book['title'];
+        $publisher = $book['publisher'];
+        $genre = $book['genre'];
+        $quantity = $book['quantity'];
+        $status = $book['status'];
 
+        $sql = "INSERT INTO `books`(`ISBN`, `genre_id`, `author`, `title`, `quantity`, `status`, `image`, `publisher`) 
+        VALUES (:ISBN,:genre,:author,:title,:quantity,:status,:image,:publisher)";
     }
 
     public function removeBook() {
@@ -18,10 +27,15 @@ class Book extends Model {
 
     }
 
-    public function getBook() {
-        
-    }
+    public function getBook($id) {
+        $sql = "SELECT * FROM books WHERE ISBN = :id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':id', $id, \PDO::PARAM_STR);
+        $stmt->execute();
 
+        return $stmt->fetch(\PDO::FETCH_ASSOC) ?: null;
+    }
+    
     public function getAllBooks($sortBy = "author", $sortDir = "ASC"): array {
         // whitelist allowed columns for sorting (map to actual table.column)
         $allowedSort = [

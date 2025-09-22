@@ -16,7 +16,7 @@
   --color-12: #FF7B24; 
   --color-13: #fed2a8; 
   --color-14: #149644;
-  --color-15: #DC2626;;
+  --color-15: #e43434;;
   --color-16: #ff6600;;
 }
 
@@ -216,10 +216,11 @@ main#content {
 
   .content-heading {
     margin-bottom: 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: end;
-    border-bottom: 3px solid var(--color-12);
+    display: grid;
+
+    h1 {
+      border-bottom: 3px solid var(--color-12);
+    }
   }
 }
 
@@ -301,3 +302,44 @@ a {
   text-decoration: none;
   color: var(--color-11);
 }
+
+/* Alert Message */
+.alert {
+  padding: 12px 18px;
+  border-radius: 6px;
+  margin: 15px 0;
+  font-weight: 500;
+  font-size: 0.95em;
+  position: relative;
+  animation: fadeIn 0.4s ease;
+}
+
+.alert.success {
+  background-color: var(--color-3);
+  color: var(--color-14);
+  border: 1px solid var(--color-14);
+}
+
+.alert.error {
+  background-color: var(--color-9);
+  color: var(--color-15);
+  border: 1px solid var(--color-15);
+}
+
+/* Close button */
+.alert .close-btn {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  font-size: 18px;
+  font-weight: bold;
+  color: inherit;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+}
+.alert .close-btn:hover {
+  color: var(--color-11);
+}
+
