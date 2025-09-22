@@ -7,20 +7,58 @@ use App\Core\Model;
 class Book extends Model {
 
     public function addBook($book) {
-        $ISBN = $book['ISBN'];
-        $author = $book['author'];
-        $title = $book['title'];
-        $publisher = $book['publisher'];
-        $genre = $book['genre'];
-        $quantity = $book['quantity'];
-        $status = $book['status'];
+        $ISBN = $book['ISBN'] ?: null;
+        $author = $book['author'] ?: null;
+        $title = $book['title'] ?: null;
+        $publisher = $book['publisher'] ?: "No publisher";
+        $genre = $book['genre'] ?: null;
+        $quantity = $book['quantity'] ?: null;
+        $status = $book['status'] ?: null;
+        $image = $book['image'] ?: null;
+
+        if(empty($book['ISBN'])) {
+            throw new \Exception("ISBN is required");
+        } else if(!is_numeric($book['ISBN'])) {
+            throw new \Exception("ISBN must be numeric");
+        }
+
+        if(empty($author)) {
+            throw new \Exception("Author is empty");
+        }
+
+        if(empty($title)) {
+            throw new \Exception("Title is empty");
+        }
+
+        if(!is_numeric($quantity)) {
+            throw new \Exception("Quantity must be numeric");
+        } else if($quantity < 0) {
+            throw new \Exception("Quantity must be a positive number");
+        }
 
         $sql = "INSERT INTO `books`(`ISBN`, `genre_id`, `author`, `title`, `quantity`, `status`, `image`, `publisher`) 
         VALUES (:ISBN,:genre,:author,:title,:quantity,:status,:image,:publisher)";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(":ISBN", $ISBN, \PDO::PARAM_STR);
+        $stmt->bindValue(":author", $author, \PDO::PARAM_STR);
+        $stmt->bindValue(":title", $title, \PDO::PARAM_STR);
+        $stmt->bindValue(":publisher", $publisher, \PDO::PARAM_STR);
+        $stmt->bindValue(":genre", $genre, \PDO::PARAM_INT);
+        $stmt->bindValue(":quantity", $quantity, \PDO::PARAM_INT);
+        $stmt->bindValue(":status", $status, \PDO::PARAM_STR);
+        $stmt->bindValue(":image", $image, \PDO::PARAM_STR);
+        $result = $stmt->execute();
+
+        return $result;
     }
 
-    public function removeBook() {
+    public function removeBook($ISBN) {
+        $sql = "DELETE FROM books WHERE ISBN = :ISBN";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(":ISBN", $ISBN, \PDO::PARAM_STR);
+        $result = $stmt->execute();
 
+        return $result;
     }
 
     public function updateBook() {

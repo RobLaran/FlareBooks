@@ -12,8 +12,24 @@ class Router {
         self::$routes['POST'][$path] = ['action' => $action, 'middleware' => $middleware];
     }
 
+    public static function put($path, $action, $middleware = []) {
+        self::$routes['PUT'][$path] = ['action' => $action, 'middleware' => $middleware];
+    }
+
+    public static function delete($path, $action, $middleware = []) {
+        self::$routes['DELETE'][$path] = ['action' => $action, 'middleware' => $middleware];
+    }
+
     public static function dispatch($method, $uri) {
         $uri = strtok($uri, '?'); // strip query params
+
+        // 🔹 Override POST with hidden _method
+        if ($method === 'POST' && isset($_POST['_method'])) {
+            $override = strtoupper($_POST['_method']);
+            if (in_array($override, ['PUT', 'DELETE'])) {
+                $method = $override;
+            }
+        }
 
         // Remove base folder (/library) if project is not in root
         $scriptName = dirname($_SERVER['SCRIPT_NAME']); 

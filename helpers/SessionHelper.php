@@ -1,4 +1,7 @@
 <?php
+
+namespace Helpers;
+
 class SessionHelper {
     public static function setFlash($key, $message) {
         $_SESSION[$key] = $message;

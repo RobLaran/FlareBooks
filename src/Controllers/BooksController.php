@@ -5,6 +5,9 @@ use App\Core\Controller;
 use App\Models\Book;
 use App\Models\Genre;
 
+use Exception;
+use Helpers\SessionHelper;
+
 class BooksController extends Controller {
     private $bookModel;
     private $genreModel;
@@ -58,10 +61,34 @@ class BooksController extends Controller {
     }
 
     public function add() {
-        dd($_POST);
+        try {
+            $result = $this->bookModel->addBook([
+                "ISBN" => $_POST['ISBN'],
+                "author" => $_POST['author'],
+                "title" => $_POST['title'],
+                "publisher" => $_POST['publisher'],
+                "genre" => $_POST['genre'],
+                "quantity" => $_POST['quantity'],
+                "status" => $_POST['status'],
+                "image" => $_POST['image'] ?? $_POST['image_url']
+            ]);
 
-        header("Location: " . routeTo('/books'));
-        exit;
+            if(!$result) {
+                SessionHelper::setFlash('error', "Failed to add book");
+                header("Location: " . routeTo('/books/add'));
+                exit;
+            }
+
+            SessionHelper::setFlash('success', "New book successfully added");
+            header("Location: " . routeTo('/books'));
+            exit;
+        } catch(Exception $error) {
+            SessionHelper::setFlash('error', $error->getMessage());
+            header("Location: " . routeTo('/books/add'));
+            exit;
+        }
+
+        
     }
 
     public function edit($id) {
@@ -75,7 +102,17 @@ class BooksController extends Controller {
         exit;
     }
 
-    public function delete() {
+    public function delete($id) {
+        $result = $this->bookModel->removeBook($id);
 
+        if(!$result) {
+            SessionHelper::setFlash('error', "Failed to remove book");
+            header("Location: " . routeTo('/books'));
+            exit;
+        }
+
+        SessionHelper::setFlash('success', "Book successfully removed");
+        header("Location: " . routeTo('/books'));
+        exit;
     }
 }

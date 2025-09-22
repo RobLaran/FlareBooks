@@ -267,10 +267,19 @@ footer {
   font-size: 1rem;
 }
 
-.button.default {
+.swal2-confirm,
+.swal2-cancel {
+  max-width: 140px;
+}
+
+.button.default,
+.swal2-confirm  {
   background-color: var(--color-6);
   color: var(--color-16);
-  max-width: 120px;
+}
+
+.swal2-cancel {
+  color: var(--color-15);
 }
 
 .button.safe {
@@ -281,7 +290,8 @@ footer {
   color: var(--color-15);
 }
 
-.button:hover {
+.button:hover,
+.swal2-confirm:hover {
   color: var(--color-10);
 }
 

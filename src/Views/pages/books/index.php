@@ -78,7 +78,7 @@
 
                         <?php foreach ($books as $book): ?>
                             <tr>
-                                <td><img src="<?= $book['image'] ?>" alt="Book Image"></td>
+                                <td><img src="<?= $book['image'] ?>" alt="<?= $book['title'] ?>"></td>
                                 <td><?= $book['ISBN'] ?></td>
                                 <td><?= $book['author'] ?></td>
                                 <td><?= $book['publisher'] ?></td>
@@ -89,7 +89,10 @@
                                 <td>
                                     <div class="action-buttons">
                                         <a href="<?= routeTo("/books/edit/" . $book['ISBN']) ?>" class="button act-edit safe"><i class="fa-solid fa-pen-to-square"></i></a>
-                                        <button class="button act-remove danger"><i class="fa-regular fa-trash"></i></button>
+                                        <form class="delete-book-form" action="<?= routeTo('/books/delete/' . $book['ISBN']) ?>" method="POST">
+                                            <input type="hidden" name="_method" value="DELETE">
+                                            <button type="submit" class="button act-remove danger"><i class="fa-regular fa-trash"></i></button>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>

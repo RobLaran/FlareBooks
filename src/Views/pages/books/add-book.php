@@ -22,8 +22,8 @@
         <div class="status-field input-container">
             <label for="status-selection">Status:</label>
             <select name="status" id="status-selection">
-                <option value="available" class="online">Available</option>
-                <option value="unavailable" class="offline">Unavailable</option>
+                <option value="Available" class="online">Available</option>
+                <option value="Unavailable" class="offline">Unavailable</option>
             </select>
         </div>
         <div class="author-field input-container">

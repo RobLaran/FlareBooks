@@ -2,7 +2,8 @@
     "name": "rob/library",
     "autoload": {
         "psr-4": {
-            "App\\": "src/"
+            "App\\": "src/",
+            "Helpers\\": "helpers/"
         }
     },
     "authors": [

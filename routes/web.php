@@ -8,7 +8,9 @@ Router::get('/dashboard', 'DashboardController@index');
 Router::get('/books', 'BooksController@index');
 Router::get('/books/add', 'BooksController@create');
 Router::post('/books/add', 'BooksController@add');
-Router::get('/books/edit/{id}', 'BooksController@editBook');
+Router::get('/books/edit/{id}', 'BooksController@edit');
+Router::put('/books/update/{id}', 'BooksController@update');
+Router::delete('/books/delete/{id}', 'BooksController@delete');
 
 Router::get('/genres', 'GenresController@index');
 Router::get('/borrowers', 'BorrowersController@index');
