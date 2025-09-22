@@ -1,8 +1,7 @@
 <div class="genres-page-content">
     <div class="table-container">
         <div class="row one">
-            <button class="button default">ADD</button>
-            
+            <button class="button default">Add Genre</button>
         </div>
 
         <div class="row two">

@@ -21,8 +21,7 @@
         }
 
         select,
-        input#search-input,
-        button {
+        input#search-input {
             font-size: 1rem;
             border-radius: 5px;
             padding: 4px;

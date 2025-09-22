@@ -1,6 +1,6 @@
 <aside id="menu">
     <div class="web-heading">
-        <img src="public/img/<?= LOGO ?>" alt="" id="web-logo">
+        <img src="<?= LOGO ?>" alt="" id="web-logo">
         <span id="web-title"><?= BRAND ?></span>
     </div>
     <nav>

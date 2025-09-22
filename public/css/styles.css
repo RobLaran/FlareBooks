@@ -257,19 +257,19 @@ footer {
 }
 
 .button {
-  padding: 6px 0;
-  min-width: 40px;
+  padding: 6px 12px;
   border-radius: 10px;
   border: none;
   font-weight: 700;
   cursor: pointer;
   background: none;
+  font-size: 1rem;
 }
 
 .button.default {
   background-color: var(--color-6);
   color: var(--color-16);
-  min-width: 80px;
+  max-width: 120px;
 }
 
 .button.safe {

@@ -39,11 +39,23 @@ class BooksController extends Controller {
             $totalPages = ceil($totalBooks / $params['limit']);
         }
 
-        $this->view("books", array_merge($params , [
+        $this->view("books/index", array_merge($params , [
             "title" => $this->title,
             "books" => $books,
             "totalBooks" => $totalBooks,
             "totalPages" => $totalPages
         ]));
+    }
+
+    public function addBook() {
+        $this->view("books/add-book", [ "title" => "Add Book" ]);
+    }
+
+    public function editBook() {
+
+    }
+
+    public function removeBook() {
+
     }
 }

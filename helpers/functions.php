@@ -3,6 +3,10 @@ function getURI(): array|string {
     return str_replace(BASE_URL, '', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 }
 
+function getFile($path=""): string {
+    return BASE_URL . "/" . $path;
+}
+
  function isURL($URL): bool {
     $PATH = getURI();
 

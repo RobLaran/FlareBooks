@@ -1,8 +1,7 @@
 <div class="books-page-content">
     <div class="table-container">
         <div class="row one">
-            <button class="button default">ADD</button>
-            
+            <a href="<?= routeTo('/books/add')?>" class="button default">Add Book</a>
         </div>
 
         <div class="row two">

@@ -1,7 +1,6 @@
 <div class="table-container">
     <div class="row one">
         <button class="button default">ADD</button>
-        
     </div>
 
     <div class="row two">
