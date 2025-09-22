@@ -70,7 +70,7 @@ class BooksController extends Controller {
                 "genre" => $_POST['genre'],
                 "quantity" => $_POST['quantity'],
                 "status" => $_POST['status'],
-                "image" => $_POST['image'] ?? ($_POST['image_url'] ?? null)
+                "image" => $_POST['image'] ?: ($_POST['image_url'] ?: null)
             ]);
 
             if(!$result) {
