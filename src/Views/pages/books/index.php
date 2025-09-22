@@ -78,7 +78,14 @@
 
                         <?php foreach ($books as $book): ?>
                             <tr>
-                                <td><img src="<?= $book['image'] ?>" alt="<?= $book['title'] ?>"></td>
+                                <td>
+                                    <?php if(isImageUrl($book['image'] ?? "")): ?>
+                                        <img src="<?= $book['image'] ?>" alt="<?= $book['title'] ?>">
+                                    <?php else: ?>
+                                        <img src="<?= getFile('public/img/' . $book['image']) ?>" alt="<?= $book['title'] ?>">
+                                    <?php endif; ?>
+                                </td>
+                                
                                 <td><?= $book['ISBN'] ?></td>
                                 <td><?= $book['author'] ?></td>
                                 <td><?= $book['publisher'] ?></td>

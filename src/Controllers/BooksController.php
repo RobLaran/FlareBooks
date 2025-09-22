@@ -6,7 +6,7 @@ use App\Models\Book;
 use App\Models\Genre;
 
 use Exception;
-use Helpers\SessionHelper;
+use Helpers\RedirectHelper;
 
 class BooksController extends Controller {
     private $bookModel;
@@ -37,7 +37,7 @@ class BooksController extends Controller {
             foreach ($books as &$book) {
                 $book['genre'] = $this->genreModel->getBookGenre($book['genre_id']);
             }
-            unset($book); // break the reference
+            unset($book);
 
             $totalBooks = $this->bookModel->getTotalBooks($params['search']);
             $totalPages = ceil($totalBooks / $params['limit']);
@@ -70,31 +70,32 @@ class BooksController extends Controller {
                 "genre" => $_POST['genre'],
                 "quantity" => $_POST['quantity'],
                 "status" => $_POST['status'],
-                "image" => $_POST['image'] ?? $_POST['image_url']
+                "image" => $_POST['image'] ?? ($_POST['image_url'] ?? null)
             ]);
 
             if(!$result) {
-                SessionHelper::setFlash('error', "Failed to add book");
-                header("Location: " . routeTo('/books/add'));
-                exit;
+                RedirectHelper::withFlash('error', 'Failed to add book', '/books/add');
             }
-
-            SessionHelper::setFlash('success', "New book successfully added");
-            header("Location: " . routeTo('/books'));
-            exit;
+            
+            RedirectHelper::withFlash('success', 'New book successfully added', '/books');
         } catch(Exception $error) {
-            SessionHelper::setFlash('error', $error->getMessage());
-            header("Location: " . routeTo('/books/add'));
-            exit;
+            RedirectHelper::withFlash('error', $error->getMessage(), '/books/add');
         }
-
-        
     }
 
     public function edit($id) {
-        $book = $this->bookModel->getBook($id);
+        try {
+            $book = $this->bookModel->getBook($id);
+            $genres = $this->genreModel->getAllGenres();
 
-        $this->view("books/edit-book", [ "title" => "Edit Book" ]);
+            $this->view("books/edit-book", [ 
+                "title" => "Edit Book",
+                "book" => $book,
+                "genres" => $genres
+            ]);
+        } catch (Exception $error) {
+            RedirectHelper::withFlash('error', $error->getMessage(), '/books/edit');
+        }
     }
 
     public function update() {
@@ -106,13 +107,9 @@ class BooksController extends Controller {
         $result = $this->bookModel->removeBook($id);
 
         if(!$result) {
-            SessionHelper::setFlash('error', "Failed to remove book");
-            header("Location: " . routeTo('/books'));
-            exit;
+            RedirectHelper::withFlash('error', 'Failed to remove book', '/books');
         }
 
-        SessionHelper::setFlash('success', "Book successfully removed");
-        header("Location: " . routeTo('/books'));
-        exit;
+        RedirectHelper::withFlash('success', 'Book successfully removed', '/books');
     }
 }

@@ -13,6 +13,10 @@ function getFile($path=""): string {
     return  $PATH == $URL || str_contains($PATH, $URL);
 }
 
+function isImageUrl(string $image): bool {
+    return filter_var($image, FILTER_VALIDATE_URL) !== false;
+}
+
 function routeTo($endPoint): string {
     $basePath = BASE_URL;
     return $basePath . $endPoint;

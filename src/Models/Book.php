@@ -61,11 +61,58 @@ class Book extends Model {
         return $result;
     }
 
-    public function updateBook() {
+    public function updateBook($id, $updates, $old) {
+        if(empty($updates['ISBN'])) {
+            throw new \Exception("ISBN is required");
+        } else if(!is_numeric($updates['ISBN'])) {
+            throw new \Exception("ISBN must be numeric");
+        }
 
+        if(empty($updates["author"])) {
+            throw new \Exception("Author is empty");
+        }
+
+        if(empty($updates['title'])) {
+            throw new \Exception("Title is empty");
+        }
+
+        if(!is_numeric($updates['quantity'])) {
+            throw new \Exception("Quantity must be numeric");
+        } else if($updates['quantity'] < 0) {
+            throw new \Exception("Quantity must be a positive number");
+        }
+
+        $sql = "UPDATE books 
+                SET 
+                ISBN = :ISBN,
+                genre_id = :genre,
+                author = :author,
+                title = :title,
+                quantity = :quantity,
+                status = :status,
+                image = :image,
+                publisher = :publisher
+                WHERE id = :id";
+        
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(":ISBN", $updates['ISBN'], \PDO::PARAM_STR);
+        $stmt->bindValue(":genre", $updates['genre'], \PDO::PARAM_INT);
+        $stmt->bindValue(":author", $updates['author'], \PDO::PARAM_STR);
+        $stmt->bindValue(":title", $updates['title'], \PDO::PARAM_STR);
+        $stmt->bindValue(":quantity", $updates['quantity'], \PDO::PARAM_INT);
+        $stmt->bindValue(":status", $updates['status'], \PDO::PARAM_STR);
+        $stmt->bindValue(":image", $updates['image'], \PDO::PARAM_STR);
+        $stmt->bindValue(":publisher", $updates['publisher'], \PDO::PARAM_STR);
+        $stmt->bindValue(":id", $id, \PDO::PARAM_INT);
+
+        return $stmt->execute();
     }
 
     public function getBook($id) {
+        if(empty($id)) {
+            throw new \Exception('Book ISBN/ID required');
+        }
+
         $sql = "SELECT * FROM books WHERE ISBN = :id";
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(':id', $id, \PDO::PARAM_STR);

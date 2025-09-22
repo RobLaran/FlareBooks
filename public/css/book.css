@@ -1,4 +1,5 @@
-.add-book-page {
+.add-book-page,
+.edit-book-page {
     .form-container {
         display: grid;
         grid-template-columns: repeat(2, minmax(200px, 1fr));
