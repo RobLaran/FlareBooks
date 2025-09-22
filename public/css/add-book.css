@@ -2,8 +2,9 @@
     .form-container {
         display: grid;
         grid-template-columns: repeat(2, minmax(200px, 1fr));
-        grid-template-rows: repeat(2, 1fr) 100px repeat(2, 1fr);
+        grid-template-rows: 280px repeat(2, 1fr) 100px repeat(2, 1fr);
         grid-template-areas: 
+            "image-preview image-field"
             "isbn-field status-field"
             "author-field publisher-field"
             "title-field title-field"
@@ -38,6 +39,27 @@
             textarea:focus {
                 border-color: var(--color-10);
                 outline-color: var(--color-10);
+            }
+        }
+
+        .image-preview {
+            grid-area: image-preview;
+            display: flex;
+            justify-content: center;
+
+            img {
+                width: 220px;
+                height: 100%;
+            }
+        }
+
+        .image-field {
+            grid-area: image-field;
+
+            div {
+                display: flex;
+                flex-direction: column;
+                margin-bottom: 1rem;
             }
         }
 

@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="<?= getFile("public/css/add-book.css") ?>">
     <script src="https://kit.fontawesome.com/3e9984b045.js" crossorigin="anonymous"></script>
     <script src="<?= getFile("public/js/menuToggle.js") ?>" defer></script>
+    <script src="<?= getFile("public/js/imagePreview.js") ?>" defer></script>
     <title><?= BRAND ?></title>
 </head> 
 <body>  

@@ -2,6 +2,19 @@
 
 <div class="add-book-page">
     <form action="<?= routeTo('/books/add') ?>" method="POST" class="form-container">
+        <div class="image-preview">
+            <img src="<?= getFile('/public/img/image-preview.jpg') ?>" alt="Image Preview" id="image-preview"" data-default="<?= getFile('/public/img/image-preview.jpg') ?>">
+        </div>
+        <div class="image-field input-container">
+            <div class="image-input-container">
+                <label for="image-input">Upload Image(File):</label>
+                <input type="file" name="image" id="image-input" accept="image/*">
+            </div>
+            <div class="image-url-container">
+                <label for="image-url">Or Image URL:</label>
+                <input type="text" name="image_url" id="image-url" placeholder="https://example.com/image.jpg">
+            </div>
+        </div>
         <div class="isbn-field input-container">
             <label for="ISBN-input">ISBN:</label>
             <input type="text" name="ISBN" id="ISBN-input">
