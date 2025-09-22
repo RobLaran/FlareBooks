@@ -1,7 +1,7 @@
 
 
 <div class="add-book-page">
-    <form action="<?= routeTo('/books/add') ?>" method="POST" class="form-container">
+    <form action="<?= routeTo('/books/add') ?>" method="POST" class="form-container" id="add-book-form">
         <div class="image-preview">
             <img src="<?= getFile('/public/img/image-preview.jpg') ?>" alt="Image Preview" id="image-preview"" data-default="<?= getFile('/public/img/image-preview.jpg') ?>">
         </div>
@@ -53,7 +53,7 @@
             </select>
         </div>
         <div class="button-container">
-            <button class="button default">Confirm</button>
+            <button type="submit" class="button default">Confirm</button>
             <a href="<?= routeTo('/books') ?>" class="button danger">Cancel</a>
         </div>
     </form>

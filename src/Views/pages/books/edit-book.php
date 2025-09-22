@@ -1,5 +1,5 @@
 <div class="edit-book-page">
-    <form action="<?= routeTo('/books/update') ?>" method="POST" class="form-container">
+    <form action="<?= routeTo('/books/update/' . $book['ISBN']) ?>" method="POST" class="form-container" id="update-book-form">
         <div class="image-preview">
             <?php if(isImageUrl($book['image'])): ?>
                 <img src="<?= $book['image'] ?>" alt="Image URL Preview " id="image-preview" data-default="<?= getFile('/public/img/image-preview.jpg') ?>">

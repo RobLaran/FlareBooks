@@ -6,7 +6,7 @@ use App\Core\Model;
 
 class Book extends Model {
 
-    public function addBook($book) {
+    public function addBook($book): bool {
         $ISBN = $book['ISBN'] ?: null;
         $author = $book['author'] ?: null;
         $title = $book['title'] ?: null;
@@ -61,7 +61,7 @@ class Book extends Model {
         return $result;
     }
 
-    public function updateBook($id, $updates, $old) {
+    public function updateBook($id, $updates): bool {
         if(empty($updates['ISBN'])) {
             throw new \Exception("ISBN is required");
         } else if(!is_numeric($updates['ISBN'])) {
@@ -92,7 +92,7 @@ class Book extends Model {
                 status = :status,
                 image = :image,
                 publisher = :publisher
-                WHERE id = :id";
+                WHERE ISBN = :id";
         
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(":ISBN", $updates['ISBN'], \PDO::PARAM_STR);

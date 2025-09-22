@@ -98,9 +98,29 @@ class BooksController extends Controller {
         }
     }
 
-    public function update() {
-        header("Location: " . routeTo('/books'));
-        exit;
+    public function update($id) {
+        try {
+            $book = $this->bookModel->getBook($id);
+
+            $result = $this->bookModel->updateBook($id, [
+                "ISBN" => $_POST['ISBN'],
+                "author" => $_POST['author'],
+                "title" => $_POST['title'],
+                "publisher" => $_POST['publisher'],
+                "genre" => $_POST['genre'],
+                "quantity" => $_POST['quantity'],
+                "status" => $_POST['status'],
+                "image" => $_POST['image'] ?: ($_POST['image_url'] ?: $book['image'])
+            ]);
+
+            if(!$result) {
+                RedirectHelper::withFlash('error', 'Failed to update book', '/books/edit/' . $id);
+            }
+            
+            RedirectHelper::withFlash('success', 'Book successfully updated', '/books');
+        } catch(Exception $error) {
+            RedirectHelper::withFlash('error', $error->getMessage(), '/books/edit/' . $id);
+        }
     }
 
     public function delete($id) {
