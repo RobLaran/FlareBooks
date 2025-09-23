@@ -4,8 +4,11 @@ use App\Core\Router;
 Router::get('/', 'DashboardController@index');
 Router::get('/dashboard', 'DashboardController@index');
 
-// User Auth Routes
-Router::get('/auth/login', 'UserController@index');
+// User Routes
+Router::get('/auth/login', 'AuthController@loginUserForm');
+
+// Admin Routes
+Router::get('/auth/login/admin', 'AuthController@loginAdminForm');
 
 // Book Routes
 Router::get('/books', 'BooksController@index');
