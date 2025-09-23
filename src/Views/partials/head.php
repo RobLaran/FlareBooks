@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="<?= getFile("public/css/styles.css") ?>">
     <link rel="stylesheet" type="text/css" href="<?= getFile("public/css/table.css") ?>">
     <link rel="stylesheet" type="text/css" href="<?= getFile("public/css/book.css") ?>">
+    <link rel="stylesheet" type="text/css" href="<?= getFile("public/css/auth.css") ?>">
     <script src="https://kit.fontawesome.com/3e9984b045.js" crossorigin="anonymous" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
     <script src="<?= getFile("public/js/menuToggle.js") ?>" defer></script>

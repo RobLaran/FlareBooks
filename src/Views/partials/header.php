@@ -1,3 +1,5 @@
+<div class="main-body">
+
 <header class="header">
   <div class="header-left">
     <button id="menu-toggle" class="menu-btn">

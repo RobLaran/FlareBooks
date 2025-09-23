@@ -9,7 +9,7 @@ class Controller {
     protected $sortDir;
     protected $search;
 
-    protected function view($view, $data = []) {
+    protected function view($view, $data = [], $layout="layout") {
         extract($data);
         
         ob_start();
@@ -18,7 +18,7 @@ class Controller {
 
         $content = ob_get_clean();
 
-        require 'src/Views/layout.php';
+        require "src/Views/layouts/{$layout}.php";
     }
 
     protected function getRequestParams(array $defaults = []): array {

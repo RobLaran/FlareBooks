@@ -1,4 +1,7 @@
-document.getElementById('add-book-form').addEventListener('submit', function(e) {
+let addBookForm = document.getElementById('add-book-form');
+
+if(addBookForm) {
+    addBookForm.addEventListener('submit', function(e) {
     e.preventDefault(); // stop form from submitting immediately
 
     Swal.fire({
@@ -20,3 +23,4 @@ document.getElementById('add-book-form').addEventListener('submit', function(e) 
         }
     });
 });
+}

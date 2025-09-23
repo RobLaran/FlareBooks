@@ -4,6 +4,9 @@ use App\Core\Router;
 Router::get('/', 'DashboardController@index');
 Router::get('/dashboard', 'DashboardController@index');
 
+// User Auth Routes
+Router::get('/auth/login', 'UserController@index');
+
 // Book Routes
 Router::get('/books', 'BooksController@index');
 Router::get('/books/add', 'BooksController@create');
