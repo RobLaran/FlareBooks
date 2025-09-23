@@ -19,8 +19,8 @@
             </div>
         </div>
         <div class="isbn-field input-container">
-            <label for="ISBN-input">ISBN:</label>
-            <input type="text" name="ISBN" id="ISBN-input" value="<?= $book['ISBN'] ?>">
+            <label for="ISBN-input" class="required">ISBN:</label>
+            <input type="text" name="ISBN" id="ISBN-input" value="<?= $book['ISBN'] ?>" required>
         </div>
         <div class="status-field input-container">
             <label for="status-selection">Status:</label>
@@ -30,16 +30,16 @@
             </select>
         </div>
         <div class="author-field input-container">
-            <label for="author-input">Author:</label>
-            <input type="text" name="author" id="author-input" value="<?= $book['author'] ?>">
+            <label for="author-input" class="required">Author:</label>
+            <input type="text" name="author" id="author-input" value="<?= $book['author'] ?>" required>
         </div>
         <div class="publisher-field input-container">
             <label for="publisher-input">Publisher:</label>
             <input type="text" name="publisher" id="publisher-input" value="<?= $book['publisher'] ?>">
         </div>
         <div class="title-field input-container">
-            <label for="title-input">Title:</label>
-            <textarea name="title" id="title-input"><?= $book['title'] ?></textarea>
+            <label for="title-input" class="required">Title:</label>
+            <textarea name="title" id="title-input" required><?= $book['title'] ?></textarea>
         </div>
         <div class="quantity-field input-container">
             <label for="quantity-input">Quantity:</label>

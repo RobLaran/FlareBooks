@@ -16,8 +16,8 @@
             </div>
         </div>
         <div class="isbn-field input-container">
-            <label for="ISBN-input">ISBN:</label>
-            <input type="text" name="ISBN" id="ISBN-input">
+            <label for="ISBN-input" class="required">ISBN:</label>
+            <input type="text" name="ISBN" id="ISBN-input" required>
         </div>
         <div class="status-field input-container">
             <label for="status-selection">Status:</label>
@@ -27,16 +27,16 @@
             </select>
         </div>
         <div class="author-field input-container">
-            <label for="author-input">Author:</label>
-            <input type="text" name="author" id="author-input">
+            <label for="author-input" class="required">Author:</label>
+            <input type="text" name="author" id="author-input" required>
         </div>
         <div class="publisher-field input-container">
             <label for="publisher-input">Publisher:</label>
             <input type="text" name="publisher" id="publisher-input">
         </div>
         <div class="title-field input-container">
-            <label for="title-input">Title:</label>
-            <textarea name="title" id="title-input"></textarea>
+            <label for="title-input" class="required">Title:</label>
+            <textarea name="title" id="title-input" required></textarea>
         </div>
         <div class="quantity-field input-container">
             <label for="quantity-input">Quantity:</label>

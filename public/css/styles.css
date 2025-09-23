@@ -353,3 +353,14 @@ a {
   color: var(--color-11);
 }
 
+.required {
+  position: relative;
+}
+
+.required:has(+ input:required)::after,
+.required:has(+ textarea:required)::after {
+  content: " * Required";
+  color: var(--color-15);
+  position: absolute;
+  right: 0;
+}
