@@ -6,9 +6,11 @@ Router::get('/dashboard', 'DashboardController@index');
 
 // User Routes
 Router::get('/auth/login', 'AuthController@loginUserForm');
+Router::post('/auth/login', 'AuthController@loginUser');
 
 // Admin Routes
 Router::get('/auth/login/admin', 'AuthController@loginAdminForm');
+Router::post('/auth/login/admin', 'AuthController@loginAdmin');
 
 // Book Routes
 Router::get('/books', 'BooksController@index');

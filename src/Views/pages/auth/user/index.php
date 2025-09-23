@@ -1,4 +1,4 @@
-<form action="">
+<form action="<?= routeTo("/auth/login") ?>" method="POST">
     <div class="username-input-container input-container">
         <label for="username-input">Username:</label>
         <input type="text" name="username" id="username-input" >

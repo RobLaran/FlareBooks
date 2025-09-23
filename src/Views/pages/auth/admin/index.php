@@ -1,4 +1,4 @@
-<form action="">
+<form action="<?= routeTo("/auth/login/admin") ?>" method="POST">
     <div class="email-input-container input-container">
         <label for="email-input">Email:</label>
         <input type="text" name="email" id="email-input" >
@@ -6,6 +6,10 @@
     <div class="password-input-container input-container">
         <label for="password-input">Password:</label>
         <input type="password" name="password" id="password-input" >
+    </div>
+    <div class="confirm-password-input-container input-container">
+        <label for="confirm-password-input">Confirm Password:</label>
+        <input type="password" name="confirm-password" id="confirm-password-input" >
     </div>
     <div class="form-buttons-container">
         <button class="button default">Login as Admin</button>

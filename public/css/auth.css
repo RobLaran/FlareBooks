@@ -2,7 +2,9 @@
     height: 100%;
     background-color: var(--color-2);
     display: flex;
+    flex-direction: column;
     font-family: Arial, sans-serif;
+    padding: 0 80px;
     
     .auth-form-container {
         display: grid;
