@@ -43,11 +43,31 @@ class BooksController extends Controller {
             $totalPages = ceil($totalBooks / $params['limit']);
         }
 
+        $addButton = [
+            "route" => "/books/add",
+            "label" => "Add Book"
+        ];
+
+        $columns = [
+            ["field" => "image", "name" => "Image", "sortable" => false],
+            ["field" => "ISBN", "name" => "ISBN", "sortable" => true],
+            ["field" => "author", "name" => "Author", "sortable" => true],
+            ["field" => "publisher", "name" => "Publisher", "sortable" => true],
+            ["field" => "title", "name" => "Title", "sortable" => true],
+            ["field" => "genre", "name" => "Genre", "sortable" => true],
+            ["field" => "quantity", "name" => "Quantity", "sortable" => true],
+            ["field" => "status", "name" => "Status", "sortable" => true],
+            ["field" => "actions", "name" => "Actions", "sortable" => false],
+        ];
+
+
         $this->view("books/index", array_merge($params , [
             "title" => $this->title,
-            "books" => $books,
-            "totalBooks" => $totalBooks,
-            "totalPages" => $totalPages
+            "items" => $books,
+            "totalItems" => $totalBooks,
+            "totalPages" => $totalPages,
+            "columns" => $columns,
+            "addButton" => $addButton
         ]));
     }
 

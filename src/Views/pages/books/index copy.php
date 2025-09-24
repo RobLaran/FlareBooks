@@ -1,4 +1,5 @@
-<div class="table-container">
+<div class="books-page-content">
+    <div class="table-container">
         <?php if(isset($addButton)): ?>
             <div class="row one">
                 <a href="<?= routeTo($addButton['route']) ?>" class="button default"><?= $addButton['label']?></a>
@@ -36,9 +37,9 @@
 
         </div>
 
-        <?php if(count($items) == 0): ?>
+        <?php if(count($books) == 0): ?>
 
-        <h1 class="empty-notif">Empty Record</h1>
+        <h1 class="empty-notif">No Books Added</h1>
 
         <?php else: ?>
 
@@ -47,20 +48,20 @@
                 <thead>
                     <tr class="table-heading">
                         <?php 
-                        foreach ($columns as $col): 
-                            $newDir = ($sortBy === $col['field'] && $sortDir === 'ASC') ? 'DESC' : 'ASC';
+                        foreach ($columns as $col => $values): 
+                            $newDir = ($sortBy === $col && $sortDir === 'ASC') ? 'DESC' : 'ASC';
                         ?>
 
-                            <?php if($col['sortable']): ?>
+                            <?php if($values['sortable']): ?>
                                 <th>
-                                    <?= $col['name'] ?>
-                                    <a href="?page=<?= $page ?>&limit=<?= $limit ?>&sortBy=<?= $col['field'] ?>&sortDir=<?= $newDir ?>">
-                                        <i class="fa fa-sort<?= ($sortBy === $col['field'] ? '-' . strtolower($sortDir) : '') ?>"></i>
+                                    <?= $values['name'] ?>
+                                    <a href="?page=<?= $page ?>&limit=<?= $limit ?>&sortBy=<?= $col ?>&sortDir=<?= $newDir ?>">
+                                        <i class="fa fa-sort<?= ($sortBy === $col ? '-' . strtolower($sortDir) : '') ?>"></i>
                                     </a>
                                 </th>
                             <?php else: ?>
                                 <th>
-                                    <?= $col['name'] ?>
+                                    <?= $values['name'] ?>
                                 </th>
                             <?php endif; ?>
 
@@ -70,7 +71,38 @@
 
                 <tbody>
 
-                    <?= $tableData ?>
+                    <?php if (count($books) > 0): ?>
+
+                        <?php foreach ($books as $book): ?>
+                            <tr>
+                                <td>
+                                    <?php if(isImageUrl($book['image'] ?? "")): ?>
+                                        <img src="<?= $book['image'] ?>" alt="<?= $book['title'] ?>">
+                                    <?php else: ?>
+                                        <img src="<?= getFile('public/img/' . $book['image']) ?>" alt="<?= $book['title'] ?>">
+                                    <?php endif; ?>
+                                </td>
+                                
+                                <td><?= $book['ISBN'] ?></td>
+                                <td><?= $book['author'] ?></td>
+                                <td><?= $book['publisher'] ?></td>
+                                <td><?= $book['title'] ?></td>
+                                <td><?= $book['genre'] ?></td>
+                                <td><?= $book['quantity'] ?></td>
+                                <td><span class="status <?= $book['status'] == "Available" ? "online" : "offline" ?>"><?= $book['status'] ?></span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <a href="<?= routeTo("/books/edit/" . $book['ISBN']) ?>" class="button act-edit safe"><i class="fa-solid fa-pen-to-square"></i></a>
+                                        <form class="delete-book-form" action="<?= routeTo('/books/delete/' . $book['ISBN']) ?>" method="POST">
+                                            <input type="hidden" name="_method" value="DELETE">
+                                            <button type="submit" class="button act-remove danger"><i class="fa-regular fa-trash"></i></button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+
+                    <?php endif; ?>
                     
                 </tbody>
             </table>
@@ -78,11 +110,11 @@
 
         <div class="entries-pagination-container row four">
             <div class="showed-entries">
-                <?php if ($totalItems > 0): ?>
+                <?php if ($totalBooks > 0): ?>
                     <span>
                         Showing <?= ($page - 1) * $limit + 1 ?> 
-                        to <?= min($page * $limit, $totalItems) ?> 
-                        of <?= $totalItems ?> entries
+                        to <?= min($page * $limit, $totalBooks) ?> 
+                        of <?= $totalBooks ?> entries
                     </span>
                 <?php endif; ?>
             </div>
@@ -111,3 +143,4 @@
         <?php endif; ?>
 
     </div>
+</div>
