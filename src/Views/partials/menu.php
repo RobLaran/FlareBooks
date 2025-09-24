@@ -23,8 +23,8 @@
             <li class="<?= isURL('/returns') ? 'active' : '' ?>">
                 <a href="<?= routeTo('/returns') ?>">Returns</a>
             </li>
-            <li class="<?= isURL('/reservations') ? 'active' : '' ?>">
-                <a href="<?= routeTo('/reservations') ?>">Reservations</a>
+            <li class="<?= isURL('/overdue-books') ? 'active' : '' ?>">
+                <a href="<?= routeTo('/overdue-books') ?>">Overdue Books</a>
             </li>
             <li class="<?= isURL('/reports') ? 'active' : '' ?>">
                 <a href="<?= routeTo('/reports') ?>">Reports</a>

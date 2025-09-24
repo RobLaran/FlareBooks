@@ -24,5 +24,5 @@ Router::get('/genres', 'GenresController@index');
 Router::get('/borrowers', 'BorrowersController@index');
 Router::get('/borrowed-books', 'BorrowedBooksController@index');
 Router::get('/returns', 'ReturnsController@index');
-Router::get('/reservations', 'ReservationsController@index');
+Router::get('/overdue-books', 'OverdueBooks@index');
 Router::get('/reports', 'ReportsController@index');
