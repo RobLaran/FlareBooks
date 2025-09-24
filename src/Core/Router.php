@@ -1,6 +1,8 @@
 <?php
 namespace App\Core;
 
+use App\Middleware\AuthMiddleware;
+
 class Router {
     private static $routes = [];
 

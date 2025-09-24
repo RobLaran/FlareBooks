@@ -1,11 +1,12 @@
 <?php
 use App\Core\Router;
+use App\Middleware\AuthMiddleware;
 
-Router::get('/', 'DashboardController@index');
+Router::get('/', 'DashboardController@index', [[AuthMiddleware::class, 'check']]);
 Router::get('/dashboard', 'DashboardController@index');
 
 // User Routes
-Router::get('/auth/login', 'AuthController@loginUserForm');
+Router::get('/auth/login', 'AuthController@loginUser');
 Router::post('/auth/login', 'AuthController@loginUser');
 
 // Admin Routes
