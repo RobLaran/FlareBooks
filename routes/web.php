@@ -10,6 +10,10 @@ Router::post('/auth/login', 'AuthController@loginUser');
 Router::get('/auth/login/admin', 'AuthController@loginAdmin');
 Router::post('/auth/login/admin', 'AuthController@loginAdmin');
 
+// Logout route
+Router::get('/auth/logout', 'AuthController@logout');
+
+
 // Dashboard
 Router::get('/', 'DashboardController@index', [[AuthMiddleware::class, 'check']]);
 Router::get('/dashboard', 'DashboardController@index', [[AuthMiddleware::class, 'check']]);

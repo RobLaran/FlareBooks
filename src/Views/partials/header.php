@@ -10,9 +10,9 @@
   <div class="header-right">
     <div class="user-menu">
       <i class="fa fa-user-circle user-avatar fa-2x" aria-hidden="true"></i>
-      <span class="username">Admin</span>
+      <span class="username">Hi, <?= $_SESSION['user']['username'] ?></span>
       <div class="dropdown">
-        <a href="/library/logout">Logout</a>
+        <a href="<?= routeTo('/auth/logout') ?>">Logout</a>
       </div>
     </div>
   </div>

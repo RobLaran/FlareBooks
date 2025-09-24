@@ -85,27 +85,46 @@ class AuthController extends Controller {
 
     public function loginAdmin() {
         try {
-            if(empty($_POST['email'])) {
-                throw new Exception('Email required');
-            } else if(filter_var($_POST['email'], FILTER_SANITIZE_EMAIL)) {
-                throw new Exception('Invalid Email');
+            if(isset($_SESSION['user'])) {
+                header('Location: ' . routeTo('/dashboard'));
+                exit;
             }
 
-            if(empty($_POST['password'])) {
-                throw new Exception('Empty password');
+            if(!isset($_SESSION['user']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
+                if(empty($_POST['email'])) {
+                    throw new Exception('Email required');
+                } else if(filter_var($_POST['email'], FILTER_SANITIZE_EMAIL)) {
+                    throw new Exception('Invalid Email');
+                }
+
+                if(empty($_POST['password'])) {
+                    throw new Exception('Empty password');
+                }
+
+                $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+                $password = filter_var($_POST['password'], FILTER_SANITIZE_STRING);
+
+                RedirectHelper::withFlash('success', 'Login success', '/dashboard');
             }
 
-            $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
-            $password = filter_var($_POST['password'], FILTER_SANITIZE_STRING);
-
-
-            $admin = $this->userModel->getUser($email);
-
-            RedirectHelper::withFlash('success', 'login success', '/auth/login/admin');
+            $this->view("auth/admin/index", [ "title" => $this->title ], "auth_layout");
         } catch(Exception $error) {
             RedirectHelper::withFlash('error', $error->getMessage(), '/auth/login/admin');
         }
     }
 
+    public function logout() {
+        $redirect = '/auth/login'; // default
+
+        if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
+            $redirect = '/auth/login/admin';
+        }
+
+        $_SESSION = [];
+        session_destroy();
+
+        header("Location: " . routeTo($redirect));
+        exit;
+    }
 
 }
