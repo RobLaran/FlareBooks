@@ -1,4 +1,8 @@
 <form action="<?= routeTo("/auth/login/admin") ?>" method="POST">
+    <div class="username-input-container input-container">
+        <label for="username-input">Username:</label>
+        <input type="text" name="username" id="username-input" >
+    </div>
     <div class="email-input-container input-container">
         <label for="email-input">Email:</label>
         <input type="text" name="email" id="email-input" >
