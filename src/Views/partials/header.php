@@ -10,10 +10,8 @@
   <div class="header-right">
     <div class="user-menu">
       <i class="fa fa-user-circle user-avatar fa-2x" aria-hidden="true"></i>
-      <span class="username">Hi, <?= $_SESSION['user']['username'] ?></span>
-      <div class="dropdown">
-        <a href="<?= routeTo('/auth/logout') ?>">Logout</a>
-      </div>
+      <span class="username">Hi, <?= $_SESSION['user']['username'] ?> </span>
+      <a href="<?= routeTo('/auth/logout') ?>" id="logout"> Logout</a>
     </div>
   </div>
 </header>

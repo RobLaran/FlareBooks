@@ -10,4 +10,9 @@ class RedirectHelper {
         header("Location: " . routeTo($route));
         exit;
     }
+
+    public static function to($endpoint) {
+        header("Location: " . routeTo($endpoint));
+        exit;
+    }
 }

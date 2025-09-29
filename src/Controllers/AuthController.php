@@ -18,8 +18,7 @@ class AuthController extends Controller {
     public function loginUser() {
         try {
             if(isset($_SESSION['user'])) {
-                header('Location: ' . routeTo('/dashboard'));
-                exit;
+                RedirectHelper::to('/dashboard');   
             }
 
             if(!isset($_SESSION['user']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -60,12 +59,12 @@ class AuthController extends Controller {
                     throw new ValidationException([ 'Admins must log in via the admin login page' ]);
                 }
 
-                // 🔹 Store session
+                // Store session
                 $_SESSION['user'] = [
                     'id'       => $user['user_id'],
                     'username' => $user['username'],
                     'email'    => $user['email'],
-                    'role'     => $user['role'] ?: 'user'
+                    'role'     => $user['role']
                 ];
 
                 RedirectHelper::withFlash('success', 'Login success', '/dashboard');
@@ -86,23 +85,25 @@ class AuthController extends Controller {
     public function loginAdmin() {
         try {
             if(isset($_SESSION['user'])) {
-                header('Location: ' . routeTo('/dashboard'));
-                exit;
+                RedirectHelper::to('/dashboard');
             }
 
             if(!isset($_SESSION['user']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
+                $username = filter_var($_POST['username'], FILTER_SANITIZE_STRING);
+                $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+                $password = filter_var($_POST['password'], FILTER_SANITIZE_STRING);
+                $confirmPassword = filter_var($_POST['confirm_password'], FILTER_SANITIZE_STRING);
+                $errors = [];
+
                 if(empty($_POST['email'])) {
                     throw new Exception('Email required');
-                } else if(filter_var($_POST['email'], FILTER_SANITIZE_EMAIL)) {
+                } else if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
                     throw new Exception('Invalid Email');
                 }
 
                 if(empty($_POST['password'])) {
                     throw new Exception('Empty password');
                 }
-
-                $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
-                $password = filter_var($_POST['password'], FILTER_SANITIZE_STRING);
 
                 RedirectHelper::withFlash('success', 'Login success', '/dashboard');
             }
@@ -116,7 +117,7 @@ class AuthController extends Controller {
     public function logout() {
         $redirect = '/auth/login'; // default
 
-        if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
+        if (isset($_SESSION['user']['role']) && $_SESSION['user']['role'] === 'admin') {
             $redirect = '/auth/login/admin';
         }
 

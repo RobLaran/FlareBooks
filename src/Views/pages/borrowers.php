@@ -1,6 +1,6 @@
 <?php ob_start(); ?>
 
-    <?php foreach ($array as $item): ?>
+    <?php foreach ($items as $item): ?>
         <tr>
             <td><?= $item['borrower_code'] ?></td>
             <td><?= $item['first_name'] ?></td>

@@ -113,30 +113,24 @@ html, body {
 
   header .user-menu {
     position: relative;
-    cursor: pointer;
     display: flex;
     align-items: center;
+
+    #logout {
+      color: var(--color-6);
+      border-left: 2px solid var(--color-5);
+      padding-left: 12px;
+      margin-left: 12px;
+    }
+
+    #logout:hover {
+      color: var(--color-9);
+    }
   }
 
   header .user-avatar {
     border-radius: 50%;
     margin-right: 0.5rem;
-  }
-
-  header .user-menu .dropdown {
-    display: none;
-    position: absolute;
-    right: 0;
-    background: var(--color-2);
-    color: var(--color-5);
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    top: 35px;
-    min-width: 150px;
-  }
-
-  header .user-menu:hover .dropdown {
-    display: block;
   }
 
   header .user-menu .dropdown a {
@@ -233,6 +227,7 @@ html, body {
   }
 }
 
+/* Menu */
 .main-body.menu-collapsed {
   grid-template-areas:
     "header header"
@@ -368,3 +363,5 @@ html, body {
     position: absolute;
     right: 0;
   }
+
+

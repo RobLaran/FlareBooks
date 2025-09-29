@@ -1,19 +1,19 @@
 const menuBtn = document.querySelector(".menu-btn");
 const asideMenu = document.querySelector("#menu");
-const body = document.body;
+const mainBody = document.querySelector(".main-body");
 
-if(menuBtn && asideMenu && body) {
+if(menuBtn && asideMenu && mainBody) {
     // ✅ Load saved state on page load
     const savedState = localStorage.getItem("menuState");
     if (savedState === "collapsed") {
         asideMenu.classList.add("hidden");
-        body.classList.add("menu-collapsed");
+        mainBody.classList.add("menu-collapsed");
     }
 
     // ✅ Toggle sidebar and save state
     menuBtn.addEventListener("click", () => {
         asideMenu.classList.toggle("hidden");
-        body.classList.toggle("menu-collapsed");
+        mainBody.classList.toggle("menu-collapsed");
 
         // Save state
         if (asideMenu.classList.contains("hidden")) {
