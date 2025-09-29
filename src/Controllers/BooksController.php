@@ -61,7 +61,7 @@ class BooksController extends Controller {
         ];
 
 
-        $this->view("books/index", array_merge($params , [
+        $this->view("/user/books/index", array_merge($params , [
             "title" => $this->title,
             "items" => $books,
             "totalItems" => $totalBooks,
@@ -74,7 +74,7 @@ class BooksController extends Controller {
     public function create() {
         $genres = $this->genreModel->getAllGenres();
 
-        $this->view("books/add-book", [ 
+        $this->view("/user/books/add-book", [ 
             "title" => "Add Book", 
             "genres" => $genres 
         ]);
@@ -108,7 +108,7 @@ class BooksController extends Controller {
             $book = $this->bookModel->getBook($id);
             $genres = $this->genreModel->getAllGenres();
 
-            $this->view("books/edit-book", [ 
+            $this->view("/user/books/edit-book", [ 
                 "title" => "Edit Book",
                 "book" => $book,
                 "genres" => $genres

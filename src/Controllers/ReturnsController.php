@@ -9,6 +9,6 @@ class ReturnsController extends Controller {
         $this->title = "Returns";
     }
     public function index() {
-        $this->view("returns", [ "title" => $this->title ]);
+        $this->view("/user/returns", [ "title" => $this->title ]);
     }
 }

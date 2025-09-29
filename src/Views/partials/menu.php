@@ -35,7 +35,7 @@
                 <li class="<?= isURL('/admin/profile') ? 'active' : '' ?>">
                     <a href="<?= routeTo('/admin/profile') ?>">Profile</a>
                 </li>
-            <?php else: ?>
+            <?php elseif(isset($_SESSION['user']['role']) && $_SESSION['user']['role'] === 'user'): ?>
             <!-- 
                 USER NAVS
                     - dashboard
@@ -61,7 +61,7 @@
                     <a href="<?= routeTo('/returns') ?>">Return Book</a>
                 </li>
                 <li class="<?= isURL('/profile') ? 'active' : '' ?>">
-                    <a href="<?= routeTo('/profile') ?>">Profile</a>
+                    <a href="<?= routeTo('/profile' . '/' . $_SESSION['user']['id']) ?>">Profile</a>
                 </li>
             <?php endif; ?> 
         </ul>

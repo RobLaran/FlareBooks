@@ -3,6 +3,7 @@ use App\Core\Router;
 use App\Middleware\AuthMiddleware;
 
 // User Routes
+Router::get('/profile/{id}', 'UserController@profile');
 Router::get('/auth/login', 'AuthController@loginUser');
 Router::post('/auth/login', 'AuthController@loginUser');
 
@@ -37,9 +38,6 @@ Router::get('/borrowed-books', 'BorrowedBooksController@index', [[AuthMiddleware
 
 // Returns
 Router::get('/returns', 'ReturnsController@index', [[AuthMiddleware::class, 'check']]);
-
-// Overdue
-Router::get('/overdue-books', 'OverdueBooks@index', [[AuthMiddleware::class, 'check']]);
 
 // Reports
 Router::get('/reports', 'ReportsController@index', [[AuthMiddleware::class, 'check']]);

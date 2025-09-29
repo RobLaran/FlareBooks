@@ -62,7 +62,7 @@ class AuthController extends Controller {
                 // Store session
                 $_SESSION['user'] = [
                     'id'       => $user['user_id'],
-                    'username' => $user['username'],
+                    'name' => $user['username'],
                     'email'    => $user['email'],
                     'role'     => $user['role']
                 ];

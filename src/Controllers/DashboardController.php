@@ -9,6 +9,6 @@ class DashboardController extends Controller {
         $this->title = "Dashboard";
     }
     public function index() {
-        $this->view("dashboard", [ "title" => $this->title ]);
+        $this->view("/user/dashboard", [ "title" => $this->title ]);
     }
 }

@@ -9,6 +9,6 @@ class BorrowedBooksController extends Controller {
         $this->title = "Borrowed Books";
     }
     public function index() {
-        $this->view("borrowed_books", [ "title" => $this->title ]);
+        $this->view("/user/borrowed_books", [ "title" => $this->title ]);
     }
 }

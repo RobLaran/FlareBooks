@@ -44,7 +44,7 @@ class BorrowersController extends Controller {
             ["field" => "actions", "name" => "Actions", "sortable" => false],
         ];
 
-        $this->view("borrowers", array_merge($params , [
+        $this->view("/user/borrowers", array_merge($params , [
             "title" => $this->title,
             "items" => $borrowers,
             "totalItems" => $totalItems,
