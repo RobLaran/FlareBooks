@@ -94,7 +94,7 @@ class BorrowersController extends Controller {
             if($error = Validator::required($borrower['email'], 'Email')) $errors[] = $error;
             else if($error = Validator::email($borrower['email'])) $errors[] = $error;
 
-            if($error = Validator::numeric($borrower['phone'], 'Phone Number')) $errors[] = $error;
+            if(!empty($borrower['phone']) && $error = Validator::numeric($borrower['phone'], 'Phone Number')) $errors[] = $error;
 
 
             if($errors) throw new ValidationException($errors);
