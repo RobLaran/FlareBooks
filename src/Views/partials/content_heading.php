@@ -9,6 +9,16 @@
         <?php unset($_SESSION['error']); ?>
     <?php endif; ?>
 
+    <?php if (isset($_SESSION['errors'])): ?>
+        <?php foreach($_SESSION['errors'] as $error => $errorMessage): ?>
+            <div class="alert error">
+                <span class="close-btn" onclick="this.parentElement.style.display='none';">&times;</span>
+                <?= $errorMessage ?>
+            </div>
+        <?php endforeach; ?>
+        <?php unset($_SESSION['errors']); ?>
+    <?php endif; ?>
+
     <?php if (isset($_SESSION['success'])): ?>
         <div class="alert success">
             <span class="close-btn" onclick="this.parentElement.style.display='none';">&times;</span>

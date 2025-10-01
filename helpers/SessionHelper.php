@@ -3,15 +3,15 @@
 namespace Helpers;
 
 class SessionHelper {
-    public static function setFlash($key, $message) {
-        $_SESSION[$key] = $message;
+    public static function setFlash($key, $value) {
+        $_SESSION[$key] = $value;
     }
 
     public static function getFlash($key) {
-        if (isset($_SESSION[$key])) {
-            $msg = $_SESSION[$key];
-            unset($_SESSION[$key]); 
-            return $msg;
+        if (isset($_SESSION['flash'][$key])) {
+            $value = $_SESSION['flash'][$key];
+            unset($_SESSION['flash'][$key]); 
+            return $value;
         }
         return null;
     }

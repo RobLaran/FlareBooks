@@ -1,0 +1,32 @@
+<div class="add-borrower-page">
+    <form action="<?= routeTo('/borrowers/add') ?>" method="POST" class="form-container" id="add-borrower-form" novalidate>
+        <div class="fname-field input-container">
+            <label for="fname-input" class="required">First Name:</label>
+            <input type="text" name="fname" id="fname-input" required value="<?= htmlspecialchars($old['fname'] ?? '') ?>">
+        </div>
+        <div class="lname-field input-container">
+            <label for="lname-field" class="required">Last Name:</label>
+            <input type="text" name="lname" id="lname-input" required value="<?= htmlspecialchars($old['lname'] ?? '') ?>">
+        </div>
+        <div class="email-field input-container">
+            <label for="email-input" class="required">Email:</label>
+            <input type="text" name="email" id="email-input" required value="<?= htmlspecialchars($old['email'] ?? '') ?>">
+        </div>
+        <div class="phone-field input-container">
+            <label for="phone-input">Phone Number:</label>
+            <input type="text" name="phone" id="phone-input" value="<?= htmlspecialchars($old['phone'] ?? '') ?>">
+        </div>
+        <div class="address-field input-container">
+            <label for="address-input">Address:</label>
+            <input type="text" name="address" id="address-input" value="<?= htmlspecialchars($old['address'] ?? '') ?>">
+        </div>
+        <div class="birth-field input-container">
+            <label for="birth-input">Date of Birth:</label>
+            <input type="date" name="birth" id="birth-input" value="<?= htmlspecialchars($old['birth'] ?? '') ?>">
+        </div>
+        <div class="button-container">
+            <button type="submit" class="button default">Confirm</button>
+            <a href="<?= routeTo('/borrowers') ?>" class="button danger">Cancel</a>
+        </div>
+    </form>
+</div>

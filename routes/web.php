@@ -32,6 +32,10 @@ Router::get('/genres', 'GenresController@index', [[AuthMiddleware::class, 'check
 
 // Borrowers
 Router::get('/borrowers', 'BorrowersController@index', [[AuthMiddleware::class, 'check']]);
+Router::get('/borrowers/add', 'BorrowersController@create', [[AuthMiddleware::class, 'check']]);
+Router::post('/borrowers/add', 'BorrowersController@add', [[AuthMiddleware::class, 'check']]);
+Router::get('/borrowers/edit/{id}', 'BorrowersController@edit', [[AuthMiddleware::class, 'check']]);
+Router::put('/borrowers/update/{id}', 'BorrowersController@update', [[AuthMiddleware::class, 'check']]);
 
 // Borrowed Books
 Router::get('/borrowed-books', 'BorrowedBooksController@index', [[AuthMiddleware::class, 'check']]);

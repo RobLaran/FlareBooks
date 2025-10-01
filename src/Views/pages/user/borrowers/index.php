@@ -13,7 +13,7 @@
             <td><span class="status <?= $item['status'] == "active" ? "online" : "offline" ?>"><?= ucfirst($item['status']) ?></span></td>
             <td>
                 <div class="action-buttons">
-                    <button class="button act-edit safe"><i class="fa-solid fa-pen-to-square"></i></button>
+                    <a href="<?= routeTo("/borrowers/edit/" . $item['id']) ?>" class="button act-edit safe"><i class="fa-solid fa-pen-to-square"></i></a>
                     <button class="button act-remove danger"><i class="fa-regular fa-trash"></i></button>
                 </div>
             </td>

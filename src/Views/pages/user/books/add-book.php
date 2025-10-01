@@ -1,5 +1,3 @@
-
-
 <div class="add-book-page">
     <form action="<?= routeTo('/books/add') ?>" method="POST" class="form-container" id="add-book-form">
         <div class="image-preview">

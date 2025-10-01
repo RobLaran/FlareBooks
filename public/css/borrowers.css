@@ -1,0 +1,76 @@
+.add-borrower-page,
+.edit-borrower-page {
+    .form-container {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(200px, 1fr));
+        grid-template-rows: repeat(4, 1fr);
+        grid-template-areas: 
+            "fname-field lname-field"
+            "email-field phone-field"
+            "address-field birth-field"
+            "button-container button-container"
+        ;
+        gap: 1rem;
+
+        .input-container {
+            display: flex;
+            flex-direction: column;
+
+            label {
+                font-weight: 700;
+            }
+
+            input,
+            select,
+            textarea {
+                padding: 10px 4px;
+                font-size: 1.1rem;
+                border-width: 2px;
+                border-color: var(--color-12);
+                border-radius: 10px;
+                background-color: var(--color-4);
+            }
+
+            
+
+            input:focus,
+            select:focus,
+            textarea:focus {
+                border-color: var(--color-10);
+                outline-color: var(--color-10);
+            }
+        }
+
+        .fname-field.input-container {
+            grid-area: fname-field;
+        }
+
+        .lname-field.input-container {
+            grid-area: lname-field;
+        }
+
+        .email-field.input-container {
+            grid-area: email-field;
+        }
+
+        .phone-field.input-container {
+            grid-area: phone-field;
+        }
+
+        .address-field.input-container {
+            grid-area: address-field;
+        }
+
+        .birth-field.input-container {
+            grid-area: birth-field;
+        }
+
+        .button-container {
+            grid-area: button-container;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            column-gap: 1.4rem;
+        }
+    }
+}

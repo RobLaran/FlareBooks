@@ -51,7 +51,7 @@ class AuthController extends Controller {
                     throw new ValidationException([ 'Wrong username or invalid email' ]);
                 }
 
-                if(isset($user['password']) && $user['password'] !== $password) {
+                if($user['password'] !== $password) {
                     throw new ValidationException([ 'Wrong password' ]);
                 }
 
