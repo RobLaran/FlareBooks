@@ -3,11 +3,12 @@
     .form-container {
         display: grid;
         grid-template-columns: repeat(2, minmax(200px, 1fr));
-        grid-template-rows: repeat(4, 1fr);
+        grid-template-rows: repeat(3, 1fr) max-content 1fr;
         grid-template-areas: 
             "fname-field lname-field"
             "email-field phone-field"
             "address-field birth-field"
+            "status-field status-field"
             "button-container button-container"
         ;
         gap: 1rem;

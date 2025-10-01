@@ -14,7 +14,10 @@
             <td>
                 <div class="action-buttons">
                     <a href="<?= routeTo("/borrowers/edit/" . $item['id']) ?>" class="button act-edit safe"><i class="fa-solid fa-pen-to-square"></i></a>
-                    <button class="button act-remove danger"><i class="fa-regular fa-trash"></i></button>
+                    <form class="delete-borrower-form" action="<?= routeTo('/borrowers/delete/' . $item['id']) ?>" method="POST">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button type="submit" class="button act-remove danger"><i class="fa-regular fa-trash"></i></button>
+                    </form>
                 </div>
             </td>
         </tr>

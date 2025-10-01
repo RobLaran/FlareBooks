@@ -29,6 +29,19 @@ class Borrower extends Model {
         return $result;
     }
 
+    public function updateBorrower($id) {
+
+    }
+
+    public function removeBorrower($id) {
+        $sql = "DELETE FROM borrowers WHERE id = :id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(":id", $id, \PDO::PARAM_STR);
+        $result = $stmt->execute();
+
+        return $result;
+    }
+
     public function getBorroweById($id): mixed {
         $sql = "SELECT * FROM borrowers WHERE id = :id LIMIT 1";
         $stmt = $this->db->prepare($sql);

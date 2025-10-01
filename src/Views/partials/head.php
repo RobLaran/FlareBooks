@@ -16,6 +16,9 @@
     <script src="<?= getFile("public/js/addBook.js") ?>" defer></script>
     <script src="<?= getFile("public/js/updateBook.js") ?>" defer></script>
     <script src="<?= getFile("public/js/removeBook.js") ?>" defer></script>
+    <script src="<?= getFile("public/js/addBorrower.js") ?>" defer></script>
+    <script src="<?= getFile("public/js/updateBorrower.js") ?>" defer></script>
+    <script src="<?= getFile("public/js/removeBorrower.js") ?>" defer></script>
     <title><?= BRAND ?></title>
 </head> 
 <body>  

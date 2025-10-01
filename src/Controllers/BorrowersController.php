@@ -2,18 +2,21 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
-use App\Core\Validator;
+use App\Core\Sanitizer;
 use App\Models\Borrower;
 use Helpers\RedirectHelper;
 use App\Core\ValidationException;
 use Helpers\SessionHelper;
-use SessionHandler;
+use Services\BorrowerService;
+
 class BorrowersController extends Controller {
     protected $borrowerModel;
+    protected $borrowerService;
 
     public function __construct() {
         $this->title = "Borrowers List";
         $this->borrowerModel = new Borrower();
+        $this->borrowerService = new BorrowerService($this->borrowerModel);
     }
     public function index() {
         $params = $this->getRequestParams(
@@ -76,30 +79,15 @@ class BorrowersController extends Controller {
     public function add() {
         try {
             $borrower = [
-                "fname" => filter_var($_POST['fname'], FILTER_SANITIZE_STRING),
-                "lname" => filter_var($_POST['lname'], FILTER_SANITIZE_STRING),
-                "email" => filter_var($_POST['email'], FILTER_SANITIZE_EMAIL),
-                "phone" => filter_var($_POST['phone'], FILTER_SANITIZE_STRING),
-                "address" => filter_var($_POST['address'], FILTER_SANITIZE_STRING),
-                "birth" => filter_var($_POST['birth'], FILTER_SANITIZE_STRING)
+                "fname" => Sanitizer::clean($_POST['fname']),
+                "lname" => Sanitizer::clean($_POST['lname']),
+                "email" => Sanitizer::clean($_POST['email'], 'email'),
+                "phone" => Sanitizer::clean($_POST['phone']),
+                "address" => Sanitizer::clean($_POST['address']),
+                "birth" => Sanitizer::clean($_POST['birth'])
             ];
 
-            SessionHelper::setFlash('previousBorrowerInput', $borrower);
-
-            $errors = [];
-
-            if($error = Validator::required($borrower['fname'], 'First Name')) $errors[] = $error;
-            if($error = Validator::required($borrower['lname'], 'Last Name')) $errors[] = $error;
-
-            if($error = Validator::required($borrower['email'], 'Email')) $errors[] = $error;
-            else if($error = Validator::email($borrower['email'])) $errors[] = $error;
-
-            if(!empty($borrower['phone']) && $error = Validator::numeric($borrower['phone'], 'Phone Number')) $errors[] = $error;
-
-
-            if($errors) throw new ValidationException($errors);
-
-            $result = $this->borrowerModel->addBorrower($borrower);
+            $result = $this->borrowerService->registerBorrower($borrower);
 
             if(!$result) {
                 RedirectHelper::withFlash('error', 'Failed to add borrower', '/borrowers/add');
@@ -126,7 +114,13 @@ class BorrowersController extends Controller {
 
     }
 
-    public function delete() {
+    public function delete($id) {
+        $result = $this->borrowerModel->removeBorrower($id);
 
+        if(!$result) {
+            RedirectHelper::withFlash('error', 'Failed to remove borrower', '/borrowers');
+        }
+
+        RedirectHelper::withFlash('success', 'Borrower successfully removed', '/borrowers');
     }
 }
