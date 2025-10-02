@@ -10,6 +10,7 @@
   <div class="header-right">
     <div class="user-menu">
       <i class="fa fa-user-circle user-avatar fa-2x" aria-hidden="true"></i>
+      
       <span class="username">Hi, <?= $_SESSION['user']['name'] ?> </span>
       <a href="<?= routeTo('/auth/logout') ?>" id="logout"> Logout</a>
     </div>

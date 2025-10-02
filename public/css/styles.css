@@ -60,6 +60,11 @@ html, body {
   position: relative;
 }
 
+body.swal2-shown {
+  padding-right: 0 !important;
+  overflow: hidden !important;
+}
+
 .main-body {
   font-family: Arial, sans-serif;
   display: grid;
