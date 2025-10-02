@@ -5,3 +5,12 @@
         </div>
     </body>
 </html>
+
+<script>
+    window.appConfig = {
+        icons: {
+            question: "<?= getFile('public/img/question.png') ?>",
+            warning: "<?= getFile('public/img/warning.png') ?>"
+        }
+    };
+</script>

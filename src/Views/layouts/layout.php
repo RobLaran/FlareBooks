@@ -10,6 +10,8 @@
      </main>
 
 <?php require 'src/Views/partials/footer.php'; ?>
+<?php require 'src/Views/partials/alert.php'; ?>
+
 
 
 

@@ -74,7 +74,7 @@ class BooksController extends Controller {
     public function create() {
         $genres = $this->genreModel->getAllGenres();
 
-        $this->view("/user/books/add-book", [ 
+        $this->view("/user/books/add", [ 
             "title" => "Add Book", 
             "genres" => $genres 
         ]);
@@ -108,7 +108,7 @@ class BooksController extends Controller {
             $book = $this->bookModel->getBook($id);
             $genres = $this->genreModel->getAllGenres();
 
-            $this->view("/user/books/edit-book", [ 
+            $this->view("/user/books/edit", [ 
                 "title" => "Edit Book",
                 "book" => $book,
                 "genres" => $genres

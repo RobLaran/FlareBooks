@@ -22,7 +22,7 @@
                     <a href="<?= routeTo("/books/edit/" . $item['ISBN']) ?>" class="button act-edit safe"><i class="fa-solid fa-pen-to-square"></i></a>
                     <form class="delete-book-form" action="<?= routeTo('/books/delete/' . $item['ISBN']) ?>" method="POST">
                         <input type="hidden" name="_method" value="DELETE">
-                        <button type="submit" class="button act-remove danger"><i class="fa-regular fa-trash"></i></button>
+                        <button type="button" class="button act-remove danger" onclick="showAlert(event)"><i class="fa-regular fa-trash"></i></button>
                     </form>
                 </div>
             </td>

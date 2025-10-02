@@ -25,7 +25,7 @@
             <input type="date" name="birth" id="birth-input" value="<?= $old['birth'] ?? '' ?>">
         </div>
         <div class="button-container">
-            <button type="submit" class="button default" onclick="return alertMessage()">Confirm</button>
+            <button type="button" class="button default" onclick="showAlert(event,'question')">Confirm</button>
             <a href="<?= routeTo('/borrowers') ?>" class="button danger">Cancel</a>
         </div>
     </form>

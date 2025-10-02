@@ -25,7 +25,7 @@
             <input type="date" name="birth" id="birth-input" value="<?= $borrower['date_of_birth'] ?>">
         </div>
         <div class="button-container">
-            <button type="submit" class="button default">Update</button>
+            <button type="button" class="button default" onclick="showAlert(event, 'question')">Update</button>
             <a href="<?= routeTo('/borrowers') ?>" class="button danger">Cancel</a>
         </div>
     </form>
