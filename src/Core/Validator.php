@@ -3,7 +3,9 @@
 namespace App\Core;
 
 class Validator {
-public static function required($value, $fieldName) {
+    private static $errors = [];
+
+    public static function required($value, $fieldName) {
         if (empty(trim($value))) {
             return "$fieldName is required.";
         }
@@ -13,20 +15,6 @@ public static function required($value, $fieldName) {
     public static function email($value) {
         if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
             return "$value is not a valid email.";
-        }
-        return null;
-    }
-
-    public static function minLength($value, $length, $fieldName) {
-        if (strlen($value) < $length) {
-            return "$fieldName must be at least $length characters long.";
-        }
-        return null;
-    }
-
-    public static function maxLength($value, $length, $fieldName) {
-        if (strlen($value) > $length) {
-            return "$fieldName must not exceed $length characters.";
         }
         return null;
     }
@@ -51,4 +39,53 @@ public static function required($value, $fieldName) {
         }
         return null;
     }
+
+    public static function validate($value, $fieldName="", $options=[], $other='') {
+        foreach ($options as $option) {
+            switch ($option) {
+                case 'required':
+                    if($error = static::required($value, $fieldName)) {
+                         static::$errors[] = $error;
+                         return;
+                    }
+                    break;
+
+                case 'email':
+                    if($error = static::email($value)) {
+                         static::$errors[] = $error;
+                         return;
+                    }
+                    break;
+
+                case 'date':
+                    if($error = static::date($value, $fieldName)) {
+                         static::$errors[] = $error;
+                         return;
+                    }
+                    break;
+
+                case 'match':
+                    if($error = static::match($value, $other, $fieldName)) {
+                         static::$errors[] = $error;
+                         return;
+                    }
+                    break;
+                
+                case 'numeric':
+                    if($error = static::numeric($value, $fieldName)) {
+                         static::$errors[] = $error;
+                         return;
+                    }
+                    break;
+                
+                default:
+                    # code...
+                    break;
+            }
+        }
+    }
+
+    public static function hasErrors() { return !empty(static::$errors); }
+
+    public static function getErrors() { return static::$errors; }
 }

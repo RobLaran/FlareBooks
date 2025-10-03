@@ -2,20 +2,26 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
+use App\Core\Sanitizer;
+use App\Core\ValidationException;
 use App\Models\Book;
 use App\Models\Genre;
 
 use Exception;
 use Helpers\RedirectHelper;
+use Helpers\SessionHelper;
+use Services\BookService;
 
 class BooksController extends Controller {
     private $bookModel;
     private $genreModel;
+    private $bookService;
 
     public function __construct() {
         $this->title = "Book List";
         $this->bookModel = new Book();
         $this->genreModel = new Genre();
+        $this->bookService = new BookService($this->bookModel);
     }
     public function index() {
         $params = $this->getRequestParams(
@@ -73,31 +79,38 @@ class BooksController extends Controller {
 
     public function create() {
         $genres = $this->genreModel->getAllGenres();
+        $old = SessionHelper::getFlash('previousBorrowerInput');
 
         $this->view("/user/books/add", [ 
             "title" => "Add Book", 
-            "genres" => $genres 
+            "genres" => $genres,
+            "old" => $old 
         ]);
     }
 
     public function add() {
         try {
-            $result = $this->bookModel->addBook([
-                "ISBN" => $_POST['ISBN'],
-                "author" => $_POST['author'],
-                "title" => $_POST['title'],
-                "publisher" => $_POST['publisher'],
-                "genre" => $_POST['genre'],
-                "quantity" => $_POST['quantity'],
-                "status" => $_POST['status'],
-                "image" => $_POST['image'] ?: ($_POST['image_url'] ?: null)
-            ]);
+            $book = [
+                "ISBN" => Sanitizer::clean($_POST['ISBN']),
+                "author" => Sanitizer::clean($_POST['author']),
+                "title" => Sanitizer::clean($_POST['title']),
+                "publisher" => Sanitizer::clean($_POST['publisher']),
+                "genre" => Sanitizer::clean($_POST['genre']),
+                "quantity" => Sanitizer::clean($_POST['quantity']),
+                "status" => Sanitizer::clean($_POST['status']),
+                "image" => Sanitizer::clean($_POST['image'] ?: ($_POST['image_url'] ?: ''))
+            ];
+
+            $this->bookService->validateBook($book);
+            $result = $this->bookService->insertBook($book);
 
             if(!$result) {
                 RedirectHelper::withFlash('error', 'Failed to add book', '/books/add');
             }
             
             RedirectHelper::withFlash('success', 'New book successfully added', '/books');
+        } catch(ValidationException $errors) {
+            RedirectHelper::withFlash('errors', $errors->getErrors(), '/books/add');
         } catch(Exception $error) {
             RedirectHelper::withFlash('error', $error->getMessage(), '/books/add');
         }
@@ -107,11 +120,13 @@ class BooksController extends Controller {
         try {
             $book = $this->bookModel->getBook($id);
             $genres = $this->genreModel->getAllGenres();
+            $old = SessionHelper::getFlash('previousBorrowerInput');
 
             $this->view("/user/books/edit", [ 
                 "title" => "Edit Book",
                 "book" => $book,
-                "genres" => $genres
+                "genres" => $genres,
+                "old" => $old
             ]);
         } catch (Exception $error) {
             RedirectHelper::withFlash('error', $error->getMessage(), '/books/edit');
@@ -122,22 +137,27 @@ class BooksController extends Controller {
         try {
             $book = $this->bookModel->getBook($id);
 
-            $result = $this->bookModel->updateBook($id, [
-                "ISBN" => $_POST['ISBN'],
-                "author" => $_POST['author'],
-                "title" => $_POST['title'],
-                "publisher" => $_POST['publisher'],
-                "genre" => $_POST['genre'],
-                "quantity" => $_POST['quantity'],
-                "status" => $_POST['status'],
-                "image" => $_POST['image'] ?: ($_POST['image_url'] ?: $book['image'])
-            ]);
+            $updatedBook = [
+                "ISBN" => Sanitizer::clean($_POST['ISBN']),
+                "author" => Sanitizer::clean($_POST['author']),
+                "title" => Sanitizer::clean($_POST['title']),
+                "publisher" => Sanitizer::clean($_POST['publisher']),
+                "genre" => Sanitizer::clean($_POST['genre']),
+                "quantity" => Sanitizer::clean($_POST['quantity']),
+                "status" => Sanitizer::clean($_POST['status']),
+                "image" => Sanitizer::clean($_POST['image'] ?: ($_POST['image_url'] ?: $book['image']))
+            ];
+
+            $this->bookService->validateBook($updatedBook);
+            $result = $this->bookModel->updateBook($id, $updatedBook);
 
             if(!$result) {
                 RedirectHelper::withFlash('error', 'Failed to update book', '/books/edit/' . $id);
             }
             
             RedirectHelper::withFlash('success', 'Book successfully updated', '/books');
+        } catch(ValidationException $errors) {
+            RedirectHelper::withFlash('errors', $errors->getErrors(), '/books/edit/' . $id);
         } catch(Exception $error) {
             RedirectHelper::withFlash('error', $error->getMessage(), '/books/edit/' . $id);
         }

@@ -66,6 +66,10 @@
             grid-area: birth-field;
         }
 
+        .status-field {
+            grid-area: status-field;
+        }
+
         .button-container {
             grid-area: button-container;
             display: flex;

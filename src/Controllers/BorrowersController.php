@@ -87,6 +87,7 @@ class BorrowersController extends Controller {
                 "birth" => Sanitizer::clean($_POST['birth'])
             ];
 
+            $this->borrowerService->validateBorrower($borrower);
             $result = $this->borrowerService->registerBorrower($borrower);
 
             if(!$result) {
@@ -103,10 +104,12 @@ class BorrowersController extends Controller {
 
     public function edit($id) {
         $borrower = $this->borrowerModel->getBorroweById($id);
+        $old = SessionHelper::getFlash('previousBorrowerInput');
 
         $this->view("/user/borrowers/edit", [ 
             "title" => "Edit Borrower", 
-            'borrower' => $borrower
+            'borrower' => $borrower,
+            'old' => $old
         ]);
     }
 

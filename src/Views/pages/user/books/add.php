@@ -10,42 +10,42 @@
             </div>
             <div class="image-url-container">
                 <label for="image-url">Or Image URL:</label>
-                <input type="text" name="image_url" id="image-url" placeholder="https://example.com/image.jpg">
+                <input type="text" name="image_url" id="image-url" placeholder="https://example.com/image.jpg" value="<?= $old['image'] ?? '' ?>">
             </div>
         </div>
         <div class="isbn-field input-container">
             <label for="ISBN-input" class="required">ISBN:</label>
-            <input type="text" name="ISBN" id="ISBN-input" required>
+            <input type="text" name="ISBN" id="ISBN-input" required value="<?= $old['ISBN'] ?? '' ?>"> 
         </div>
         <div class="status-field input-container">
             <label for="status-selection">Status:</label>
             <select name="status" id="status-selection">
-                <option value="Available" class="online">Available</option>
-                <option value="Unavailable" class="offline">Unavailable</option>
+                <option value="Available" class="online" <?= !empty($old['status']) ? 'selected' : '' ?>>Available</option>
+                <option value="Unavailable" class="offline" <?= !empty($old['status']) ? 'selected' : '' ?>>Unavailable</option>
             </select>
         </div>
         <div class="author-field input-container">
             <label for="author-input" class="required">Author:</label>
-            <input type="text" name="author" id="author-input" required>
+            <input type="text" name="author" id="author-input" required value="<?= $old['author'] ?? '' ?>"> 
         </div>
         <div class="publisher-field input-container">
             <label for="publisher-input">Publisher:</label>
-            <input type="text" name="publisher" id="publisher-input">
+            <input type="text" name="publisher" id="publisher-input" value="<?= $old['publisher'] ?? '' ?>"> 
         </div>
         <div class="title-field input-container">
             <label for="title-input" class="required">Title:</label>
-            <textarea name="title" id="title-input" required></textarea>
+            <textarea name="title" id="title-input" required value="<?= $old['title'] ?? '' ?>" ></textarea>
         </div>
         <div class="quantity-field input-container">
             <label for="quantity-input">Quantity:</label>
-            <input type="number" name="quantity" id="quantity-input" value="1">
+            <input type="number" name="quantity" id="quantity-input" value="<?= $old['quantity'] ?? '1' ?>">
         </div>
         <div class="genre-field input-container">
             <label for="genre-selection">Genre:</label>
             <select name="genre" id="genre-selection">
                 <?php if(count($genres) > 0): ?>
                     <?php foreach($genres as $genre): ?>
-                        <option value="<?= $genre['id'] ?>"><?= $genre['genre'] ?></option>
+                        <option value="<?= $genre['id'] ?>" <?= !empty($old['genre']) ? 'selected' : '' ?>><?= $genre['genre'] ?></option>
                     <?php endforeach; ?>
                 <?php endif; ?>
             </select>

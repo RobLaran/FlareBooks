@@ -16,26 +16,6 @@ class Book extends Model {
         $status = $book['status'] ?: null;
         $image = $book['image'] ?: null;
 
-        if(empty($book['ISBN'])) {
-            throw new \Exception("ISBN is required");
-        } else if(!is_numeric($book['ISBN'])) {
-            throw new \Exception("ISBN must be numeric");
-        }
-
-        if(empty($author)) {
-            throw new \Exception("Author is empty");
-        }
-
-        if(empty($title)) {
-            throw new \Exception("Title is empty");
-        }
-
-        if(!is_numeric($quantity)) {
-            throw new \Exception("Quantity must be numeric");
-        } else if($quantity < 0) {
-            throw new \Exception("Quantity must be a positive number");
-        }
-
         $sql = "INSERT INTO `books`(`ISBN`, `genre_id`, `author`, `title`, `quantity`, `status`, `image`, `publisher`) 
         VALUES (:ISBN,:genre,:author,:title,:quantity,:status,:image,:publisher)";
         $stmt = $this->db->prepare($sql);
@@ -62,25 +42,14 @@ class Book extends Model {
     }
 
     public function updateBook($id, $updates): bool {
-        if(empty($updates['ISBN'])) {
-            throw new \Exception("ISBN is required");
-        } else if(!is_numeric($updates['ISBN'])) {
-            throw new \Exception("ISBN must be numeric");
-        }
-
-        if(empty($updates["author"])) {
-            throw new \Exception("Author is empty");
-        }
-
-        if(empty($updates['title'])) {
-            throw new \Exception("Title is empty");
-        }
-
-        if(!is_numeric($updates['quantity'])) {
-            throw new \Exception("Quantity must be numeric");
-        } else if($updates['quantity'] < 0) {
-            throw new \Exception("Quantity must be a positive number");
-        }
+        $ISBN = $updates['ISBN'] ?: null;
+        $author = $updates['author'] ?: null;
+        $title = $updates['title'] ?: null;
+        $publisher = $updates['publisher'] ?: "No publisher";
+        $genre = $updates['genre'] ?: null;
+        $quantity = $updates['quantity'] ?: null;
+        $status = $updates['status'] ?: null;
+        $image = $updates['image'] ?: null;
 
         $sql = "UPDATE books 
                 SET 
@@ -95,14 +64,14 @@ class Book extends Model {
                 WHERE ISBN = :id";
         
         $stmt = $this->db->prepare($sql);
-        $stmt->bindValue(":ISBN", $updates['ISBN'], \PDO::PARAM_STR);
-        $stmt->bindValue(":genre", $updates['genre'], \PDO::PARAM_INT);
-        $stmt->bindValue(":author", $updates['author'], \PDO::PARAM_STR);
-        $stmt->bindValue(":title", $updates['title'], \PDO::PARAM_STR);
-        $stmt->bindValue(":quantity", $updates['quantity'], \PDO::PARAM_INT);
-        $stmt->bindValue(":status", $updates['status'], \PDO::PARAM_STR);
-        $stmt->bindValue(":image", $updates['image'], \PDO::PARAM_STR);
-        $stmt->bindValue(":publisher", $updates['publisher'], \PDO::PARAM_STR);
+        $stmt->bindValue(":ISBN", $ISBN, \PDO::PARAM_STR);
+        $stmt->bindValue(":genre", $genre, \PDO::PARAM_INT);
+        $stmt->bindValue(":author", $author, \PDO::PARAM_STR);
+        $stmt->bindValue(":title", $title, \PDO::PARAM_STR);
+        $stmt->bindValue(":quantity", $quantity, \PDO::PARAM_INT);
+        $stmt->bindValue(":status", $status, \PDO::PARAM_STR);
+        $stmt->bindValue(":image", $image, \PDO::PARAM_STR);
+        $stmt->bindValue(":publisher", $publisher, \PDO::PARAM_STR);
         $stmt->bindValue(":id", $id, \PDO::PARAM_INT);
 
         return $stmt->execute();

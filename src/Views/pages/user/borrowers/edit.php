@@ -24,6 +24,14 @@
             <label for="birth-input">Date of Birth:</label>
             <input type="date" name="birth" id="birth-input" value="<?= $borrower['date_of_birth'] ?>">
         </div>
+        <div class="status-field input-container">
+            <label for="status-selection">Status:</label>
+            <select name="status" id="status-selection">
+                <option value="active" <?= $borrower['status'] == 'active' ?>>Active</option>
+                <option value="inactive" <?= $borrower['status'] == 'inactive' ?>>Inactive</option>
+                <option value="banned" <?= $borrower['status'] == 'banned' ?>>Banned</option>
+            </select>
+        </div>
         <div class="button-container">
             <button type="button" class="button default" onclick="showAlert(event, 'question')">Update</button>
             <a href="<?= routeTo('/borrowers') ?>" class="button danger">Cancel</a>

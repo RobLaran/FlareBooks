@@ -30,7 +30,7 @@ class Borrower extends Model {
     }
 
     public function updateBorrower($id) {
-
+        
     }
 
     public function removeBorrower($id) {
