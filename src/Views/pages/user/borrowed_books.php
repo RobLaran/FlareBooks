@@ -83,7 +83,6 @@
 </div>
 
 
-
 <script>
 	const books = document.querySelectorAll('.book-item');
 	const borrowers = document.querySelectorAll('.borrower');
