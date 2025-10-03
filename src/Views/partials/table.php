@@ -38,7 +38,7 @@
 
         <?php if(count($items) == 0): ?>
 
-        <h1 class="empty-notif">Empty Record</h1>
+        <h1 class="empty-notif">No Record</h1>
 
         <?php else: ?>
 

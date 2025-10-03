@@ -120,6 +120,28 @@ class Book extends Model {
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
+    public function searchBooks($query) {
+        $sql = "SELECT * FROM books 
+               WHERE title LIKE :query 
+               OR author LIKE :query 
+               OR ISBN LIKE :query";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(":query", "%$query%", \PDO::PARAM_STR);
+        $stmt->execute();
+
+        $books = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        return array_map([$this, 'formatBook'], $books);
+    }
+
+    public function formatBook($book) {
+        // If image is empty, return default
+        if (!isImageUrl($book['image'])) {
+            $book['image'] = getFile('public/img/') . $book['image'];
+        } 
+        return $book;
+    }
+
 
     public function getPaginatedBooks($limit, $offset, $sortBy = 'author', $sortDir = 'ASC', $search = ''): array {
         return $this->paginate(

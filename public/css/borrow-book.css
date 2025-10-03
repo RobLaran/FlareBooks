@@ -1,0 +1,156 @@
+.borrow-book-page {
+    .container {
+        display: flex;
+        gap: 20px;
+    }
+
+    .card {
+		position: relative;
+        background: var(--color-4);
+        border: 1px solid #e0d9d0;
+        border-radius: 8px;
+        padding: 20px;
+		flex: 1;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		max-height: 580px;
+		display: flex;
+		flex-direction: column;
+    }
+
+	.input-container {
+            display: flex;
+            flex-direction: column;
+
+            label {
+                font-weight: 700;
+            }
+
+            input,
+            select{
+                padding: 10px 4px;
+                font-size: 1.1rem;
+                border-width: 2px;
+                border-color: var(--color-12);
+                border-radius: 10px;
+                background-color: var(--color-4);
+            }
+
+            
+
+            input:focus,
+            select:focus {
+                border-color: var(--color-10);
+                outline-color: var(--color-10);
+            }
+	}
+
+    h2 {
+        margin-top: 0;
+        font-size: 1.3rem;
+        color: #333;
+    }
+
+	.buttons {
+        display: flex;
+		align-items: center;
+		justify-content: space-evenly;
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+    }
+
+    .reset:hover {
+        background: #c0392b;
+    }
+
+    .book-list,
+	.borrower-list {
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        overflow-y: auto;
+		margin-bottom: 20px;
+    }
+
+	.borrower-list {
+		max-height: 300px;
+	}
+
+	.book-list {
+    }
+
+    .book-item,
+	.borrower {
+        padding: 10px;
+        cursor: pointer;
+		display: flex;
+		max-height: 100px;
+    }
+
+	.book-item {
+		img {
+			width: 60px;
+			height: 80px;
+			margin-right: 20px;
+		}
+	}
+
+	.book-item {
+		border-bottom: 2px solid var(--color-12);
+		background-color: var(--color-5);
+	}
+
+	.borrower {
+		font-size: 13px;
+		border-bottom: 2px solid var(--color-12);
+		background-color: var(--color-5);
+
+		div {
+			width: 100%;
+			white-space: normal;   /* allow wrapping */
+			word-wrap: break-word; /* wrap long words */
+		}
+	}
+
+	.book-list::-webkit-scrollbar,
+	.borrower-list::-webkit-scrollbar {
+		display: none;
+	}
+
+    .book-item:hover,
+	.borrower:hover {
+        background: #f1f1f1;
+    }
+
+    .book-item.not-available,
+	.borrower.not-available {
+        color: #aaa;
+        cursor: not-allowed;
+    }
+
+    .book-item.selected,
+	.borrower.selected {
+        background: #ffe6b3;
+        font-weight: bold;
+    }
+
+    .availability {
+        font-size: 0.85rem;
+        margin-top: 4px;
+    }
+
+    .available {
+        color: green;
+    }
+
+    .unavailable {
+        color: red;
+    }
+
+	.borrower-selection {
+		label#due-date-label {
+			padding-top: 20px;
+		}
+    }
+}

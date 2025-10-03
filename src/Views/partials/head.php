@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="<?= getFile("public/css/table.css") ?>">
     <link rel="stylesheet" type="text/css" href="<?= getFile("public/css/book.css") ?>">
     <link rel="stylesheet" type="text/css" href="<?= getFile("public/css/borrowers.css") ?>">
+    <link rel="stylesheet" type="text/css" href="<?= getFile("public/css/borrow-book.css") ?>">
     <link rel="stylesheet" type="text/css" href="<?= getFile("public/css/auth.css") ?>">
     <link rel="stylesheet" type="text/css" href="<?= getFile("public/css/alert.css") ?>">
     <script src="https://kit.fontawesome.com/3e9984b045.js" crossorigin="anonymous" defer></script>

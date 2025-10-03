@@ -104,6 +104,20 @@ class Borrower extends Model {
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
+    public function searchBorrowers($query) {
+        $sql = "SELECT * FROM borrowers 
+               WHERE first_name LIKE :query 
+               OR last_name LIKE :query 
+               OR address LIKE :query 
+               OR borrower_code LIKE :query";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(":query", "%$query%", \PDO::PARAM_STR);
+        $stmt->execute();
+
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
     public function getPaginatedBorrowers($limit, $offset, $sortBy = 'borrower_code', $sortDir = 'ASC', $search = ''): array {
         return $this->paginate(
         'borrowers',
