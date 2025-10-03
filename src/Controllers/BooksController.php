@@ -96,7 +96,7 @@ class BooksController extends Controller {
                 "title" => Sanitizer::clean($_POST['title']),
                 "publisher" => Sanitizer::clean($_POST['publisher']),
                 "genre" => Sanitizer::clean($_POST['genre']),
-                "quantity" => Sanitizer::clean($_POST['quantity']),
+                "quantity" => Sanitizer::clean($_POST['quantity'] ?: '0'),
                 "status" => Sanitizer::clean($_POST['status']),
                 "image" => Sanitizer::clean($_POST['image'] ?: ($_POST['image_url'] ?: ''))
             ];
@@ -143,7 +143,7 @@ class BooksController extends Controller {
                 "title" => Sanitizer::clean($_POST['title']),
                 "publisher" => Sanitizer::clean($_POST['publisher']),
                 "genre" => Sanitizer::clean($_POST['genre']),
-                "quantity" => Sanitizer::clean($_POST['quantity']),
+                "quantity" => Sanitizer::clean($_POST['quantity'] ?: '0'),
                 "status" => Sanitizer::clean($_POST['status']),
                 "image" => Sanitizer::clean($_POST['image'] ?: ($_POST['image_url'] ?: $book['image']))
             ];

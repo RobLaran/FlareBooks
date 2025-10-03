@@ -43,7 +43,7 @@
         </div>
         <div class="quantity-field input-container">
             <label for="quantity-input">Quantity:</label>
-            <input type="number" name="quantity" id="quantity-input" value="<?= $book['quantity'] ?? $old['quantity'] ?>">
+            <input type="number" name="quantity" id="quantity-input" value="<?= $book['quantity'] ?>">
         </div>
         <div class="genre-field input-container">
             <label for="genre-selection">Genre:</label>

@@ -4,6 +4,7 @@ namespace App\Controllers;
 use App\Core\Controller;
 use App\Core\Sanitizer;
 use App\Models\Borrower;
+use Exception;
 use Helpers\RedirectHelper;
 use App\Core\ValidationException;
 use Helpers\SessionHelper;
@@ -97,7 +98,7 @@ class BorrowersController extends Controller {
             RedirectHelper::withFlash('success', 'New borrower successfully added', '/borrowers');
         } catch(ValidationException $errors) {
             RedirectHelper::withFlash('errors', $errors->getErrors(), '/borrowers/add');
-        } catch (\Exception $error) {
+        } catch (Exception $error) {
             RedirectHelper::withFlash('error', $error->getMessage(), '/borrowers/add');
         }
     }
@@ -113,8 +114,31 @@ class BorrowersController extends Controller {
         ]);
     }
 
-    public function update() {
+    public function update($id) {
+        try {
+            $updatedBorrower = [
+                "fname" => Sanitizer::clean($_POST['fname']),
+                "lname" => Sanitizer::clean($_POST['lname']),
+                "email" => Sanitizer::clean($_POST['email'], 'email'),
+                "phone" => Sanitizer::clean($_POST['phone']),
+                "address" => Sanitizer::clean($_POST['address']),
+                "birth" => Sanitizer::clean($_POST['birth']),
+                "status" => Sanitizer::clean($_POST['status'])
+            ];
 
+            $this->borrowerService->validateBorrower($updatedBorrower);
+            $result = $this->borrowerModel->updateBorrower($id, $updatedBorrower);
+
+            if(!$result) {
+                RedirectHelper::withFlash('error', 'Failed to update borrower', '/borrowers/edit/' . $id);
+            }
+
+            RedirectHelper::withFlash('success', 'Borrower successfully updated', '/borrowers');
+        } catch(ValidationException $errors) {
+            RedirectHelper::withFlash('errors', $errors->getErrors(), '/borrowers/edit/' . $id);
+        } catch(Exception $error) {
+            RedirectHelper::withFlash('error', $error->getMessage(), '/borrowers/edit/' . $id);
+        }
     }
 
     public function delete($id) {

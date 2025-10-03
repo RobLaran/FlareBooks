@@ -29,8 +29,37 @@ class Borrower extends Model {
         return $result;
     }
 
-    public function updateBorrower($id) {
-        
+    public function updateBorrower($id, $udpates) {
+        $fname = $udpates['fname'] ?: null;
+        $lname = $udpates['lname'] ?: null;
+        $email = $udpates['email'] ?: null;
+        $phone = $udpates['phone'] ?: null;
+        $address = $udpates['address'] ?: null;
+        $birth = $udpates['birth'] ?: null;
+        $status = $udpates['status'] ?: 'inactive';
+
+        $sql = "UPDATE borrowers 
+                SET 
+                first_name = :fname,
+                last_name = :lname,
+                email = :email,
+                phone = :phone,
+                address = :address,
+                date_of_birth = :birth,
+                status = :status
+                WHERE id = :id";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(":fname", $fname, \PDO::PARAM_STR);
+        $stmt->bindValue(":lname", $lname, \PDO::PARAM_STR);
+        $stmt->bindValue(":email", $email, \PDO::PARAM_STR);
+        $stmt->bindValue(":phone", $phone, \PDO::PARAM_STR);
+        $stmt->bindValue(":address", $address, \PDO::PARAM_STR);
+        $stmt->bindValue(":birth", $birth, \PDO::PARAM_STR);
+        $stmt->bindValue(":status", $status, \PDO::PARAM_STR);
+        $stmt->bindValue(":id", $id, \PDO::PARAM_INT);
+
+        return $stmt->execute();
     }
 
     public function removeBorrower($id) {

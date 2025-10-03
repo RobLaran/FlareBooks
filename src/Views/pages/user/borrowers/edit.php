@@ -33,6 +33,7 @@
             </select>
         </div>
         <div class="button-container">
+            <input type="hidden" name="_method" value="PUT">
             <button type="button" class="button default" onclick="showAlert(event, 'question')">Update</button>
             <a href="<?= routeTo('/borrowers') ?>" class="button danger">Cancel</a>
         </div>
