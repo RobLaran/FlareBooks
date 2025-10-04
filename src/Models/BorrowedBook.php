@@ -58,6 +58,15 @@ class BorrowedBook extends Model {
         return $result;
     }
 
+    public function deleteTransaction($id) {
+        $sql = "DELETE FROM borrowed_books WHERE borrowed_id = :id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(":id", $id, \PDO::PARAM_INT);
+        $result = $stmt->execute();
+
+        return $result;
+    }
+
     public function getPaginatedTransactions($limit, $offset, $sortBy = 'first_name', $sortDir = 'ASC', $search = ''): array {
         return $this->paginate(
             'borrowed_books',

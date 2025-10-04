@@ -92,6 +92,16 @@ class BorrowedBooksController extends Controller {
         }
     }
 
+    public function delete($id) {
+        $result = $this->transactionModel->deleteTransaction($id);
+
+        if(!$result) {
+            RedirectHelper::withFlash('error', 'Failed to delete transaction', '/borrowed-books');
+        }
+
+        RedirectHelper::withFlash('success', 'Transaction successfully deleted', '/borrowed-books');
+    }
+
     public function searchBook() {
         $query = $_GET['q'] ?? '';
 
