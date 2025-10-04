@@ -80,6 +80,37 @@
 			</form>
 		</div>
 	</div>
+
+	<?php ob_start(); ?>
+
+		<?php foreach ($items as $item): ?>
+			<tr>
+				<td>
+					<div class="book-info">
+						<strong><?= $item['title'] ?></strong> <br>
+						by <?= $item['author'] ?> <br>
+						ISBN: <?= $item['ISBN'] ?>
+					</div>
+				</td>
+				<td><?= $item['first_name'] ?></td>
+				<td><?= $item['last_name'] ?></td>
+				<td><?= $item['borrow_date'] ?></td>
+				<td><?= $item['due_date'] ?></td>
+				<td><span class="status <?= $item['status'] ? "offline" : "online" ?>"><?= $item['status'] ? "Overdue" : "On Time" ?></span></td>
+				<td>
+					<div class="action-buttons">
+						<form class="delete-transaction-form" action="<?= routeTo('/borrowed-books/delete/' . $item['borrowed_id']) ?>" method="POST">
+							<input type="hidden" name="_method" value="DELETE">
+							<button type="button" class="button act-remove danger" onclick="showAlert(event)"><i class="fa-regular fa-trash"></i></button>
+						</form>
+					</div>
+				</td>
+			</tr>
+		<?php endforeach; ?>
+
+	<?php $tableData = ob_get_clean(); ?>
+
+	<?php require 'src/Views/partials/table.php' ?>
 </div>
 
 

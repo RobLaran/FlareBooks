@@ -16,6 +16,7 @@
     <script src="<?= getFile("public/js/menuToggle.js") ?>" defer></script>
     <script src="<?= getFile("public/js/imagePreview.js") ?>" defer></script>
     <script src="<?= getFile("public/js/alert.js") ?>" defer></script>
+    <script src="<?= getFile("public/js/reload.js") ?>" defer></script>
     <title><?= BRAND ?></title>
 </head> 
 <body>  

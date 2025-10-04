@@ -118,16 +118,16 @@ class Borrower extends Model {
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    public function getPaginatedBorrowers($limit, $offset, $sortBy = 'borrower_code', $sortDir = 'ASC', $search = ''): array {
+    public function getPaginatedBorrowers($limit, $offset, $sortBy = 'first_name', $sortDir = 'ASC', $search = ''): array {
         return $this->paginate(
         'borrowers',
-        ['borrower_code','first_name', 'last_name'],
+        ['first_name', 'last_name'],
         $limit,
         $offset,
         $sortBy,
         $sortDir,
         $search,
-        ['borrower_code', 'first_name', 'last_name', 'email', 'phone', 'address', 'date_of_birth', 'membership_date'] // searchable columns
+        ['ISBN', 'title', 'author', 'first_name', 'last_name'] // searchable columns
     );
     }
 

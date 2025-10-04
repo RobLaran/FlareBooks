@@ -43,14 +43,20 @@ class Model {
         string $sortBy = 'id',
         string $sortDir = 'ASC',
         string $search = '',
-        array $searchableColumns = []
+        array $searchableColumns = [],
+        string $sql = ""
     ): array {
         // Validate sorting
         $sortBy = in_array($sortBy, $allowedColumns) ? $sortBy : 'id';
         $sortDir = strtoupper($sortDir) === 'DESC' ? 'DESC' : 'ASC';
 
         // Base SQL
-        $sql = "SELECT * FROM {$table} WHERE 1 ";
+        if(empty($sql)) {
+            $sql = "SELECT * FROM {$table} WHERE 1 ";
+        } else {
+            $sql = $sql . " WHERE 1 ";
+        }
+
         $params = [];
 
         // Search filter
@@ -81,9 +87,15 @@ class Model {
     public function getTotal(
     string $table,
     string $search = '',
-    array $searchableColumns = []
+    array $searchableColumns = [],
+    string $sql = ""
     ): int {
-        $sql = "SELECT COUNT(*) as total FROM {$table} WHERE 1 ";
+        if(empty($sql)) {
+            $sql = "SELECT COUNT(*) as total FROM {$table} WHERE 1 ";
+        } else {
+            $sql = $sql . " WHERE 1 ";
+        }
+
         $params = [];
 
         if (!empty($search) && !empty($searchableColumns)) {
