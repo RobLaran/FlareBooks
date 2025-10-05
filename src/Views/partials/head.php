@@ -11,6 +11,7 @@
     <link rel="stylesheet" type="text/css" href="<?= getFile("public/css/borrow-book.css") ?>">
     <link rel="stylesheet" type="text/css" href="<?= getFile("public/css/auth.css") ?>">
     <link rel="stylesheet" type="text/css" href="<?= getFile("public/css/alert.css") ?>">
+    <link rel="stylesheet" type="text/css" href="<?= getFile("public/css/returns.css") ?>">
     <script src="https://kit.fontawesome.com/3e9984b045.js" crossorigin="anonymous" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
     <script src="<?= getFile("public/js/menuToggle.js") ?>" defer></script>

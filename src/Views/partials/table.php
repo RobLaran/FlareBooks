@@ -68,7 +68,7 @@
                     </tr>
                 </thead>
 
-                <tbody>
+                <tbody class="table-body">
 
                     <?= $tableData ?>
                     

@@ -8,6 +8,7 @@ class BorrowedBook extends Model {
 
     public function getAllTransactions($sortBy="first_name", $sortDir="ASC") {
             $sql = "SELECT 
+                        b.image,
                         b.title,
                         b.author,
                         b.ISBN,
@@ -15,7 +16,7 @@ class BorrowedBook extends Model {
                         br.last_name,
                         bb.borrow_date,
                         bb.due_date,
-                        bb.borrowed_id
+                        bb.borrowed_id,
                         CASE 
                             WHEN bb.due_date < CURDATE() THEN 1 
                             ELSE 0 
@@ -81,6 +82,7 @@ class BorrowedBook extends Model {
             $search,
             ["b.title", "b.author", "b.ISBN", "br.first_name", "br.last_name"], // searchable columns
             "SELECT 
+                        b.image,
                         b.title,
                         b.author,
                         b.ISBN,

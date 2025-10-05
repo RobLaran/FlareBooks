@@ -109,7 +109,8 @@ class Borrower extends Model {
                WHERE first_name LIKE :query 
                OR last_name LIKE :query 
                OR address LIKE :query 
-               OR borrower_code LIKE :query";
+               OR borrower_code LIKE :query
+               OR email LIKE :query";
 
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(":query", "%$query%", \PDO::PARAM_STR);
@@ -127,7 +128,7 @@ class Borrower extends Model {
         $sortBy,
         $sortDir,
         $search,
-        ['ISBN', 'title', 'author', 'first_name', 'last_name'] // searchable columns
+        ['ISBN', 'title', 'author', 'first_name', 'last_name', 'email'] // searchable columns
     );
     }
 
