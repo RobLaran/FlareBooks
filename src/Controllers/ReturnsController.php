@@ -10,14 +10,14 @@ class ReturnsController extends Controller {
 
     public function __construct() {
         $this->title = "Returns";
-        $this->transactionModel = new Book();
+        $this->transactionModel = new BorrowedBook();
     }
     public function index() {
-        $transactions = $this->transactionModel->getAllBooks(); 
-
+        $transactions = $this->transactionModel->getAllTransactions(); 
 
         $this->view("/user/returns", [ 
             "title" => $this->title,
+            "transactions" => $transactions,
             "data" => [
                 "Book Info" => [
                     "Image" => "some image",
@@ -29,7 +29,6 @@ class ReturnsController extends Controller {
                 "Borrow Date" => "some date",
                 "Due Date" => "some datge",
                 "Status" => "ssome status"
-
             ]
         ]);
     }

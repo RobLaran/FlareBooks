@@ -8,7 +8,32 @@
 					<input type="text" id="borrowedBooktSearchBox" placeholder="Search by Name, Code, Email, or Address">
 				</div>
 				<div class="borrowed-book-list" id="borrowedBookList">
-					
+                    <?php if (count($transactions) > 0): ?>
+
+					<?php foreach ($transactions as $transaction): ?>
+
+						<div class="transaction" data-id="<?= $transaction['borrowed_id'] ?>">
+							<div>
+								<img src="<?= isImageUrl($transaction['image']) ? $transaction['image'] : getFile('public/img/' . $transaction['image']) ?>" alt="">
+							</div>
+							<div>
+								<strong><?= $transaction['first_name'] . ' ' . $transaction['last_name'] ?></strong><br>
+								Book Title: <?= $transaction['title'] ?><br>
+								Book Author: <?= $transaction['author'] ?><br>
+								ISBN: <?= $transaction['ISBN'] ?><br>
+                                <?php if($transaction['is_overdue']): ?>
+								    <div class="overdue">Overdue</div>
+                                <?php endif; ?>
+							</div>
+						</div>
+
+					<?php endforeach; ?>
+
+				<?php else: ?>
+
+					<h2>No transactions</h2>
+
+				<?php endif; ?>
 				</div>
 
 				<input type="hidden" name="borrowed_book_id" id="selectedBorrowedBookId">

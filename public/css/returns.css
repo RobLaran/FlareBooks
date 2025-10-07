@@ -15,7 +15,7 @@
         padding: 20px;
 		flex: 1;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-		max-height: 580px;
+		max-height: 700px;
 		display: flex;
 		flex-direction: column;
     }
@@ -68,27 +68,22 @@
         background: #c0392b;
     }
 
-    .book-list,
-	.borrower-list {
+	.borrowed-book-list {
         border: 1px solid #ddd;
         border-radius: 6px;
         overflow-y: auto;
 		margin-bottom: 20px;
+        max-height: 500px;
     }
 
-	.borrower-list {
-		max-height: 300px;
-	}
-
-    .book-item,
-	.borrower {
+	.transaction {
         padding: 10px;
         cursor: pointer;
 		display: flex;
-		max-height: 100px;
-    }
+		max-height: 140px;
+        border-bottom: 2px solid var(--color-12);
+		background-color: var(--color-5);
 
-	.book-item {
 		img {
 			width: 60px;
 			height: 80px;
@@ -96,59 +91,22 @@
 		}
 	}
 
-	.book-item {
-		border-bottom: 2px solid var(--color-12);
-		background-color: var(--color-5);
-	}
-
-	.borrower {
-		font-size: 13px;
-		border-bottom: 2px solid var(--color-12);
-		background-color: var(--color-5);
-
-		div {
-			width: 100%;
-			white-space: normal;   /* allow wrapping */
-			word-wrap: break-word; /* wrap long words */
-		}
-	}
-
-	.book-list::-webkit-scrollbar,
-	.borrower-list::-webkit-scrollbar {
-		display: none;
-	}
-
-    .book-item:hover,
-	.borrower:hover {
+	.transaction:hover {
         background: #f1f1f1;
     }
 
-    .book-item.not-available,
-	.borrower.not-available {
-        color: #aaa;
-        cursor: not-allowed;
-    }
-
-    .book-item.selected,
-	.borrower.selected {
+	.transaction.selected {
         background: #ffe6b3;
         font-weight: bold;
     }
 
-    .availability {
+    .overdue {
         font-size: 0.85rem;
         margin-top: 4px;
-    }
-
-    .available {
-        color: green;
-    }
-
-    .unavailable {
         color: red;
     }
 
-	.borrower-selection {
+	.borrowed-book-selection {
 		label#due-date-label {
 			padding-top: 20px;
 		}

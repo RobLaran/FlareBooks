@@ -111,11 +111,6 @@
 		}
 	}
 
-	.book-list::-webkit-scrollbar,
-	.borrower-list::-webkit-scrollbar {
-		display: none;
-	}
-
     .book-item:hover,
 	.borrower:hover {
         background: #f1f1f1;
