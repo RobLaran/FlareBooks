@@ -130,18 +130,13 @@ class Book extends Model {
         $stmt->bindValue(":query", "%$query%", \PDO::PARAM_STR);
         $stmt->execute();
 
-        $books = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-        return array_map([$this, 'formatBook'], $books);
+        $results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        return array_map(
+            function($book) {
+                $book['image'] = formatImage($book['image']);
+                return $book;
+            }, $results);
     }
-
-    public function formatBook($book) {
-        // If image is empty, return default
-        if (!isImageUrl($book['image'])) {
-            $book['image'] = getFile('public/img/') . $book['image'];
-        } 
-        return $book;
-    }
-
 
     public function getPaginatedBooks($limit, $offset, $sortBy = 'author', $sortDir = 'ASC', $search = ''): array {
         return $this->paginate(

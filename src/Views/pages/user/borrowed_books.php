@@ -140,13 +140,6 @@
 		});
 	});
 
-	document.getElementById('borrowForm').addEventListener('submit', function (e) {
-		if (!hiddenBookId.value) {
-			e.preventDefault();
-			alert('Please select a book before borrowing.');
-		}
-	});
-
 	document.getElementById("bookListSearchBox").addEventListener("keyup", function () {
 		let query = this.value;
 
@@ -169,7 +162,7 @@
 
 					const imgDiv = document.createElement("div");
 					const img = document.createElement("img");
-					img.src = book.image
+					img.src = book.image;
 					imgDiv.appendChild(img);
 
 					const bookInfo = document.createElement("div");

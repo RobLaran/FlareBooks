@@ -32,4 +32,14 @@ class ReturnsController extends Controller {
             ]
         ]);
     }
+
+    public function search() {
+        $query = $_GET['q'] ?? '';
+
+        $transactions = $this->transactionModel->searchTransaction($query);
+
+        header('Content-Type: application/json');
+        echo json_encode($transactions);
+        exit;
+    }
 }

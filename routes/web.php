@@ -47,6 +47,7 @@ Router::delete('/borrowed-books/delete/{id}', 'BorrowedBooksController@delete', 
 
 // Returns
 Router::get('/returns', 'ReturnsController@index', [[AuthMiddleware::class, 'check']]);
+Router::get('/returns/search-transaction', 'ReturnsController@search', [[AuthMiddleware::class, 'check']]);
 
 // Reports
 Router::get('/reports', 'ReportsController@index', [[AuthMiddleware::class, 'check']]);

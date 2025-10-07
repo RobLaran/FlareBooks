@@ -3,9 +3,9 @@
 		<!-- Borrower Info -->
 		<div class="card borrowed-book-selection">
 			<h2>Select Borrowed Book</h2>
-			<form id="borrowedBookForm" method="POST" action="<?= routeTo('/borrowed-books/add') ?>" novalidate>
+			<form id="borrowedBookForm" method="POST" action="<?= routeTo('/returns/add') ?>" novalidate>
 				<div class="search-input input-container">
-					<input type="text" id="borrowedBooktSearchBox" placeholder="Search by Name, Code, Email, or Address">
+					<input type="text" id="borrowedBookListSearchBox" placeholder="Search by Name, Code, Email, or Address">
 				</div>
 				<div class="borrowed-book-list" id="borrowedBookList">
                     <?php if (count($transactions) > 0): ?>
@@ -101,6 +101,73 @@
 
 <script src="<?= getFile("public/js/table.js") ?>"></script>
 <script>
+    // Selection
+    const transactions = document.querySelectorAll('.transaction');
+    const hiddenTransactionId = document.getElementById('selectedTransaction');
+
+    transactions.forEach(transaction => {
+		transaction.addEventListener('click', () => {
+			transactions.forEach(b => b.classList.remove('selected'));
+			transaction.classList.add('selected');
+			hiddenTransactionId.value = transaction.dataset.id;
+		});
+	});
+
+    // Searchbox
+    document.getElementById("borrowedBookListSearchBox").addEventListener("keyup", function () {
+		let query = this.value;
+
+		fetch("<?= routeTo('/returns/search-transaction') ?>?q=" + encodeURIComponent(query))
+			.then(response => response.json())
+			.then(transactions => {
+				const borrowedBookList = document.getElementById("borrowedBookList");
+				borrowedBookList.innerHTML = "";
+
+				if (transactions.length === 0) {
+					borrowedBookList.innerHTML = "<h2>No transactions found</h2>";
+					return;
+				}
+
+				transactions.forEach(transaction => {
+					const div = document.createElement("div");
+					div.classList.add("transaction");
+					div.dataset.id = transaction.id;
+
+					const imgDiv = document.createElement("div");
+					const img = document.createElement("img");
+					img.src = transaction.image;
+					imgDiv.appendChild(img);
+
+					const bookInfo = document.createElement("div");
+
+					bookInfo.innerHTML = `
+                            <strong>${transaction.first_name + ' ' + transaction.last_name}</strong><br>
+							Book Title: ${transaction.title}<br>
+							Book Author: ${transaction.author}<br>
+							ISBN: ${transaction.ISBN}
+					`;
+
+					if(!!transaction.is_overdue) {
+						bookInfo.innerHTML += '<br><div class="overdue">Overdue</div>';
+					} 
+
+					div.append(
+						imgDiv,
+						bookInfo
+					);
+
+					div.addEventListener("click", () => {
+						document.querySelectorAll('.transaction').forEach(b => b.classList.remove("selected"));
+						div.classList.add("selected");
+						document.getElementById("selectedBorrowedBookId").value = div.dataset.id;
+					});
+
+					borrowedBookList.appendChild(div);
+				});
+			});
+	});
+
+    // Table
     const booksData = <?php echo json_encode([$data]); ?>;
 
     const booksTable = createDynamicTable({

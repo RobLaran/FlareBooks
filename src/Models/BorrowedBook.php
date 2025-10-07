@@ -68,6 +68,43 @@ class BorrowedBook extends Model {
         return $result;
     }
 
+    public function searchTransaction($query) {
+        $sql = "SELECT 
+                    b.image,
+                    b.title,
+                    b.author,
+                    b.ISBN,
+                    br.first_name,
+                    br.last_name,
+                    bb.borrow_date,
+                    bb.due_date,
+                    bb.borrowed_id,
+                    CASE 
+                        WHEN bb.due_date < CURDATE() THEN 1 
+                        ELSE 0 
+                    END AS is_overdue
+                FROM borrowed_books bb
+                    LEFT JOIN books b ON bb.book_id = b.ISBN
+                    LEFT JOIN borrowers br ON bb.borrower_code = br.borrower_code
+                WHERE b.title LIKE :query 
+                OR b.author LIKE :query 
+                OR b.ISBN LIKE :query 
+                OR br.first_name LIKE :query
+                OR br.last_name LIKE :query";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(":query", "%$query%", \PDO::PARAM_STR);
+        $stmt->execute();
+
+        $results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        return array_map(
+            function($transaction) {
+                $transaction['image'] = formatImage($transaction['image']);
+                return $transaction;
+            }, $results);
+    }
+
     public function getPaginatedTransactions($limit, $offset, $sortBy = 'first_name', $sortDir = 'ASC', $search = ''): array {
         return $this->paginate(
             'borrowed_books',

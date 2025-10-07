@@ -17,6 +17,14 @@ function isImageUrl(string $image): bool {
     return filter_var($image, FILTER_VALIDATE_URL) !== false;
 }
 
+function formatImage(string $image): string {
+    if (!isImageUrl($image)) {
+        return getFile('public/img/') . $image;
+    } 
+
+    return $image;
+}
+
 function routeTo($endPoint): string {
     $basePath = BASE_URL;
     return $basePath . $endPoint;
