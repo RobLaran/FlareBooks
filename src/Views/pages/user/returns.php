@@ -36,11 +36,11 @@
 				<?php endif; ?>
 				</div>
 
-				<input type="hidden" name="borrowed_book_id" id="selectedBorrowedBookId">
+				<input type="hidden" name="transaction_id" id="selectedTransaction">
 
 				<div class="buttons">
 					<button type="submit" class="button default" onclick="showAlert(event, 'question')">Return Book</button>
-					<a href="<?= routeTo('/borrowed-books') ?>" class="button default reset">Reset</a>
+					<a href="<?= routeTo('/returns') ?>" class="button default reset">Reset</a>
 				</div>
 			</form>
 		</div>
@@ -131,7 +131,7 @@
 				transactions.forEach(transaction => {
 					const div = document.createElement("div");
 					div.classList.add("transaction");
-					div.dataset.id = transaction.id;
+					div.dataset.id = transaction.borrowed_id;
 
 					const imgDiv = document.createElement("div");
 					const img = document.createElement("img");
@@ -159,7 +159,7 @@
 					div.addEventListener("click", () => {
 						document.querySelectorAll('.transaction').forEach(b => b.classList.remove("selected"));
 						div.classList.add("selected");
-						document.getElementById("selectedBorrowedBookId").value = div.dataset.id;
+						document.getElementById("selectedTransaction").value = div.dataset.id;
 					});
 
 					borrowedBookList.appendChild(div);

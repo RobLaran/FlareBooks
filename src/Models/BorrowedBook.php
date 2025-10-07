@@ -6,14 +6,15 @@ use App\Core\Model;
 
 class BorrowedBook extends Model {
 
-    public function getAllTransactions($sortBy="first_name", $sortDir="ASC") {
-            $sql = "SELECT 
+    public function getTransactionById($id) {
+        $sql = "SELECT 
                         b.image,
                         b.title,
                         b.author,
                         b.ISBN,
                         br.first_name,
                         br.last_name,
+                        br.borrower_code,
                         bb.borrow_date,
                         bb.due_date,
                         bb.borrowed_id,
@@ -22,25 +23,52 @@ class BorrowedBook extends Model {
                             ELSE 0 
                         END AS is_overdue
                     FROM borrowed_books bb
-                    LEFT JOIN books b ON bb.book_id = b.ISBN
-                    LEFT JOIN borrowers br ON bb.borrower_code = br.borrower_code";
+                        LEFT JOIN books b ON bb.book_id = b.ISBN
+                        LEFT JOIN borrowers br ON bb.borrower_code = br.borrower_code
+                    WHERE bb.borrowed_id = :id";
 
-            $allowedSort = [
-                "first_name" => "br.first_name",
-                "last_name"  => "br.last_name",
-            ];
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':id', $id, \PDO::PARAM_INT);
+        $stmt->execute();
 
-            $defaultSort = $sortBy;
+        return $stmt->fetch(\PDO::FETCH_ASSOC) ?: null;
+    }
 
-            $results = $this->fetchAll(
-                $sql,
-                $allowedSort,
-                $sortBy,
-                $sortDir,
-                $defaultSort
-            );
+    public function getAllTransactions($sortBy="first_name", $sortDir="ASC") {
+        $sql = "SELECT 
+                    b.image,
+                    b.title,
+                    b.author,
+                    b.ISBN,
+                    br.first_name,
+                    br.last_name,
+                    bb.borrow_date,
+                    bb.due_date,
+                    bb.borrowed_id,
+                    CASE 
+                        WHEN bb.due_date < CURDATE() THEN 1 
+                        ELSE 0 
+                    END AS is_overdue
+                FROM borrowed_books bb
+                LEFT JOIN books b ON bb.book_id = b.ISBN
+                LEFT JOIN borrowers br ON bb.borrower_code = br.borrower_code";
 
-            return $results;
+        $allowedSort = [
+            "first_name" => "br.first_name",
+            "last_name"  => "br.last_name",
+        ];
+
+        $defaultSort = $sortBy;
+
+        $results = $this->fetchAll(
+            $sql,
+            $allowedSort,
+            $sortBy,
+            $sortDir,
+            $defaultSort
+        );
+
+        return $results;
     }
 
     public function addTransaction($transaction) {
