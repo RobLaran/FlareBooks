@@ -121,7 +121,7 @@ class BorrowedBook extends Model {
                 OR br.last_name LIKE :query";
 
         $stmt = $this->db->prepare($sql);
-        $stmt->bindValue(":query", "%$query%", \PDO::PARAM_STR);
+        $stmt->bindValue(":query", "%{$query}%", \PDO::PARAM_STR);
         $stmt->execute();
 
         $results = $stmt->fetchAll(\PDO::FETCH_ASSOC);

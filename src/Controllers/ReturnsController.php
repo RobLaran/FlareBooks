@@ -50,23 +50,13 @@ class ReturnsController extends Controller {
     }
 
     public function index() {
+        $returnedBooks = $this->returnedBookModel->getReturnedBooks();
         $transactions = $this->transactionModel->getAllTransactions(); 
 
         $this->view("/user/returns", [ 
             "title" => $this->title,
             "transactions" => $transactions,
-            "data" => [
-                "Book Info" => [
-                    "Image" => "some image",
-                    "ISBN" => "asdasd",
-                    "Author" => "some author",
-                    "Title" => "some tiotle"
-                ],
-                "Borrower" => "some borrower",
-                "Borrow Date" => "some date",
-                "Due Date" => "some datge",
-                "Status" => "ssome status"
-            ]
+            "data" => $returnedBooks
         ]);
     }
 

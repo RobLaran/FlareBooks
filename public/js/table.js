@@ -1,5 +1,5 @@
 function createDynamicTable(config) {
-    const { data, containerId, headingId, paginationId, itemsPerPage = 5, actions = null, tableVar, columns = {} } = config;
+    const { data, containerId, headingId, paginationId, itemsPerPage = 5, actions = null, tableVar, columns = {}, sortable = [], hidden = [] } = config;
 
     let currentPage = 1;
     let filteredData = [...data];
@@ -36,6 +36,8 @@ function createDynamicTable(config) {
         tableHeading.innerHTML = "";
 
         headers.forEach(header => {
+            if(hidden.includes(header)) return;
+
             const heading = document.createElement('th');
             heading.style.cursor = "pointer";
 
@@ -54,7 +56,11 @@ function createDynamicTable(config) {
                 }
             }
 
-            updateHeaderText();
+            if(sortable.includes(header)) {
+                updateHeaderText()
+            } else {
+                heading.innerHTML = header;
+            }
 
             // 🔹 Add click listener for sorting
             heading.addEventListener("click", () => {
@@ -90,11 +96,11 @@ function createDynamicTable(config) {
             tableHeading.append(heading);
         }
 
-
         // 🔹 Rows
         pageItems.forEach((row, index) => {
             const tableRow = document.createElement('tr');
             headers.forEach(header => {
+                if(hidden.includes(header)) return;
                 const tableData = document.createElement('td');
 
                 if (columns[header]) {

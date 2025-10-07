@@ -13,7 +13,7 @@ class Model {
         $this->db = $connection->connect();
     }
 
-    public function fetchAll(
+    public function fetchAll (
         $sql = "", 
         $allowedSort = [], 
         $sortBy = "", 

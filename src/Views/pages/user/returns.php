@@ -10,30 +10,30 @@
 				<div class="borrowed-book-list" id="borrowedBookList">
                     <?php if (count($transactions) > 0): ?>
 
-					<?php foreach ($transactions as $transaction): ?>
+						<?php foreach ($transactions as $transaction): ?>
 
-						<div class="transaction" data-id="<?= $transaction['borrowed_id'] ?>">
-							<div>
-								<img src="<?= isImageUrl($transaction['image']) ? $transaction['image'] : getFile('public/img/' . $transaction['image']) ?>" alt="">
+							<div class="transaction" data-id="<?= $transaction['borrowed_id'] ?>">
+								<div>
+									<img src="<?= isImageUrl($transaction['image']) ? $transaction['image'] : getFile('public/img/' . $transaction['image']) ?>" alt="">
+								</div>
+								<div>
+									<strong><?= $transaction['first_name'] . ' ' . $transaction['last_name'] ?></strong><br>
+									Book Title: <?= $transaction['title'] ?><br>
+									Book Author: <?= $transaction['author'] ?><br>
+									ISBN: <?= $transaction['ISBN'] ?><br>
+									<?php if($transaction['is_overdue']): ?>
+										<div class="overdue">Overdue</div>
+									<?php endif; ?>
+								</div>
 							</div>
-							<div>
-								<strong><?= $transaction['first_name'] . ' ' . $transaction['last_name'] ?></strong><br>
-								Book Title: <?= $transaction['title'] ?><br>
-								Book Author: <?= $transaction['author'] ?><br>
-								ISBN: <?= $transaction['ISBN'] ?><br>
-                                <?php if($transaction['is_overdue']): ?>
-								    <div class="overdue">Overdue</div>
-                                <?php endif; ?>
-							</div>
-						</div>
 
-					<?php endforeach; ?>
+						<?php endforeach; ?>
 
-				<?php else: ?>
+					<?php else: ?>
 
 					<h2>No transactions</h2>
 
-				<?php endif; ?>
+					<?php endif; ?>
 				</div>
 
 				<input type="hidden" name="transaction_id" id="selectedTransaction">
@@ -171,7 +171,7 @@
     const booksData = <?php echo json_encode([$data]); ?>;
 
     const booksTable = createDynamicTable({
-        data: booksData,
+        data: booksData[0],
         containerId: "books-table",
 		headingId: "books-table-heading",
         paginationId: "books-pagination",
@@ -179,15 +179,23 @@
         tableVar: "booksTable",
 		columns: {
 			"Book Info": (row) => `
-				<div class="book-cell">
-					<span>${row.Title}</span>
+				<div class="book-info">
+					<strong>${row.Title}</strong><br>
+					by ${row.Author}<br>
+					ISBN: ${row.ISBN}
 				</div>
-			`
+			`,
+			"Status": (status) => 
+				`<span class="status online">${status}</span>`
 		},
+		sortable: ["Borrower", "Borrow Date", "Due Date", "Return Date"],
+		hidden: ["id"],
         actions: (row) => {
             return `
-                <button onclick="alert('Returning: ${row.Title}')">Return</button>
-                <button onclick="alert('Deleting: ${row.ISBN}')">Delete</button>
+                <form class="delete-transaction-form" action="<?= routeTo('/borrowed-books/delete/') ?>${row.id}" method="POST">
+					<input type="hidden" name="_method" value="DELETE">
+					<button type="button" class="button act-remove danger" onclick="showAlert(event)"><i class="fa-regular fa-trash" style:"font-weight: 700;"></i></button>
+				</form>
             `;
         }
     });
