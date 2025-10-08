@@ -60,7 +60,17 @@ class ReturnsController extends Controller {
         ]);
     }
 
-    public function search() {
+    public function searchReturnedBooks() {
+        $query = $_GET['q'] ?? '';
+
+        $transactions = $this->returnedBookModel->searchReturnedBooks($query);
+
+        header('Content-Type: application/json');
+        echo json_encode($transactions);
+        exit;
+    }
+
+    public function searchTransaction() {
         $query = $_GET['q'] ?? '';
 
         $transactions = $this->transactionModel->searchTransaction($query);

@@ -55,6 +55,45 @@ class ReturnedBook extends Model {
         return $formattedResults ?: null;
     }
 
+    public function searchReturnedBooks($query) {
+        $sql = "SELECT  
+                    rb.returned_book_id,
+                    rb.borrower_code,
+                    DATE_FORMAT(rb.return_date, '%M %d, %Y') AS return_date,
+                    DATE_FORMAT(rb.borrow_date, '%M %d, %Y') AS borrow_date,
+                    DATE_FORMAT(rb.due_date, '%M %d, %Y') AS due_date,
+                    rb.book_id,
+                    rb.borrower_code,
+                    rb.borrowed_id,
+                    b.image,
+                    b.title,
+                    b.author,
+                    br.first_name,
+                    br.last_name
+                FROM returned_books rb
+                    LEFT JOIN borrowed_books bb ON rb.borrowed_id = bb.borrowed_id
+                    LEFT JOIN books b ON rb.book_id = b.ISBN
+                    LEFT JOIN borrowers br ON rb.borrower_code = br.borrower_code
+                WHERE b.title LIKE :query
+                OR b.author LIKE :query
+                OR rb.book_ID LIKE :query
+                OR br.first_name LIKE :query
+                OR br.last_name LIKE :query
+                OR DATE_FORMAT(rb.return_date, '%M %d, %Y') LIKE :query
+                OR DATE_FORMAT(rb.borrow_date, '%M %d, %Y') LIKE :query
+                OR DATE_FORMAT(rb.due_date, '%M %d, %Y') LIKE :query
+                ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(":query", "%{$query}%", \PDO::PARAM_STR);
+        $stmt->execute();
+
+        $results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        $formattedResults = $this->format($results);
+
+        return $formattedResults ?: null;
+    }
+
     public function format($results): array|null {
         if($results == null) {
             return $results;

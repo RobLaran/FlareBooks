@@ -148,17 +148,21 @@ function createDynamicTable(config) {
         renderTable(1);
     }
 
-    function applyFilters(value) {
-        const search = value.toLowerCase();
-        filteredData = data.filter(row =>
-            Object.values(row).some(val => String(val).toLowerCase().includes(search))
-        );
+    function search(input, query) {
+        const route = input.dataset.route;
+
+        fetch(`${route}?q=` + encodeURIComponent(query))
+			.then(response => response.json())
+			.then(results => {
+                filteredData = results;
+            });
+            
         renderTable(1);
     }
 
     return {
         renderTable,
         changeEntries,
-        applyFilters
+        search
     };
 }
