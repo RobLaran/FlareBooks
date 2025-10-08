@@ -48,6 +48,16 @@ class ReturnsController extends Controller {
             RedirectHelper::withFlash('error', $error->getMessage(), '/returns');
         }
     }
+    
+    public function delete($id) {
+        $result = $this->returnedBookModel->deleteReturnedBook($id);
+
+        if(!$result) {
+            RedirectHelper::withFlash('error', 'Failed to delete returned book', '/returns');
+        }
+
+        RedirectHelper::withFlash('success', 'Returned book successfully deleted', '/returns');
+    }
 
     public function index() {
         $returnedBooks = $this->returnedBookModel->getReturnedBooks();

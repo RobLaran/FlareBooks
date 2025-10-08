@@ -26,6 +26,15 @@ class ReturnedBook extends Model {
         return $result;
     }
 
+    public function deleteReturnedBook($id) {
+        $sql = "DELETE FROM returned_books WHERE returned_book_id = :id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(":id", $id, \PDO::PARAM_INT);
+        $result = $stmt->execute();
+
+        return $result;
+    }
+
     public function getReturnedBooks(): array|null {
         $sql = "SELECT  
                         rb.returned_book_id,

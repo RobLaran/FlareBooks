@@ -50,6 +50,8 @@ Router::get('/returns', 'ReturnsController@index', [[AuthMiddleware::class, 'che
 Router::post('/returns/add', 'ReturnsController@add', [[AuthMiddleware::class, 'check']]);
 Router::get('/returns/search-returned-books', 'ReturnsController@searchReturnedBooks', [[AuthMiddleware::class, 'check']]);
 Router::get('/returns/search-transaction', 'ReturnsController@searchTransaction', [[AuthMiddleware::class, 'check']]);
+Router::delete('/returns/delete/{id}', 'ReturnsController@delete', [[AuthMiddleware::class, 'check']]);
+
 
 // Reports
 Router::get('/reports', 'ReportsController@index', [[AuthMiddleware::class, 'check']]);

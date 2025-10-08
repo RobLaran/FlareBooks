@@ -192,7 +192,7 @@
 		hidden: ["id"],
         actions: (row) => {
             return `
-                <form class="delete-transaction-form" action="<?= routeTo('/borrowed-books/delete/') ?>${row.id}" method="POST">
+                <form class="delete-returned-book-form" action="<?= routeTo('/returns/delete/') ?>${row.id}" method="POST">
 					<input type="hidden" name="_method" value="DELETE">
 					<button type="button" class="button act-remove danger" onclick="showAlert(event)"><i class="fa-regular fa-trash" style:"font-weight: 700;"></i></button>
 				</form>
