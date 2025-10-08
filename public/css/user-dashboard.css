@@ -1,0 +1,201 @@
+.user-dashboard-page {
+    .dashboard-container {
+        margin: 0 auto;
+    }
+
+    .dashboard-header {
+        margin-bottom: 40px;
+    }
+
+    .dashboard-header h1 {
+        font-size: 3rem;
+        background: linear-gradient(135deg, #FF6B35, #F7931E, #FF4E50);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 10px;
+    }
+
+    .dashboard-header p {
+        color: #666;
+        font-size: 1.1rem;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 25px;
+        margin-bottom: 40px;
+    }
+
+    .stat-card {
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-left: 5px solid;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .stat-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        opacity: 0.1;
+        transform: translate(30%, -30%);
+    }
+
+    .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .stat-card.books {
+        border-left-color: #FF6B35;
+    }
+
+    .stat-card.books::before {
+        background: #FF6B35;
+    }
+
+    .stat-card.borrowed {
+        border-left-color: #F7931E;
+    }
+
+    .stat-card.borrowed::before {
+        background: #F7931E;
+    }
+
+    .stat-card.borrowers {
+        border-left-color: #4ECDC4;
+    }
+
+    .stat-card.borrowers::before {
+        background: #4ECDC4;
+    }
+
+    .stat-card.overdue {
+        border-left-color: #FF4E50;
+    }
+
+    .stat-card.overdue::before {
+        background: #FF4E50;
+    }
+
+    .stat-icon {
+        font-size: 3rem;
+        margin-bottom: 15px;
+    }
+
+    .stat-value {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 5px;
+    }
+
+    .stat-label {
+        color: #666;
+        font-size: 1rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .content-grid {
+        display: grid;
+        gap: 25px;
+        margin-bottom: 40px;
+    }
+
+    .card {
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 3px solid #f0f0f0;
+    }
+
+    .card-icon {
+        font-size: 2rem;
+        padding: 15px;
+        border-radius: 15px;
+        background: linear-gradient(135deg, #FF6B35, #F7931E);
+        box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+    }
+
+    .card-title {
+        font-size: 1.5rem;
+        color: #333;
+        font-weight: bold;
+    }
+
+    .quick-action-btn {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 20px;
+        margin-bottom: 15px;
+        background: linear-gradient(135deg, #FF6B35, #F7931E);
+        color: white;
+        border: none;
+        border-radius: 15px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        text-decoration: none;
+        box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+    }
+
+    .quick-action-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(255, 107, 53, 0.4);
+    }
+
+    .quick-action-btn.secondary {
+        background: linear-gradient(135deg, #4ECDC4, #44A08D);
+        box-shadow: 0 5px 15px rgba(78, 205, 196, 0.3);
+    }
+
+    .quick-action-btn.secondary:hover {
+        box-shadow: 0 8px 20px rgba(78, 205, 196, 0.4);
+    }
+
+    .quick-action-icon {
+        font-size: 1.8rem;
+    }
+
+    .bottom-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 25px;
+    }
+
+    .badge {
+        display: inline-block;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: bold;
+    }
+
+    .badge.success {
+        background: #d4edda;
+        color: #155724;
+    }
+}
