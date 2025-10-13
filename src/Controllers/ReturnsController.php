@@ -20,6 +20,16 @@ class ReturnsController extends Controller {
         $this->transactionModel = new BorrowedBook();
         $this->returnedBookModel = new ReturnedBook();
     }
+    public function index() {
+        $returnedBooks = $this->returnedBookModel->getReturnedBooks();
+        $transactions = $this->transactionModel->getAllTransactions(); 
+    
+        $this->view("/user/returns", [ 
+            "title" => $this->title,
+            "transactions" => $transactions,
+            "data" => $returnedBooks
+        ]);
+    }
 
     public function add() {
         try {
@@ -59,24 +69,14 @@ class ReturnsController extends Controller {
         RedirectHelper::withFlash('success', 'Returned book successfully deleted', '/returns');
     }
 
-    public function index() {
-        $returnedBooks = $this->returnedBookModel->getReturnedBooks();
-        $transactions = $this->transactionModel->getAllTransactions(); 
-
-        $this->view("/user/returns", [ 
-            "title" => $this->title,
-            "transactions" => $transactions,
-            "data" => $returnedBooks
-        ]);
-    }
 
     public function searchReturnedBooks() {
         $query = $_GET['q'] ?? '';
 
-        $transactions = $this->returnedBookModel->searchReturnedBooks($query);
+        $returnedBooks = $this->returnedBookModel->searchReturnedBooks($query);
 
         header('Content-Type: application/json');
-        echo json_encode($transactions);
+        echo json_encode($returnedBooks);
         exit;
     }
 

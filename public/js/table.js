@@ -58,34 +58,34 @@ function createDynamicTable(config) {
 
             if(sortable.includes(header)) {
                 updateHeaderText()
+
+                // 🔹 Add click listener for sorting
+                heading.addEventListener("click", () => {
+                    // toggle ASC -> DESC -> UNSORTED
+                    if (sortDirection[header] === null) {
+                        sortDirection[header] = true; // ASC
+                    } else if (sortDirection[header] === true) {
+                        sortDirection[header] = false; // DESC
+                    } else {
+                        sortDirection[header] = null; // reset to UNSORTED
+                    }
+
+                    if (sortDirection[header] !== null) {
+                        filteredData.sort((a, b) => {
+                            if (a[header] < b[header]) return sortDirection[header] ? -1 : 1;
+                            if (a[header] > b[header]) return sortDirection[header] ? 1 : -1;
+                            return 0;
+                        });
+                    } else {
+                        filteredData = [...data]; // reset to original order
+                    }
+
+                    renderTable(1);
+                });
             } else {
                 heading.innerHTML = header;
             }
-
-            // 🔹 Add click listener for sorting
-            heading.addEventListener("click", () => {
-                // toggle ASC -> DESC -> UNSORTED
-                if (sortDirection[header] === null) {
-                    sortDirection[header] = true; // ASC
-                } else if (sortDirection[header] === true) {
-                    sortDirection[header] = false; // DESC
-                } else {
-                    sortDirection[header] = null; // reset to UNSORTED
-                }
-
-                if (sortDirection[header] !== null) {
-                    filteredData.sort((a, b) => {
-                        if (a[header] < b[header]) return sortDirection[header] ? -1 : 1;
-                        if (a[header] > b[header]) return sortDirection[header] ? 1 : -1;
-                        return 0;
-                    });
-                } else {
-                    filteredData = [...data]; // reset to original order
-                }
-
-                renderTable(1);
-            });
-
+            
             tableHeading.append(heading);
         });
 
@@ -149,7 +149,8 @@ function createDynamicTable(config) {
     }
 
     function search(input, query) {
-        const route = input.dataset.route;
+       try {
+         const route = input.dataset.route;
 
         fetch(`${route}?q=` + encodeURIComponent(query))
 			.then(response => response.json())
@@ -158,6 +159,9 @@ function createDynamicTable(config) {
             });
             
         renderTable(1);
+       } catch(error) {
+            console.log("error");
+       }
     }
 
     return {

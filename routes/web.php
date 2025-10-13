@@ -24,6 +24,7 @@ Router::get('/dashboard', 'DashboardController@index', [[AuthMiddleware::class, 
 // Book Routes
 Router::get('/books', 'BooksController@index', [[AuthMiddleware::class, 'check']]);
 Router::get('/books/add', 'BooksController@create', [[AuthMiddleware::class, 'check']]);
+Router::get('/books/search-books', 'BooksController@search', [[AuthMiddleware::class, 'check']]);
 Router::post('/books/add', 'BooksController@add', [[AuthMiddleware::class, 'check']]);
 Router::get('/books/edit/{id}', 'BooksController@edit', [[AuthMiddleware::class, 'check']]);
 Router::put('/books/update/{id}', 'BooksController@update', [[AuthMiddleware::class, 'check']]);

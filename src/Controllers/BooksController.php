@@ -23,7 +23,7 @@ class BooksController extends Controller {
         $this->genreModel = new Genre();
         $this->bookService = new BookService($this->bookModel);
     }
-    public function index() {
+    public function index2() {
         $params = $this->getRequestParams(
             [
                 "sortBy" => "author"
@@ -77,6 +77,15 @@ class BooksController extends Controller {
         ]));
     }
 
+    public function index() {
+        $books = $this->bookModel->getAllBooks();
+
+        $this->view("/user/books/index", [
+            "title" => $this->title,
+            "books" => $books
+        ]);
+    }
+
     public function create() {
         $genres = $this->genreModel->getAllGenres();
         $old = SessionHelper::getFlash('previousBorrowerInput');
@@ -86,6 +95,16 @@ class BooksController extends Controller {
             "genres" => $genres,
             "old" => $old 
         ]);
+    }
+
+    public function search() {
+        $query = $_GET['q'] ?? '';
+
+        $books = $this->bookModel->searchBooks($query);
+
+        header('Content-Type: application/json');
+        echo json_encode($books);
+        exit;
     }
 
     public function add() {

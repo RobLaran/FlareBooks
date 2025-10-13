@@ -116,26 +116,42 @@ class Book extends Model {
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
+        $results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $this->format($results);
     }
 
     public function searchBooks($query) {
-        $sql = "SELECT * FROM books 
-               WHERE title LIKE :query 
-               OR author LIKE :query 
-               OR ISBN LIKE :query";
+        $sql = "SELECT 
+                    b.ISBN AS ISBN,
+                    b.author AS author,
+                    b.title AS title,
+                    b.quantity AS quantity,
+                    b.status AS status,
+                    g.genre AS genre,
+                    b.image AS image
+                FROM books b
+                    LEFT JOIN genres g ON b.genre_id = g.id
+                WHERE b.title LIKE :query 
+                    OR b.author LIKE :query 
+                    OR b.ISBN LIKE :query
+                    OR g.genre LIKE :query
+                    OR b.quantity LIKE :query
+                    OR b.status LIKE :query";
 
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(":query", "%$query%", \PDO::PARAM_STR);
         $stmt->execute();
 
         $results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-        return array_map(
-            function($book) {
-                $book['image'] = formatImage($book['image']);
-                return $book;
-            }, $results);
+
+        return $this->format($results);
+
+        // return array_map(
+        //     function($book) {
+        //         $book['image'] = formatImage($book['image']);
+        //         return $book;
+        //     }, $results);
     }
 
     public function getPaginatedBooks($limit, $offset, $sortBy = 'author', $sortDir = 'ASC', $search = ''): array {
@@ -157,6 +173,24 @@ class Book extends Model {
         $search,
         ['ISBN','author','publisher','title','status'] // searchable columns
         );
+    }
+
+    public function format($results): array|null {
+        if($results == null) {
+            return $results;
+        }
+
+        return array_map(function ($row) {
+            return [
+                "ISBN" => $row['ISBN'],
+                "Image" => formatImage($row['image']),
+                "Author" => $row['author'],
+                "Title" => $row['title'],
+                "Genre" => $row['genre'],
+                "Quantity" => $row['quantity'] ?? 0,
+                "Status" => $row['status']
+            ];
+        }, $results);
     }
 
 }
