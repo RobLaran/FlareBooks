@@ -13,8 +13,9 @@
     // Searchbox
     document.getElementById("borrowedBookListSearchBox").addEventListener("keyup", function () {
 		let query = this.value;
+		const route = this.dataset.route;
 
-		fetch("<?= routeTo('/returns/search-transaction') ?>?q=" + encodeURIComponent(query))
+		fetch(`${route}?q=` + encodeURIComponent(query))
 			.then(response => response.json())
 			.then(transactions => {
 				const borrowedBookList = document.getElementById("borrowedBookList");
@@ -28,24 +29,24 @@
 				transactions.forEach(transaction => {
 					const div = document.createElement("div");
 					div.classList.add("transaction");
-					div.dataset.id = transaction.borrowed_id;
+					div.dataset.id = transaction['id'];
 
 					const imgDiv = document.createElement("div");
 					const img = document.createElement("img");
-					img.src = transaction.image;
+					img.src = transaction['Book Info']['Image'];
 					imgDiv.appendChild(img);
 
 					const bookInfo = document.createElement("div");
 
 					bookInfo.innerHTML = `
-                            <strong>${transaction.first_name + ' ' + transaction.last_name}</strong><br>
-							Book Title: ${transaction.title}<br>
-							Book Author: ${transaction.author}<br>
-							ISBN: ${transaction.ISBN}
+                            <strong>${transaction['Borrower']}</strong><br>
+							Book Title: ${transaction["Book Info"]["Title"]}<br>
+							Book Author: ${transaction["Book Info"]["Author"]}<br>
+							ISBN: ${transaction["Book Info"]["ISBN"]}
 					`;
 
-					if(!!transaction.is_overdue) {
-						bookInfo.innerHTML += '<br><div class="overdue">Overdue</div>';
+					if(transaction["Status"] == "Overdue") {
+						bookInfo.innerHTML += `<br><div class="overdue">${transaction['Status']}</div>`;
 					} 
 
 					div.append(

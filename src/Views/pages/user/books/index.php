@@ -68,7 +68,7 @@
         tableVar: "booksTable",
 		columns: {
             "Image": (image) => 
-                `<img src="${image}">`                
+                `<img class="book-image" src="${image}">`                
             ,
 			"Status": (status) => 
 				`<span class="status ${status == "Available" ? "online" : "offline"}">${status}</span>`
@@ -78,10 +78,14 @@
         actions: (row) => {
             return `
                 <div class="action-buttons">
-                    <a href="<?= routeTo("/books/edit/") ?>${row['ISBN']}" class="button act-edit safe"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <a href="<?= routeTo("/books/edit/") ?>${row['ISBN']}" class="button act-edit safe">
+                        <img src="<?= getFile("public/img/edit.png") ?>">
+                    </a>
                     <form class="delete-book-form" action="<?= routeTo('/books/delete/') ?>${row["ISBN"]}" method="POST">
                         <input type="hidden" name="_method" value="DELETE">
-                        <button type="button" class="button act-remove danger" onclick="showAlert(event)"><i class="fa-regular fa-trash"></i></button>
+                        <button type="button" class="button act-remove danger" onclick="showAlert(event)">
+                            <img src="<?= getFile("public/img/delete.png") ?>">
+                        </button>
                     </form>
                 </div>
             `;

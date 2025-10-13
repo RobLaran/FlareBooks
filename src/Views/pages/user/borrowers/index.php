@@ -81,10 +81,14 @@
         actions: (row) => {
             return `
                 <div class="action-buttons">
-                    <a href="<?= routeTo("/borrowers/edit/") ?>${row.ID}" class="button act-edit safe"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <a href="<?= routeTo("/borrowers/edit/") ?>${row.ID}" class="button act-edit safe">
+                        <img src="<?= getFile("public/img/edit.png") ?>">
+                    </a>
                     <form class="delete-borrower-form" action="<?= routeTo('/borrowers/delete/') ?>${row.ID}" method="POST">
                         <input type="hidden" name="_method" value="DELETE">
-                        <button type="button" class="button act-remove danger" onclick="showAlert(event)"><i class="fa-regular fa-trash"></i></button>
+                        <button type="button" class="button act-remove danger" onclick="showAlert(event)">
+                            <img src="<?= getFile("public/img/delete.png") ?>">
+                        </button>
                     </form>
                 </div>
             `;

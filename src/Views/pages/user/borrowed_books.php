@@ -156,8 +156,8 @@
         columns: {
             "Book Info": (row) => `
 				<div class="book-info"> 
-					<div class="book-image">
-						<img src="${row.Image}">
+					<div class="book-image-wrapper">
+						<img class="book-image" src="${row.Image}">
 					</div>
 					<div class="book-details">
 						<strong>${row.Title}</strong><br>
@@ -174,7 +174,9 @@
             return `
                 <form class="delete-borrowed-book-form" action="<?= routeTo('/borrowed-books/delete/') ?>${row.id}" method="POST">
 					<input type="hidden" name="_method" value="DELETE">
-					<button type="button" class="button act-remove danger" onclick="showAlert(event)"><i class="fa-regular fa-trash" style:"font-weight: 700;"></i></button>
+					<button type="button" class="button act-remove danger" onclick="showAlert(event)">
+						<img src="<?= getFile("public/img/delete.png") ?>">
+					</button>
 				</form>
             `;
         }

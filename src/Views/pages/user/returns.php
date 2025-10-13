@@ -5,24 +5,24 @@
 			<h2>Select Borrowed Book</h2>
 			<form id="borrowedBookForm" method="POST" action="<?= routeTo('/returns/add') ?>" novalidate>
 				<div class="search-input input-container">
-					<input type="text" id="borrowedBookListSearchBox" placeholder="Search by Name, Code, Email, or Address">
+					<input type="text" id="borrowedBookListSearchBox" placeholder="Search by Name, Code, Email, or Address" data-route="<?= routeTo("/returns/search-transaction") ?>">
 				</div>
 				<div class="borrowed-book-list" id="borrowedBookList">
                     <?php if (count($transactions) > 0): ?>
 
 						<?php foreach ($transactions as $transaction): ?>
 
-							<div class="transaction" data-id="<?= $transaction['borrowed_id'] ?>">
+							<div class="transaction" data-id="<?= $transaction['id'] ?>">
 								<div>
-									<img src="<?= isImageUrl($transaction['image']) ? $transaction['image'] : getFile('public/img/' . $transaction['image']) ?>" alt="">
+									<img src="<?= isImageUrl($transaction['Book Info']['Image'] ?? "") ? $transaction['Book Info']['Image'] : getFile('public/img/' . $transaction['Book Info']['Image']) ?>" alt="">
 								</div>
 								<div>
-									<strong><?= $transaction['first_name'] . ' ' . $transaction['last_name'] ?></strong><br>
-									Book Title: <?= $transaction['title'] ?><br>
-									Book Author: <?= $transaction['author'] ?><br>
-									ISBN: <?= $transaction['ISBN'] ?><br>
-									<?php if($transaction['is_overdue']): ?>
-										<div class="overdue">Overdue</div>
+									<strong><?= $transaction['Borrower'] ?></strong><br>
+									Book Title: <?= $transaction['Book Info']['Title'] ?><br>
+									Book Author: <?= $transaction['Book Info']['Author'] ?><br>
+									ISBN: <?= $transaction['Book Info']['ISBN'] ?><br>
+									<?php if($transaction['Status'] == "Overdue"): ?>
+										<div class="overdue"><?= $transaction['Status'] ?></div>
 									<?php endif; ?>
 								</div>
 							</div>
@@ -115,8 +115,8 @@
 		columns: {
 			"Book Info": (row) => `
 				<div class="book-info"> 
-					<div class="book-image">
-						<img src="${row.Image}">
+					<div class="book-image-wrapper">
+						<img class="book-image" src="${row.Image}">
 					</div>
 					<div class="book-details">
 						<strong>${row.Title}</strong><br>
@@ -134,7 +134,9 @@
             return `
                 <form class="delete-returned-book-form" action="<?= routeTo('/returns/delete/') ?>${row.id}" method="POST">
 					<input type="hidden" name="_method" value="DELETE">
-					<button type="button" class="button act-remove danger" onclick="showAlert(event)"><i class="fa-regular fa-trash" style:"font-weight: 700;"></i></button>
+					<button type="button" class="button act-remove danger" onclick="showAlert(event)">
+						<img src="<?= getFile("public/img/delete.png") ?>">
+					</button>
 				</form>
             `;
         }

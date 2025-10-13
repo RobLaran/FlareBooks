@@ -3,7 +3,7 @@
 <header class="header">
   <div class="header-left">
     <button id="menu-toggle" class="menu-btn">
-      <i class="fa fa-bars"></i>
+      <img class="menu-icon" src="<?= getFile("public/img/menu.png") ?>" alt="">
     </button>
   </div>
 
@@ -15,5 +15,7 @@
     </div>
   </div>
 </header>
+
+
 
 

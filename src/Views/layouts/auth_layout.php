@@ -1,30 +1,31 @@
+<?php 
+use Helpers\SessionHelper
+?>
+
 <?php require 'src/Views/partials/head.php'; ?>
 
     <div class="auth-body">
-        <?php if (isset($_SESSION['error'])): ?>
+        <?php if (SessionHelper::hasKey(key: 'error')): ?>
             <div class="alert error">
                 <span class="close-btn" onclick="this.parentElement.style.display='none';">&times;</span>
-                <?= $_SESSION['error'] ?>
+                <?= SessionHelper::getFlash('error') ?>
             </div>
-            <?php unset($_SESSION['error']); ?>
         <?php endif; ?>
 
-        <?php if (isset($_SESSION['errors'])): ?>
-            <?php foreach($_SESSION['errors'] as $error => $errorMessage): ?>
+        <?php if (SessionHelper::hasKey('errors')): ?>
+            <?php foreach(SessionHelper::getFlash('errors') as $error => $errorMessage): ?>
                 <div class="alert error">
                     <span class="close-btn" onclick="this.parentElement.style.display='none';">&times;</span>
                     <?= $errorMessage ?>
                 </div>
             <?php endforeach; ?>
-            <?php unset($_SESSION['errors']); ?>
         <?php endif; ?>
 
-        <?php if (isset($_SESSION['success'])): ?>
+        <?php if (SessionHelper::hasKey(key: 'success')): ?>
             <div class="alert success">
                 <span class="close-btn" onclick="this.parentElement.style.display='none';">&times;</span>
-                <?= $_SESSION['success'] ?>
+                <?= SessionHelper::getFlash('success') ?>
             </div>
-            <?php unset($_SESSION['success']); ?>
         <?php endif; ?>
 
         <div class="auth-form-container">

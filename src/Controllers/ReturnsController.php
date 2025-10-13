@@ -23,7 +23,7 @@ class ReturnsController extends Controller {
     public function index() {
         $returnedBooks = $this->returnedBookModel->getReturnedBooks();
         $transactions = $this->transactionModel->getAllTransactions(); 
-    
+
         $this->view("/user/returns", [ 
             "title" => $this->title,
             "transactions" => $transactions,

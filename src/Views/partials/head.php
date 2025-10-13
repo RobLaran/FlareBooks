@@ -1,3 +1,7 @@
+<?php 
+use Helpers\SessionHelper
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,4 +26,32 @@
     <script src="<?= getFile("public/js/reload.js") ?>" defer></script>
     <title><?= BRAND ?></title>
 </head> 
-<body>  
+<body>
+    <?php if (SessionHelper::hasKey(key: 'error') || SessionHelper::hasKey(key: 'errors') || SessionHelper::hasKey(key: 'success')): ?>
+        <div class="alert-container">
+            <?php if (SessionHelper::hasKey(key: 'error')): ?>
+                <div class="alert error">
+                <span class="alert-message"><?= SessionHelper::getFlash('error') ?></span>
+                <span class="close-btn" onclick="this.parentElement.style.display='none';">&times;</span>
+                </div>
+            <?php endif; ?>
+
+            <?php if (SessionHelper::hasKey('errors')): ?>
+                    <?php foreach(SessionHelper::getFlash('errors') as $error => $errorMessage): ?>
+                        <div class="alert error">
+                            <span class="alert-message"><?= $errorMessage ?></span>
+                            <span class="close-btn" onclick="this.parentElement.style.display='none';">&times;</span>
+                        </div>
+                    <?php endforeach; ?>
+            <?php endif; ?>
+
+            <?php if (SessionHelper::hasKey(key: 'success')): ?>
+                <div class="alert success">
+                    <span class="alert-message"><?= SessionHelper::getFlash('success') ?></span>
+                    <span class="close-btn" onclick="this.parentElement.style.display='none';">&times;</span>
+                </div>
+            <?php endif; ?>
+        </div>
+    <?php endif; ?>
+
+ 
