@@ -24,14 +24,16 @@ class UserService {
         if(Validator::hasErrors()) throw new ValidationException(Validator::getErrors());
     }
 
-    public function validatePassword($password) {
-        Validator::validate($password, 'Password', [ 'required' ]);
+    public function validatePassword($password, $fieldName="New Password") {
+        Validator::validate($password, $fieldName, [ 'required' ]);
 
         if(Validator::hasErrors()) throw new ValidationException(Validator::getErrors());
     }
 
     public function matchPassword($newPassword, $confirmPassword) {
+        Validator::validate($newPassword, 'Password', [ 'required', 'match' ], $confirmPassword);
         
+        if(Validator::hasErrors()) throw new ValidationException(Validator::getErrors());
     }
 
     public function refreshUser($id): void {

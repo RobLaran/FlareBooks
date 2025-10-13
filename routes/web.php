@@ -7,6 +7,7 @@ Router::get('/profile/{id}', 'UserController@profile');
 Router::get('/auth/login', 'AuthController@loginUser');
 Router::post('/auth/login', 'AuthController@loginUser');
 Router::put('/profile/{id}', 'UserController@update');
+Router::put('/profile/change-password/{id}', 'UserController@changePassword');
 
 // Admin Routes
 Router::get('/auth/login/admin', 'AuthController@loginAdmin');

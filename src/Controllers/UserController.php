@@ -63,4 +63,29 @@ class UserController extends Controller {
             RedirectHelper::withFlash('error', $error->getMessage(), '/profile/' . $id);
         }
     }
+
+    public function changePassword($id) {
+        try {
+            $updatedPassword = [
+                "newPassword" => Sanitizer::clean($_POST['newPassword']),
+                "confirmPassword" => Sanitizer::clean($_POST['confirmPassword']),
+            ];
+
+            $this->userService->validatePassword($updatedPassword['newPassword'], "New Password");
+            $this->userService->validatePassword($updatedPassword['confirmPassword'], "Confirm New Password");
+            $this->userService->matchPassword($updatedPassword['newPassword'], $updatedPassword['confirmPassword']);
+            $result = $this->userModel->updatePassword($id, $updatedPassword['newPassword']);
+
+            if(!$result) {
+                RedirectHelper::withFlash('error', 'Failed to update password', '/profile/' . $id);
+            }
+            
+            $this->userService->refreshUser($id);
+            RedirectHelper::withFlash('success', 'Password successfully updated', '/profile/' . $id);
+        } catch(ValidationException $errors) {
+            RedirectHelper::withFlash('errors', $errors->getErrors(), '/profile/' . $id);
+        } catch(Exception $error) {
+            RedirectHelper::withFlash('error', $error->getMessage(), '/profile/' . $id);
+        }
+    }
 }

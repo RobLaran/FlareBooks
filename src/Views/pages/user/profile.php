@@ -49,19 +49,20 @@
 
         <div class="password-change-section">
             <h3>Change Your Password</h3>
-            <div class="password-form-grid">
+            <form action="<?= routeTo("/profile/change-password/" . $info['id']) ?>" method="POST" class="password-form-grid">
                 <div class="info-row input-container">
                     <label for="newPass">New Password:</label>
-                    <input type="password" id="newPass" placeholder="Enter new password">
+                    <input type="password" id="newPass" name="newPassword" placeholder="Enter new password">
                 </div>
                 <div class="info-row input-container">
                     <label for="confirmPass">Confirm New Password:</label>
-                    <input type="password" id="confirmPass" placeholder="Confirm new password">
+                    <input type="password" id="confirmPass" name="confirmPassword" placeholder="Confirm new password">
                 </div>
                 <div class="password-action-buttons">
-                    <button class="button default">Update Password</button>
+                    <input type="hidden" name="_method" value="PUT">
+                    <button class="button default" onclick="showAlert(event, 'question')">Update Password</button>
                 </div>
-            </div>
+            </form>
         </div>
 
     </div>
