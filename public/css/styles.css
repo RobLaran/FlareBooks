@@ -344,6 +344,7 @@ body.swal2-shown {
     margin-bottom: 8px;
     font-weight: 500;
     font-size: 0.95em;
+    font-family: Arial, sans-serif;
     width: 760px;
 
     &.error,
