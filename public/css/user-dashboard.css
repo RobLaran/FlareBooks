@@ -112,6 +112,8 @@
         display: grid;
         gap: 25px;
         margin-bottom: 40px;
+        margin-left: 320px;
+        margin-right: 320px;
     }
 
     .card {
@@ -145,6 +147,8 @@
     }
 
     .quick-action-btn {
+        justify-self: center;
+        width: 220px;
         display: flex;
         align-items: center;
         gap: 15px;

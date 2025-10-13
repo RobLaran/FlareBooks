@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Core\Model;
+use PDO;
 
 class Borrower extends Model {
     public function addBorrower($borrower) {
@@ -136,8 +137,24 @@ class Borrower extends Model {
         return $this->getTotal(
         'borrowers',
         $search,
-        ['borrower_code', 'first_name', 'last_name', 'email', 'phone', 'address', 'date_of_birth', 'membership_date'] // searchable columns
+        ['borrower_code', 'first_name', 'last_name', 'email', 'phone', 'address', 'date_of_birth', 'membership_date', 'status'] // searchable columns
         );
+    }
+
+    public function getTotalBorrowersByParam($conditions="", $params=[]) {
+        $sql = "SELECT
+                    COUNT(*) AS total
+                FROM borrowers
+                    WHERE $conditions
+                ";
+
+        $stmt = $this->db->prepare($sql);
+        foreach ($params as $key => $value) {
+            $stmt->bindValue($key, $value, PDO::PARAM_STR);
+        }
+        $stmt->execute();
+
+        return (int) $stmt->fetch(PDO::FETCH_ASSOC)['total'];
     }
 
     public function generateBorrowerCode() {

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Core\Model;
+use PDO;
 
 class BorrowedBook extends Model {
 
@@ -179,5 +180,22 @@ class BorrowedBook extends Model {
                 LEFT JOIN borrowers br 
                     ON bb.borrower_code = br.borrower_code"
         );
+    }
+
+
+    public function getTotalTransactionsByParam($conditions="", $params=[]) {
+        $sql = "SELECT
+                    COUNT(*) AS total
+                FROM borrowed_books
+                    WHERE $conditions
+                ";
+
+        $stmt = $this->db->prepare($sql);
+        foreach ($params as $key => $value) {
+            $stmt->bindValue($key, $value, PDO::PARAM_STR);
+        }
+        $stmt->execute();
+
+        return (int) $stmt->fetch(PDO::FETCH_ASSOC)['total'];
     }
 }

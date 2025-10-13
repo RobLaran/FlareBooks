@@ -8,25 +8,25 @@
         <div class="stats-grid">
             <div class="stat-card books">
                 <div class="stat-icon">📚</div>
-                <div class="stat-value">1,247</div>
+                <div class="stat-value"><?= $bookCount ?></div>
                 <div class="stat-label">Total Books</div>
             </div>
 
             <div class="stat-card borrowed">
                 <div class="stat-icon">📖</div>
-                <div class="stat-value">342</div>
+                <div class="stat-value"><?= $borrowedBookCount ?></div>
                 <div class="stat-label">Books Borrowed</div>
             </div>
 
             <div class="stat-card borrowers">
                 <div class="stat-icon">👥</div>
-                <div class="stat-value">156</div>
+                <div class="stat-value"><?= $borrowerCount ?></div>
                 <div class="stat-label">Active Members</div>
             </div>
 
             <div class="stat-card overdue">
                 <div class="stat-icon">⚠️</div>
-                <div class="stat-value">23</div>
+                <div class="stat-value"><?= $overdueBookCount ?></div>
                 <div class="stat-label">Overdue Books</div>
             </div>
         </div>
@@ -41,26 +41,26 @@
                     <h2 class="card-title">Quick Actions</h2>
                 </div>
 
-                <button class="quick-action-btn">
-                    <span class="quick-action-icon">➕</span>
+                <a href="<?= routeTo("/borrowed-books") ?>" class="quick-action-btn">
+                    <span  class="quick-action-icon">➕</span>
                     <span>Borrow Book</span>
-                </button>
+                </a>
 
-                <button class="quick-action-btn secondary">
+                <a href="<?= routeTo("/returns") ?>" class="quick-action-btn secondary">
                     <span class="quick-action-icon">↩️</span>
                     <span>Return Book</span>
-                </button>
+                </a>
 
-                <button class="quick-action-btn" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                <a href="<?= routeTo("/borrowers/add") ?>" class="quick-action-btn" style="background: linear-gradient(135deg, #667eea, #764ba2);">
                     <span class="quick-action-icon">👤</span>
                     <span>Add Member</span>
-                </button>
+                </a>
 
-                <button class="quick-action-btn secondary"
+                <a href="<?= routeTo("/books/add") ?>" class="quick-action-btn secondary"
                     style="background: linear-gradient(135deg, #f093fb, #f5576c);">
                     <span class="quick-action-icon">📚</span>
                     <span>Add New Book</span>
-                </button>
+                </a>
 
                 <div
                     style="margin-top: 30px; padding: 20px; background: linear-gradient(135deg, #ffecd2, #fcb69f); border-radius: 15px; text-align: center;">
