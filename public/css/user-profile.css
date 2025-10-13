@@ -33,6 +33,13 @@
                 border-color: var(--color-10);
                 outline-color: var(--color-10);
             }
+
+            &.image-field {
+                div {
+                    display: grid;
+                    margin-bottom: 1rem;
+                }
+            }
 	}
 
     /* Profile Card Styling */
@@ -59,8 +66,7 @@
     .profile-avatar {
         width: 120px;
         height: 120px;
-        border-radius: 50%;
-        background-color: #ff5e00;
+        
         color: #fff;
         display: flex;
         justify-content: center;
@@ -68,6 +74,16 @@
         font-size: 50px;
         font-weight: bold;
         margin-bottom: 15px;
+
+        img {
+            width: inherit;
+            height: inherit;
+        }
+
+        span {
+            border-radius: 50%;
+            background-color: #ff5e00;
+        }
     }
 
     /* Profile Information Form/Grid */
@@ -129,7 +145,7 @@
     .password-form-grid {
         display: grid;
         grid-template-columns: repeat(
-            3,
+            2,
             1fr
         ); /* Three columns for the password fields */
         gap: 20px;
@@ -143,5 +159,10 @@
         gap: 15px;
         padding-top: 15px;
         justify-content: flex-start; /* Aligns buttons to the left */
+        align-items: center;
+
+        .save-button {
+            height: max-content;
+        }
     }
 }
