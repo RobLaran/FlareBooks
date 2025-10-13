@@ -62,9 +62,11 @@ class AuthController extends Controller {
                 // Store session
                 $_SESSION['user'] = [
                     'id'       => $user['user_id'],
-                    'name' => $user['username'],
+                    'name' => $user['name'],
+                    'username' => $user['username'],
                     'email'    => $user['email'],
-                    'role'     => $user['role']
+                    'role'     => $user['role'] == 'user' ? "Librarian" : "System Admin", 
+                    'image'     => $user['image']
                 ];
 
                 RedirectHelper::withFlash('success', 'Login success', '/dashboard');

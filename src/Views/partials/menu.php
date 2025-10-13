@@ -7,7 +7,7 @@
         <ul>
             
 
-            <?php if(isset($_SESSION['user']['role']) && $_SESSION['user']['role'] === 'admin'): ?>
+            <?php if(isset($_SESSION['user']['role']) && $_SESSION['user']['role'] === 'System Admin'): ?>
             <!-- 
                 ADMIN NAVS
                     - dashboard
@@ -35,7 +35,7 @@
                 <li class="<?= isURL('/admin/profile') ? 'active' : '' ?>">
                     <a href="<?= routeTo('/admin/profile') ?>">Profile</a>
                 </li>
-            <?php elseif(isset($_SESSION['user']['role']) && $_SESSION['user']['role'] === 'user'): ?>
+            <?php elseif(isset($_SESSION['user']['role']) && $_SESSION['user']['role'] === 'Librarian'): ?>
             <!-- 
                 USER NAVS
                     - dashboard

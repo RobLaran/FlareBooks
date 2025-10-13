@@ -24,4 +24,12 @@ class User extends Model {
 
         return $stmt->fetch(\PDO::FETCH_ASSOC) ?: null;
     }
+
+    public function updateUserInfo() {
+        
+    }
+
+    public function changePassword() {
+
+    }
 }

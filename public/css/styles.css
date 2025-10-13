@@ -122,6 +122,11 @@ body.swal2-shown {
     display: flex;
     align-items: center;
 
+    img {
+      width: 30px;
+      margin-right: 10px;
+    }
+
     #logout {
       color: var(--color-6);
       border-left: 2px solid var(--color-5);
