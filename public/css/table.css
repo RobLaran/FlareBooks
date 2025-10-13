@@ -69,6 +69,7 @@
                 img {
                     width: 60px;
                     height: 80px;
+                    margin-right: 10px;
                 }
 
                 .action-buttons {
@@ -80,7 +81,13 @@
                         font-weight: 700;
                     }
                 }
+
+                .book-info {
+                    display: flex;
+                    font-size: 11px;
+                }
             }
+            
 
             /* This is the magic for the zebra-striping */
             tbody tr:nth-of-type(odd) {

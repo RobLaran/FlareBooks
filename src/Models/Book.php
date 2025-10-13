@@ -164,7 +164,7 @@ class Book extends Model {
         return array_map(function ($row) {
             return [
                 "ISBN" => $row['ISBN'],
-                "Image" => formatImage($row['image']),
+                "Image" => formatImage($row['image'] ?? ""),
                 "Author" => $row['author'],
                 "Title" => $row['title'],
                 "Genre" => $row['genre'],

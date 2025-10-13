@@ -29,23 +29,23 @@ class BorrowedBook extends Model {
                     WHERE bb.borrowed_id = :id";
 
         $stmt = $this->db->prepare($sql);
-        $stmt->bindValue(':id', $id, \PDO::PARAM_INT);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
 
-        return $stmt->fetch(\PDO::FETCH_ASSOC) ?: null;
+        return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
     }
 
     public function getAllTransactions($sortBy="first_name", $sortDir="ASC") {
         $sql = "SELECT 
-                    b.image,
-                    b.title,
-                    b.author,
-                    b.ISBN,
-                    br.first_name,
-                    br.last_name,
-                    bb.borrow_date,
-                    bb.due_date,
-                    bb.borrowed_id,
+                    b.image AS image,
+                    b.title AS title,
+                    b.author AS author,
+                    b.ISBN AS ISBN,
+                    br.first_name AS fname,
+                    br.last_name AS lname,
+                    bb.borrow_date AS borrow_date,
+                    bb.due_date AS due_date,
+                    bb.borrowed_id AS borrowed_id,
                     CASE 
                         WHEN bb.due_date < CURDATE() THEN 1 
                         ELSE 0 
@@ -69,7 +69,7 @@ class BorrowedBook extends Model {
             $defaultSort
         );
 
-        return $results;
+        return $this->format($results);
     }
 
     public function addTransaction($transaction) {
@@ -80,9 +80,9 @@ class BorrowedBook extends Model {
         $sql = "INSERT INTO `borrowed_books`(`book_id`, `borrower_code`, `due_date`) 
         VALUES (:bookID,:borrowerCode,:dueDate)";
         $stmt = $this->db->prepare($sql);
-        $stmt->bindValue(":bookID", $bookID, \PDO::PARAM_STR);
-        $stmt->bindValue(":borrowerCode", $borrowerCode, \PDO::PARAM_STR);
-        $stmt->bindValue(":dueDate", $dueDate, \PDO::PARAM_STR);
+        $stmt->bindValue(":bookID", $bookID, PDO::PARAM_STR);
+        $stmt->bindValue(":borrowerCode", $borrowerCode, PDO::PARAM_STR);
+        $stmt->bindValue(":dueDate", $dueDate, PDO::PARAM_STR);
         $result = $stmt->execute();
 
         return $result;
@@ -91,7 +91,7 @@ class BorrowedBook extends Model {
     public function deleteTransaction($id) {
         $sql = "DELETE FROM borrowed_books WHERE borrowed_id = :id";
         $stmt = $this->db->prepare($sql);
-        $stmt->bindValue(":id", $id, \PDO::PARAM_INT);
+        $stmt->bindValue(":id", $id, PDO::PARAM_INT);
         $result = $stmt->execute();
 
         return $result;
@@ -99,15 +99,15 @@ class BorrowedBook extends Model {
 
     public function searchTransaction($query) {
         $sql = "SELECT 
-                    b.image,
-                    b.title,
-                    b.author,
-                    b.ISBN,
-                    br.first_name,
-                    br.last_name,
-                    bb.borrow_date,
-                    bb.due_date,
-                    bb.borrowed_id,
+                    b.image AS image,
+                    b.title AS title,
+                    b.author AS author,
+                    b.ISBN AS ISBN,
+                    br.first_name AS fname,
+                    br.last_name AS lname,
+                    bb.borrow_date AS borrow_date,
+                    bb.due_date AS due_date,
+                    bb.borrowed_id AS borrowed_id,
                     CASE 
                         WHEN bb.due_date < CURDATE() THEN 1 
                         ELSE 0 
@@ -119,52 +119,17 @@ class BorrowedBook extends Model {
                 OR b.author LIKE :query 
                 OR b.ISBN LIKE :query 
                 OR br.first_name LIKE :query
-                OR br.last_name LIKE :query";
+                OR br.last_name LIKE :query
+                OR DATE_FORMAT(bb.borrow_date, '%M %d, %Y') LIKE :query
+                OR DATE_FORMAT(bb.due_date, '%M %d, %Y') LIKE :query";
 
         $stmt = $this->db->prepare($sql);
-        $stmt->bindValue(":query", "%{$query}%", \PDO::PARAM_STR);
+        $stmt->bindValue(":query", "%{$query}%", PDO::PARAM_STR);
         $stmt->execute();
 
-        $results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        return array_map(
-            function($transaction) {
-                $transaction['image'] = formatImage($transaction['image']);
-                return $transaction;
-            }, $results);
-    }
-
-    public function getPaginatedTransactions($limit, $offset, $sortBy = 'first_name', $sortDir = 'ASC', $search = ''): array {
-        return $this->paginate(
-            'borrowed_books',
-            [
-                                "first_name" => "br.first_name",
-                                "last_name"  => "br.last_name"
-                            ],
-            $limit,
-            $offset,
-            $sortBy,
-            $sortDir,
-            $search,
-            ["b.title", "b.author", "b.ISBN", "br.first_name", "br.last_name"], // searchable columns
-            "SELECT 
-                        b.image,
-                        b.title,
-                        b.author,
-                        b.ISBN,
-                        br.first_name,
-                        br.last_name,
-                        DATE_FORMAT(bb.borrow_date, '%M %d, %Y') AS borrow_date,
-                        DATE_FORMAT(bb.due_date, '%M %d, %Y') AS due_date,
-                        bb.borrowed_id,
-                        CASE 
-                            WHEN bb.due_date < CURDATE() THEN 1 
-                            ELSE 0 
-                        END AS status
-                    FROM borrowed_books bb
-                    LEFT JOIN books b ON bb.book_id = b.ISBN
-                    LEFT JOIN borrowers br ON bb.borrower_code = br.borrower_code"
-        );
+        return $this->format($results);
     }
 
     public function getTotalTransactions($search = ''): mixed {
@@ -182,7 +147,6 @@ class BorrowedBook extends Model {
         );
     }
 
-
     public function getTotalTransactionsByParam($conditions="", $params=[]) {
         $sql = "SELECT
                     COUNT(*) AS total
@@ -197,5 +161,27 @@ class BorrowedBook extends Model {
         $stmt->execute();
 
         return (int) $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+    }
+
+    public function format($results): array|null {
+        if($results == null) {
+            return $results;
+        }
+
+        return array_map(function ($row): array {
+            return [
+                "id" => $row['borrowed_id'],
+                "Book Info" => [
+                    "Image" => formatImage($row['image'] ?? ""),
+                    "ISBN" => $row['ISBN'] ?? '',
+                    "Author" => $row['author'] ?? '',
+                    "Title" => $row['title'] ?? ''
+                ],
+                "Borrower" => trim(($row['fname'] ?? '') . ' ' . ($row['lname'] ?? '')),
+                "Borrow Date" => formatDate($row['borrow_date'] ?? ''),
+                "Due Date" => formatDate($row['due_date'] ?? ''),
+                "Status" => $row['is_overdue'] == 1 ? "Overdue" : "On time", // You can change this based on logic
+            ];
+        }, $results);
     }
 }

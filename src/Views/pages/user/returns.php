@@ -114,10 +114,15 @@
         tableVar: "booksTable",
 		columns: {
 			"Book Info": (row) => `
-				<div class="book-info">
-					<strong>${row.Title}</strong><br>
-					by ${row.Author}<br>
-					ISBN: ${row.ISBN}
+				<div class="book-info"> 
+					<div class="book-image">
+						<img src="${row.Image}">
+					</div>
+					<div class="book-details">
+						<strong>${row.Title}</strong><br>
+						by ${row.Author}<br>
+						ISBN: ${row.ISBN}
+					</div>
 				</div>
 			`,
 			"Status": (status) => 

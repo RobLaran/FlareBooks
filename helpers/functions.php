@@ -14,11 +14,13 @@ function getFile($path=""): string {
 }
 
 function isImageUrl(string $image): bool {
+    if(empty($image)) return false;
+
     return filter_var($image, FILTER_VALIDATE_URL) !== false;
 }
 
 function formatImage(string $image): string {
-    if (!isImageUrl($image)) {
+    if (!empty($image) && !isImageUrl($image)) {
         return getFile('public/img/') . $image;
     } 
 

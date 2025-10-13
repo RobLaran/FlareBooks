@@ -45,6 +45,7 @@ Router::delete('/borrowers/delete/{id}', 'BorrowersController@delete', [[AuthMid
 // Borrowed Books
 Router::get('/borrowed-books', 'BorrowedBooksController@index', [[AuthMiddleware::class, 'check']]);
 Router::post('/borrowed-books/add', 'BorrowedBooksController@add', [[AuthMiddleware::class, 'check']]);
+Router::get('/borrowed-books/search-borrowed-books', 'BorrowedBooksController@searchBorrowedBooks', [[AuthMiddleware::class, 'check']]);
 Router::get('/borrowed-books/search-book', 'BorrowedBooksController@searchBook', [[AuthMiddleware::class, 'check']]);
 Router::get('/borrowed-books/search-borrower', 'BorrowedBooksController@searchBorrower', [[AuthMiddleware::class, 'check']]);
 Router::delete('/borrowed-books/delete/{id}', 'BorrowedBooksController@delete', [[AuthMiddleware::class, 'check']]);

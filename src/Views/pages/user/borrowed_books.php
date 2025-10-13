@@ -12,15 +12,15 @@
 
 					<?php foreach ($books as $book): ?>
 
-						<div class="book-item <?= $book['status'] != "Available" ? 'not-available' : '' ?>" data-id="<?= $book['ISBN'] ?>">
+						<div class="book-item <?= $book['Status'] != "Available" ? 'not-available' : '' ?>" data-id="<?= $book['ISBN'] ?>">
 							<div>
-								<img src="<?= isImageUrl($book['image']) ? $book['image'] : getFile('public/img/' . $book['image']) ?>" alt="">
+								<img src="<?= isImageUrl($book['Image'] ?? "") ? $book['Image'] : $book['Image'] ?>" alt="">
 							</div>
 							<div>
-								<strong><?= $book['title'] ?></strong><br>
-								by <?= $book['author'] ?><br>
+								<strong><?= $book['Title'] ?></strong><br>
+								by <?= $book['Author'] ?><br>
 								ISBN: <?= $book['ISBN'] ?>
-								<div class="availability <?= strtolower($book['status']) ?>"><?= $book['status'] ?></div>
+								<div class="availability <?= strtolower($book['Status']) ?>"><?= $book['Status'] ?></div>
 							</div>
 						</div>
 
@@ -46,13 +46,13 @@
 
 						<?php foreach ($borrowers as $borrower): ?>
 
-							<div class="borrower <?= $borrower['status'] != "active" ? 'not-available' : '' ?>" data-id="<?= $borrower['borrower_code'] ?>">
+							<div class="borrower <?= $borrower['Status'] != "Active" ? 'not-available' : '' ?>" data-id="<?= $borrower['Code'] ?>">
 								<div>
-									<strong><?= $borrower['first_name'] . ' ' . $borrower['last_name'] ?></strong><br>
-									Code: <?= $borrower['borrower_code'] ?><br>
-									Email: <?= $borrower['email'] ?><br>
-									Address: <?= $borrower['address'] ?>
-									<div class="availability <?= $borrower['status'] != "active" ? 'unavailable' : 'available' ?>"><?= ucfirst($borrower['status']) ?></div>
+									<strong><?= $borrower['First Name'] . ' ' . $borrower['Last Name'] ?></strong><br>
+									Code: <?= $borrower['Code'] ?><br>
+									Email: <?= $borrower['Email'] ?><br>
+									Address: <?= $borrower['Address'] ?>
+									<div class="availability <?= $borrower['Status'] != "Active" ? 'unavailable' : 'available' ?>"><?= ucfirst($borrower['Status']) ?></div>
 								</div>
 							</div>
 
@@ -81,159 +81,105 @@
 		</div>
 	</div>
 
-	<?php ob_start(); ?>
+	<div class="table-container">
+		<h2>Borrowed Books</h2>
 
-		<?php foreach ($items as $item): ?>
-			<tr>
-				<td>
-					<div class="book-info">
-						<strong><?= $item['title'] ?></strong> <br>
-						by <?= $item['author'] ?> <br>
-						ISBN: <?= $item['ISBN'] ?>
-					</div>
-				</td>
-				<td><?= $item['first_name'] ?></td>
-				<td><?= $item['last_name'] ?></td>
-				<td><?= $item['borrow_date'] ?></td>
-				<td><?= $item['due_date'] ?></td>
-				<td><span class="status <?= $item['status'] ? "offline" : "online" ?>"><?= $item['status'] ? "Overdue" : "On Time" ?></span></td>
-				<td>
-					<div class="action-buttons">
-						<form class="delete-transaction-form" action="<?= routeTo('/borrowed-books/delete/' . $item['borrowed_id']) ?>" method="POST">
-							<input type="hidden" name="_method" value="DELETE">
-							<button type="button" class="button act-remove danger" onclick="showAlert(event)"><i class="fa-regular fa-trash"></i></button>
-						</form>
-					</div>
-				</td>
-			</tr>
-		<?php endforeach; ?>
+        <div class="row two">
+            <div class="select-entries">
+                <span>
+                    Showing 
+                    <form method="GET" id="entries-form" style="display:inline;">
+                        <!-- If create another table change this -->
+                        <select name="limit" id="entries-selection" onchange=" borrowedBooksTable.changeEntries(this.value)">
+							<option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="15">15</option>
+                            <option value="20">20</option>
+							<option value="all">All</option>
+                        </select>
+                        <input type="hidden" name="page" value="1">
+                    </form>
+                    entries
+                </span>
+            </div>
 
-	<?php $tableData = ob_get_clean(); ?>
+            <div class="search-input-container">
+				<label for="search-input">Search:</label>
 
-	<?php require 'src/Views/partials/table.php' ?>
+                <!-- If create another table change this -->
+				<input type="text" id="search-input" name="search" data-route="<?= routeTo('/borrowed-books/search-borrowed-books') ?>" onkeyup="borrowedBooksTable.search(this, this.value)">
+            </div>
+
+        </div>
+
+        <div class="table-container row three">
+            <table class="table-zebra">
+                <thead>
+                    <!-- If create another table change this headingId -->
+                    <tr class="table-heading" id="borrowedBooks-table-heading"> 
+                    </tr>
+                </thead>
+
+                <!-- If create another table change this containerId -->
+                <tbody class="table-body" id="borrowedBooks-table">
+
+                </tbody>
+            </table>
+        </div>
+
+        <div class="entries-pagination-container row four">
+            <div class="showed-entries">
+            </div>
+
+            <!-- If create another table change this paginationId -->
+            <ul class="pagination" id="borrowedBooks-pagination">
+            </ul>
+        </div>
+
+    </div>
 </div>
 
-
+<script src="<?= getFile("public/js/table.js") ?>"></script>
+<script src="<?= getFile("public/js/borrowedBooks.js") ?>"></script>
 <script>
-	const books = document.querySelectorAll('.book-item');
-	const borrowers = document.querySelectorAll('.borrower');
-	const hiddenBookId = document.getElementById('selectedBookId');
-	const hiddenBorrowerId = document.getElementById('selectedBorrowerId');
+	// Table
+    const borrowedBooksData = <?php echo json_encode([$transactions]); ?>;
 
-	books.forEach(book => {
-		book.addEventListener('click', () => {
-			if (book.classList.contains('not-available')) return;
+    const borrowedBooksTable = createDynamicTable({
+        data: borrowedBooksData[0],
+        containerId: "borrowedBooks-table",
+		headingId: "borrowedBooks-table-heading",
+        paginationId: "borrowedBooks-pagination",
+        itemsPerPage: 5,
+        tableVar: "borrowedBooksTable",
+		sortable: [ "Borrower", "Borrow Date", "Due Date", "Status" ],
+        columns: {
+            "Book Info": (row) => `
+				<div class="book-info"> 
+					<div class="book-image">
+						<img src="${row.Image}">
+					</div>
+					<div class="book-details">
+						<strong>${row.Title}</strong><br>
+						by ${row.Author}<br>
+						ISBN: ${row.ISBN}
+					</div>
+				</div>
+			`,
+			"Status": (status) => 
+				`<span class="status ${status == "Overdue" ? "offline" : "online"}">${status}</span>`
+        },
+		hidden: ["id"],
+        actions: (row) => {
+            return `
+                <form class="delete-borrowed-book-form" action="<?= routeTo('/borrowed-books/delete/') ?>${row.id}" method="POST">
+					<input type="hidden" name="_method" value="DELETE">
+					<button type="button" class="button act-remove danger" onclick="showAlert(event)"><i class="fa-regular fa-trash" style:"font-weight: 700;"></i></button>
+				</form>
+            `;
+        }
+    });
 
-			books.forEach(b => b.classList.remove('selected'));
-			book.classList.add('selected');
-			hiddenBookId.value = book.dataset.id;
-		});
-	});
-
-	borrowers.forEach(borrower => {
-		borrower.addEventListener('click', () => {
-			if (borrower.classList.contains('not-available')) return;
-
-			borrowers.forEach(b => b.classList.remove('selected'));
-			borrower.classList.add('selected');
-			hiddenBorrowerId.value = borrower.dataset.id;
-		});
-	});
-
-	document.getElementById("bookListSearchBox").addEventListener("keyup", function () {
-		let query = this.value;
-
-		fetch("<?= routeTo('/borrowed-books/search-book') ?>?q=" + encodeURIComponent(query))
-			.then(response => response.json())
-			.then(books => {
-				const bookList = document.getElementById("bookList");
-				bookList.innerHTML = "";
-
-				if (books.length === 0) {
-					bookList.innerHTML = "<h2>No books found</h2>";
-					return;
-				}
-
-				books.forEach(book => {
-					const div = document.createElement("div");
-					div.classList.add("book-item");
-					if (book.status !== "Available") div.classList.add("not-available");
-					div.dataset.id = book.ISBN;
-
-					const imgDiv = document.createElement("div");
-					const img = document.createElement("img");
-					img.src = book.image;
-					imgDiv.appendChild(img);
-
-					const bookInfo = document.createElement("div");
-
-					bookInfo.innerHTML = `
-						<strong>${book.title}</strong><br>
-						by ${book.author}<br>
-						ISBN: ${book.ISBN}
-						<div class="availability ${book.status.toLowerCase()}">${book.status}</div>
-					`;
-
-					div.append(
-						imgDiv,
-						bookInfo
-					);
-
-					div.addEventListener("click", () => {
-						if (div.classList.contains("not-available")) return;
-						document.querySelectorAll('.book-item').forEach(b => b.classList.remove("selected"));
-						div.classList.add("selected");
-						document.getElementById("selectedBookId").value = div.dataset.id;
-					});
-
-					bookList.appendChild(div);
-				});
-			});
-	});
-
-	document.getElementById("borrowerListSearchBox").addEventListener("keyup", function () {
-		let query = this.value;
-
-		fetch("<?= routeTo('/borrowed-books/search-borrower') ?>?q=" + encodeURIComponent(query))
-			.then(response => response.json())
-			.then(borrowers => {
-				const borrowerList = document.getElementById("borrowerList");
-				borrowerList.innerHTML = "";
-
-				if (borrowers.length === 0) {
-					borrowerList.innerHTML = "<h2>No borrowers found</h2>";
-					return;
-				}
-
-
-				borrowers.forEach(borrower => {
-					const div = document.createElement("div");
-					div.classList.add("borrower");
-					if (borrower.status !== "active") div.classList.add("not-available");
-					div.dataset.id = borrower.borrower_code;
-
-					const borrowerInfo = document.createElement("div");
-
-					borrowerInfo.innerHTML = `
-						<strong>${borrower.first_name + " " + borrower.last_name}</strong><br>
-						Code: ${borrower.borrower_code}<br>
-						Email: ${borrower.email}<br>
-						Address: ${borrower.address}
-						<div class="availability ${borrower.status != "active" ? "unavailable" : "available"}">${borrower.status.toUpperCase()}</div>
-					`;
-
-					div.appendChild(borrowerInfo);
-
-					div.addEventListener("click", () => {
-						if (div.classList.contains("not-available")) return;
-						document.querySelectorAll('.borrower').forEach(b => b.classList.remove("selected"));
-						div.classList.add("selected");
-						document.getElementById("selectedBorrowerId").value = div.dataset.id;
-					});
-
-					borrowerList.appendChild(div);
-				});
-			});
-	});
-
+    // Change table if needed
+    borrowedBooksTable.renderTable(1);
 </script>
