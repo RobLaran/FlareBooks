@@ -23,59 +23,6 @@ class BooksController extends Controller {
         $this->genreModel = new Genre();
         $this->bookService = new BookService($this->bookModel);
     }
-    public function index2() {
-        $params = $this->getRequestParams(
-            [
-                "sortBy" => "author"
-            ]
-        );
-
-        if($params['limit'] == 'all') {
-            $books = $this->bookModel->getAllBooks($params['sortBy'], $params['sortDir']);
-            $totalBooks = $this->bookModel->getTotalBooks($params['search']);
-            $totalPages = 1;
-            $params['limit'] = $totalBooks;
-        } else {
-            $offset = ($params['page'] - 1) * $params['limit'];
-
-            $books = $this->bookModel->getPaginatedBooks($params['limit'], $offset, $params['sortBy'], $params['sortDir'], $params['search']);
-
-            foreach ($books as &$book) {
-                $book['genre'] = $this->genreModel->getBookGenre($book['genre_id']);
-            }
-            unset($book);
-
-            $totalBooks = $this->bookModel->getTotalBooks($params['search']);
-            $totalPages = ceil($totalBooks / $params['limit']);
-        }
-
-        $addButton = [
-            "route" => "/books/add",
-            "label" => "Add Book"
-        ];
-
-        $columns = [
-            ["field" => "image", "name" => "Image", "sortable" => false],
-            ["field" => "ISBN", "name" => "ISBN", "sortable" => true],
-            ["field" => "author", "name" => "Author", "sortable" => true],
-            ["field" => "publisher", "name" => "Publisher", "sortable" => true],
-            ["field" => "title", "name" => "Title", "sortable" => true],
-            ["field" => "genre", "name" => "Genre", "sortable" => true],
-            ["field" => "quantity", "name" => "Quantity", "sortable" => true],
-            ["field" => "status", "name" => "Status", "sortable" => true],
-            ["field" => "actions", "name" => "Actions", "sortable" => false],
-        ];
-
-
-        $this->view("/user/books/index", array_merge($params , [
-            "title" => $this->title,
-            "items" => $books,
-            "totalItems" => $totalBooks,
-            "totalPages" => $totalPages,
-            "columns" => $columns,
-            "addButton" => $addButton
-        ]));
-    }
 
     public function index() {
         $books = $this->bookModel->getAllBooks();

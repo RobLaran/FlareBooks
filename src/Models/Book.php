@@ -146,25 +146,6 @@ class Book extends Model {
         $results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
         return $this->format($results);
-
-        // return array_map(
-        //     function($book) {
-        //         $book['image'] = formatImage($book['image']);
-        //         return $book;
-        //     }, $results);
-    }
-
-    public function getPaginatedBooks($limit, $offset, $sortBy = 'author', $sortDir = 'ASC', $search = ''): array {
-        return $this->paginate(
-        'books',
-        ['ISBN','author','publisher','title','genre_id','quantity','status'],
-        $limit,
-        $offset,
-        $sortBy,
-        $sortDir,
-        $search,
-        ['ISBN','author','publisher','title'] // searchable columns
-    );
     }
 
     public function getTotalBooks($search = ''): mixed {

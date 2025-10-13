@@ -18,13 +18,13 @@ class Borrower extends Model {
         $sql = "INSERT INTO `borrowers`(`borrower_code`, `first_name`, `last_name`, `email`, `phone`, `address`, `date_of_birth`) 
         VALUES (:code,:first_name,:last_name,:email,:phone,:address,:date_of_birth)";
         $stmt = $this->db->prepare($sql);
-        $stmt->bindValue(":code", $code, \PDO::PARAM_STR);
-        $stmt->bindValue(":first_name", $fname, \PDO::PARAM_STR);
-        $stmt->bindValue(":last_name", $lname, \PDO::PARAM_STR);
-        $stmt->bindValue(":email", $email, \PDO::PARAM_STR);
-        $stmt->bindValue(":phone", $phone, \PDO::PARAM_STR);
-        $stmt->bindValue(":address", $address, \PDO::PARAM_STR);
-        $stmt->bindValue(":date_of_birth", $birth, \PDO::PARAM_STR);
+        $stmt->bindValue(":code", $code, PDO::PARAM_STR);
+        $stmt->bindValue(":first_name", $fname, PDO::PARAM_STR);
+        $stmt->bindValue(":last_name", $lname, PDO::PARAM_STR);
+        $stmt->bindValue(":email", $email, PDO::PARAM_STR);
+        $stmt->bindValue(":phone", $phone, PDO::PARAM_STR);
+        $stmt->bindValue(":address", $address, PDO::PARAM_STR);
+        $stmt->bindValue(":date_of_birth", $birth, PDO::PARAM_STR);
         $result = $stmt->execute();
 
         return $result;
@@ -51,14 +51,14 @@ class Borrower extends Model {
                 WHERE id = :id";
 
         $stmt = $this->db->prepare($sql);
-        $stmt->bindValue(":fname", $fname, \PDO::PARAM_STR);
-        $stmt->bindValue(":lname", $lname, \PDO::PARAM_STR);
-        $stmt->bindValue(":email", $email, \PDO::PARAM_STR);
-        $stmt->bindValue(":phone", $phone, \PDO::PARAM_STR);
-        $stmt->bindValue(":address", $address, \PDO::PARAM_STR);
-        $stmt->bindValue(":birth", $birth, \PDO::PARAM_STR);
-        $stmt->bindValue(":status", $status, \PDO::PARAM_STR);
-        $stmt->bindValue(":id", $id, \PDO::PARAM_INT);
+        $stmt->bindValue(":fname", $fname, PDO::PARAM_STR);
+        $stmt->bindValue(":lname", $lname, PDO::PARAM_STR);
+        $stmt->bindValue(":email", $email, PDO::PARAM_STR);
+        $stmt->bindValue(":phone", $phone, PDO::PARAM_STR);
+        $stmt->bindValue(":address", $address, PDO::PARAM_STR);
+        $stmt->bindValue(":birth", $birth, PDO::PARAM_STR);
+        $stmt->bindValue(":status", $status, PDO::PARAM_STR);
+        $stmt->bindValue(":id", $id, PDO::PARAM_INT);
 
         return $stmt->execute();
     }
@@ -66,7 +66,7 @@ class Borrower extends Model {
     public function removeBorrower($id) {
         $sql = "DELETE FROM borrowers WHERE id = :id";
         $stmt = $this->db->prepare($sql);
-        $stmt->bindValue(":id", $id, \PDO::PARAM_STR);
+        $stmt->bindValue(":id", $id, PDO::PARAM_STR);
         $result = $stmt->execute();
 
         return $result;
@@ -75,10 +75,10 @@ class Borrower extends Model {
     public function getBorroweById($id): mixed {
         $sql = "SELECT * FROM borrowers WHERE id = :id LIMIT 1";
         $stmt = $this->db->prepare($sql);
-        $stmt->bindValue(':id', $id, \PDO::PARAM_INT);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
 
-        return $stmt->fetch(\PDO::FETCH_ASSOC) ?: null;
+        return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
     }
 
     public function getAllBorrowers($sortBy = "borrower_code", $sortDir = "ASC"): array {
@@ -101,23 +101,28 @@ class Borrower extends Model {
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $this->format($results);
     }
 
     public function searchBorrowers($query) {
         $sql = "SELECT * FROM borrowers 
-               WHERE first_name LIKE :query 
-               OR last_name LIKE :query 
-               OR address LIKE :query 
-               OR borrower_code LIKE :query
-               OR email LIKE :query";
+                WHERE first_name LIKE :query 
+                OR last_name LIKE :query 
+                OR address LIKE :query 
+                OR borrower_code LIKE :query
+                OR email LIKE :query
+                OR DATE_FORMAT(date_of_birth, '%M %d, %Y') LIKE :query
+                OR DATE_FORMAT(membership_date, '%M %d, %Y') LIKE :query
+               ";
 
         $stmt = $this->db->prepare($sql);
-        $stmt->bindValue(":query", "%$query%", \PDO::PARAM_STR);
+        $stmt->bindValue(":query", "%$query%", PDO::PARAM_STR);
         $stmt->execute();
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $this->format($results);
     }
 
     public function getPaginatedBorrowers($limit, $offset, $sortBy = 'first_name', $sortDir = 'ASC', $search = ''): array {
@@ -178,6 +183,27 @@ class Borrower extends Model {
         }
 
         return "B{$year}-{$newNumber}";
+    }
+
+    public function format($results): array|null {
+        if($results == null) {
+            return $results;
+        }
+
+        return array_map(function ($row) {
+            return [
+                "ID" => $row['id'],
+                "Code" => $row['borrower_code'],
+                "First Name" => $row['first_name'],
+                "Last Name" => $row['last_name'],
+                "Email" => $row['email'],
+                "Phone Number" => $row['phone'],
+                "Address" => $row['address'],
+                "Date of Birth" => formatDate($row['date_of_birth'] ?? ""),
+                "Membership Date" => formatDate($row['membership_date'] ?? ""),
+                "Status" => ucfirst($row['status']),
+            ];
+        }, $results);
     }
 
 

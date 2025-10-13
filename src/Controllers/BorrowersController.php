@@ -19,53 +19,14 @@ class BorrowersController extends Controller {
         $this->borrowerModel = new Borrower();
         $this->borrowerService = new BorrowerService($this->borrowerModel);
     }
+
     public function index() {
-        $params = $this->getRequestParams(
-            [
-                "sortBy" => "borrower_code"
-            ]
-        );
+        $borrowers = $this->borrowerModel->getAllBorrowers();
 
-        $totalItems = $this->borrowerModel->getTotalBorrowers($params['search']);
-
-        if($params['limit'] == 'all') {
-            $borrowers = $this->borrowerModel->getAllBorrowers($params['sortBy'], $params['sortDir']);
-            $totalPages = 1;
-            $params['limit'] = $totalItems;
-        } else {
-            $offset = ($params['page'] - 1) * $params['limit'];
-
-            $borrowers = $this->borrowerModel->getPaginatedBorrowers($params['limit'], $offset, $params['sortBy'], $params['sortDir'], $params['search']);
-            $totalPages = ceil($totalItems / $params['limit']);
-        }
-
-        $addButton = [
-            "route" => "/borrowers/add",
-            "label" => "Add Borrower"
-        ];
-
-        $columns = [
-            ["field" => "borrower_code", "name" => "Code", "sortable" => false],
-            ["field" => "first_name", "name" => "First Name", "sortable" => true],
-            ["field" => "last_name", "name" => "Last Name", "sortable" => true],
-            ["field" => "email", "name" => "Email", "sortable" => true],
-            ["field" => "phone", "name" => "Phone", "sortable" => true],
-            ["field" => "address", "name" => "Address", "sortable" => true],
-            ["field" => "date_of_birth", "name" => "Date of Birth", "sortable" => true],
-            ["field" => "membership_date", "name" => "Membership Date", "sortable" => true],
-            ["field" => "status", "name" => "Status", "sortable" => true],
-            ["field" => "actions", "name" => "Actions", "sortable" => false],
-        ];
-
-        $this->view("user/borrowers/index", array_merge($params , [
+        $this->view("user/borrowers/index", [
             "title" => $this->title,
-            "items" => $borrowers,
-            "totalItems" => $totalItems,
-            "totalPages" => $totalPages,
-            'columns' => $columns,
-            'emptyNotif' => "No Borrowers Added",
-            "addButton" => $addButton
-        ]));
+            "borrowers" => $borrowers
+        ]);
     }
 
     public function create() {
@@ -149,5 +110,15 @@ class BorrowersController extends Controller {
         }
 
         RedirectHelper::withFlash('success', 'Borrower successfully removed', '/borrowers');
+    }
+
+    public function search() {
+        $query = $_GET['q'] ?? '';
+
+        $borrowers = $this->borrowerModel->searchBorrowers($query);
+
+        header('Content-Type: application/json');
+        echo json_encode($borrowers);
+        exit;
     }
 }

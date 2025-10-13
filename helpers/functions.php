@@ -25,6 +25,10 @@ function formatImage(string $image): string {
     return $image;
 }
 
+function formatDate(string $date): string {
+    return date("F j, Y", strtotime($date));
+}
+
 function routeTo($endPoint): string {
     $basePath = BASE_URL;
     return $basePath . $endPoint;
