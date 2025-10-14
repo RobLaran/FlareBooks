@@ -2,11 +2,12 @@
 
 namespace App\Middleware;
 
+use Helpers\RedirectHelper;
+
 class AuthMiddleware {
     public static function check() {
         if(!isset($_SESSION['user']['id'])) {
-            header('Location: ' . routeTo('/auth/login'));
-            exit;
+            RedirectHelper::withFlash('error', 'Forbidden. You must logged in.', '/auth/login');
         }
     }
 

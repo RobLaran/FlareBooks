@@ -3,11 +3,11 @@ use App\Core\Router;
 use App\Middleware\AuthMiddleware;
 
 // User Routes
-Router::get('/profile/{id}', 'UserController@profile');
+Router::get('/profile/{id}', 'UserController@profile', [[AuthMiddleware::class, 'check']]);
 Router::get('/auth/login', 'AuthController@loginUser');
 Router::post('/auth/login', 'AuthController@loginUser');
-Router::put('/profile/{id}', 'UserController@update');
-Router::put('/profile/change-password/{id}', 'UserController@changePassword');
+Router::put('/profile/{id}', 'UserController@update', [[AuthMiddleware::class, 'check']]);
+Router::put('/profile/change-password/{id}', 'UserController@changePassword', [[AuthMiddleware::class, 'check']]);
 
 // Admin Routes
 Router::get('/auth/login/admin', 'AuthController@loginAdmin');
