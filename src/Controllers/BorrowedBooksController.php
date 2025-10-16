@@ -22,7 +22,7 @@ class BorrowedBooksController extends Controller {
         $this->transactionModel = new BorrowedBook();
         $this->bookModel = new Book();
         $this->borrowerModel = new Borrower();
-        $this->transactionService = new BorrowedBookService($this->transactionModel);
+        $this->transactionService = new BorrowedBookService($this->transactionModel, $this->bookModel);
     }
     public function index() {
         $transactions = $this->transactionModel->getAllTransactions();

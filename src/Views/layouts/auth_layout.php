@@ -30,8 +30,10 @@ use Helpers\SessionHelper
 
         <div class="auth-form-container">
             <header class="form-header">
-                <img src="<?= LOGO ?>" alt="Form Logo">
-                <span><?= BRAND ?></span>
+                <a href="<?= routeTo('/') ?>">
+                    <img src="<?= LOGO ?>" alt="Form Logo">
+                    <span><?= BRAND ?></span>
+                </a>
             </header>
 
             <main class="form-main">

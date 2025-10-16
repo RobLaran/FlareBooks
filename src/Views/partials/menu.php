@@ -1,7 +1,9 @@
 <aside id="menu">
     <div class="web-heading">
-        <img src="<?= LOGO ?>" alt="" id="web-logo">
-        <span id="web-title"><?= BRAND ?></span>
+        <a href="<?= routeTo('/') ?>">
+            <img src="<?= LOGO ?>" alt="" id="web-logo">
+            <span id="web-title"><?= BRAND ?></span>
+        </a>
     </div>
     <nav>
         <ul>

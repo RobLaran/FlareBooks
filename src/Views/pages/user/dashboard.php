@@ -1,7 +1,9 @@
 <div class="user-dashboard-page">
     <div class="dashboard-container">
         <div class="dashboard-header">
-            <h1>📚 Welcome to FlareBooks</h1>
+            <h1>            
+                Welcome to FlareBooks
+            </h1>
         </div>
 
         <!-- Statistics Cards -->

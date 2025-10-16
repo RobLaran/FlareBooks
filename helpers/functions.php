@@ -1,16 +1,21 @@
 <?php
+function getFile($path=""): string {
+    return BASE_URL . "/" . $path;
+}
 function getURI(): array|string {
     return str_replace(BASE_URL, '', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 }
 
-function getFile($path=""): string {
-    return BASE_URL . "/" . $path;
-}
-
  function isURL(string $URL): bool {
-     $PATH = getURI();
-     
-    return  $PATH == $URL;
+    $current = getURI();
+
+    // Handle homepage route
+    if ($URL === '/') {
+        return $current === '/' || $current === '';
+    }
+
+    // Exact match or prefix match (for routes with IDs, e.g., /profile/1)
+    return $current === $URL || strpos($current, $URL . '/') === 0;
 }
 
 function isImageUrl(string $image): bool {

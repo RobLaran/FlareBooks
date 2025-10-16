@@ -4,12 +4,15 @@ namespace Services;
 
 use App\Core\Validator;
 use App\Core\ValidationException;
+use App\Models\Book;
 use App\Models\BorrowedBook;
 
 class BorrowedBookService {
+    protected $bookModel;
     protected $transactionModel;
 
-    public function __construct(BorrowedBook $transactionModel) {
+    public function __construct(BorrowedBook $transactionModel, Book $bookModel) {
+        $this->bookModel = $bookModel;
         $this->transactionModel = $transactionModel;
     }
 
@@ -22,6 +25,8 @@ class BorrowedBookService {
     }
 
     public function process($transaction) {
+        $this->bookModel->deductQuantity($transaction['book_id']);
+
         return $this->transactionModel->addTransaction($transaction);
     }
 

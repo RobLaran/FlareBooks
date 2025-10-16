@@ -22,20 +22,23 @@
         
         .form-header {
             grid-area: header;
-            display: flex;
-            align-items: end;
-            justify-content: center;
-            /* border: 1px solid green; */
-            padding: 8px 0;
+            
+            a {
+                display: flex;
+                align-items: end;
+                justify-content: center;
+                /* border: 1px solid green; */
+                padding: 8px 0;
 
-            img {
-                width: 90px;
-            }
+                img {
+                    width: 90px;
+                }
 
-            span {
-                font-size: 2rem;
-                padding-top: 14px;
-                padding-left: 8px;
+                span {
+                    font-size: 2rem;
+                    padding-top: 14px;
+                    padding-left: 8px;
+                }
             }
         }
 

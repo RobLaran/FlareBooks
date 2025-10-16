@@ -2,7 +2,6 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
-use App\Core\Sanitizer;
 use App\Core\ValidationException;
 use App\Core\Validator;
 use App\Models\Book;
@@ -12,11 +11,13 @@ use Exception;
 use Helpers\RedirectHelper;
 
 class ReturnsController extends Controller {
+    private $bookModel;
     private $transactionModel;
     private $returnedBookModel;
 
     public function __construct() {
         $this->title = "Returns";
+        $this->bookModel = new Book();
         $this->transactionModel = new BorrowedBook();
         $this->returnedBookModel = new ReturnedBook();
     }
@@ -43,6 +44,7 @@ class ReturnsController extends Controller {
                 throw new Exception('No transaction found');
             }
 
+            $this->bookModel->addQuantity($returnedBook['ISBN']);
             $result = $this->returnedBookModel->addReturnedBook($returnedBook);
 
             if(!$result) {

@@ -176,7 +176,7 @@ body.swal2-shown {
   }
 
 
-  aside#menu .web-heading {
+  aside#menu .web-heading a {
     font-weight: bold;
     margin-bottom: 2.4rem;
     display: flex;
@@ -317,6 +317,7 @@ body.swal2-shown {
   #web-title {
     padding-top: 7px;
     padding-left: 4px;
+    color: var(--color-5);
   }
 
   li {

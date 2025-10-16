@@ -148,6 +148,40 @@ class Book extends Model {
         return $this->format($results);
     }
 
+    public function addQuantity($id, $quantity=1) {
+        $book = $this->getBook($id);
+
+        $sql = "UPDATE books 
+                SET 
+                quantity = :quantity
+                WHERE ISBN = :id";
+
+        $newQuantity = $book['quantity'] + $quantity;
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(":quantity", $newQuantity, \PDO::PARAM_INT);
+        $stmt->bindValue(":id", $id, \PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
+
+    public function deductQuantity($id, $quantity=1) {
+        $book = $this->getBook($id);
+
+        $sql = "UPDATE books 
+                SET 
+                quantity = :quantity
+                WHERE ISBN = :id";
+
+        $newQuantity = $book['quantity'] - $quantity;
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(":quantity", $newQuantity, \PDO::PARAM_INT);
+        $stmt->bindValue(":id", $id, \PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
+
     public function getTotalBooks($search = ''): mixed {
         return $this->getTotal(
         'books',
