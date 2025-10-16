@@ -17,7 +17,6 @@
                 FlareBooks
             </a>
             <nav>
-                <?= getURI() == '/' ? "true" : 'false' ?>
                 <ul>
                     <li><a href="<?= routeTo("/home") ?>" class="<?= isURL('/home') || isURL('/') ? 'active' : '' ?>">Home</a></li>
                     <li><a href="<?= routeTo("/features") ?>" class="<?= isURL('/features') ? 'active' : '' ?>">Features</a></li>

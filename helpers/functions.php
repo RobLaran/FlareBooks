@@ -9,12 +9,10 @@ function getURI(): array|string {
  function isURL(string $URL): bool {
     $current = getURI();
 
-    // Handle homepage route
     if ($URL === '/') {
         return $current === '/' || $current === '';
     }
 
-    // Exact match or prefix match (for routes with IDs, e.g., /profile/1)
     return $current === $URL || strpos($current, $URL . '/') === 0;
 }
 
