@@ -20,6 +20,30 @@ class UserController extends Controller {
         $this->userService = new UserService($this->userModel);
     }
 
+    public function index() {
+        $this->view('/user/index', [ 
+            "title" => "Landing Page"
+        ], "landing_page");
+    }
+
+    public function features() {
+        $this->view('/user/features', [ 
+            "title" => "Features"
+        ], "landing_page");
+    }
+
+    public function about() {
+        $this->view('/user/about', [ 
+            "title" => "About Us"
+        ], "landing_page");
+    }
+
+    public function contact() {
+        $this->view('/user/contact', [ 
+            "title" => "Contact Us"
+        ], "landing_page");
+    }
+
     public function profile($id) {
         $info = [
             "id" => $_SESSION['user']['id'],

@@ -7,10 +7,10 @@ function getFile($path=""): string {
     return BASE_URL . "/" . $path;
 }
 
- function isURL($URL): bool {
-    $PATH = getURI();
-
-    return  $PATH == $URL || str_contains($PATH, $URL);
+ function isURL(string $URL): bool {
+     $PATH = getURI();
+     
+    return  $PATH == $URL;
 }
 
 function isImageUrl(string $image): bool {

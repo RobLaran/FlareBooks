@@ -25,8 +25,9 @@ const books = document.querySelectorAll('.book-item');
 
 	document.getElementById("bookListSearchBox").addEventListener("keyup", function () {
 		let query = this.value;
+		const route = this.dataset.route;
 
-		fetch("<?= routeTo('/borrowed-books/search-book') ?>?q=" + encodeURIComponent(query))
+		fetch(`${route}?q=` + encodeURIComponent(query))
 			.then(response => response.json())
 			.then(books => {
 				const bookList = document.getElementById("bookList");
@@ -76,8 +77,9 @@ const books = document.querySelectorAll('.book-item');
 
 	document.getElementById("borrowerListSearchBox").addEventListener("keyup", function () {
 		let query = this.value;
+		const route = this.dataset.route;
 
-		fetch("<?= routeTo('/borrowed-books/search-borrower') ?>?q=" + encodeURIComponent(query))
+		fetch(`${route}?q=` + encodeURIComponent(query))
 			.then(response => response.json())
 			.then(borrowers => {
 				const borrowerList = document.getElementById("borrowerList");

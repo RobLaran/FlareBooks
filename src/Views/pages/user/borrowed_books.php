@@ -4,7 +4,7 @@
 		<div class="card book-selection">
 			<h2>Search Book</h2>
 				<div class="search-input input-container">
-					<input type="text" id="bookListSearchBox" placeholder="Search by Title, Author, or ISBN">
+					<input type="text" id="bookListSearchBox" data-route="<?= routeTo('/borrowed-books/search-book') ?>" placeholder="Search by Title, Author, or ISBN">
 				</div>
 
 			<div class="book-list" id="bookList">
@@ -39,7 +39,7 @@
 			<h2>Borrower Information</h2>
 			<form id="borrowForm" method="POST" action="<?= routeTo('/borrowed-books/add') ?>" novalidate>
 				<div class="search-input input-container">
-					<input type="text" id="borrowerListSearchBox" placeholder="Search by Name, Code, Email, or Address">
+					<input type="text" id="borrowerListSearchBox" date-route="<?= routeTo('/borrowed-books/search-borrower') ?>" placeholder="Search by Name, Code, Email, or Address">
 				</div>
 				<div class="borrower-list" id="borrowerList">
 					<?php if (count($borrowers) > 0): ?>

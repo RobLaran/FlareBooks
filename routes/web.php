@@ -3,6 +3,11 @@ use App\Core\Router;
 use App\Middleware\AuthMiddleware;
 
 // User Routes
+Router::get('/', 'UserController@index');
+Router::get('/home', 'UserController@index');
+Router::get('/features', 'UserController@features');
+Router::get('/about', 'UserController@about');
+Router::get('/contact', 'UserController@contact');
 Router::get('/profile/{id}', 'UserController@profile', [[AuthMiddleware::class, 'check']]);
 Router::get('/auth/login', 'AuthController@loginUser');
 Router::post('/auth/login', 'AuthController@loginUser');
@@ -18,7 +23,7 @@ Router::get('/auth/logout', 'AuthController@logout');
 
 
 // Dashboard
-Router::get('/', 'DashboardController@index', [[AuthMiddleware::class, 'check']]);
+// Router::get('/', 'DashboardController@index', [[AuthMiddleware::class, 'check']]);
 Router::get('/dashboard', 'DashboardController@index', [[AuthMiddleware::class, 'check']]);
 
 // Book Routes

@@ -9,16 +9,20 @@ class Controller {
     protected $sortDir;
     protected $search;
 
-    protected function view($view, $data = [], $layout="layout") {
+    protected function view($view, $data = [], $layout="layout"): void {
         extract($data);
         
-        ob_start();
+        if(!empty($layout)) {
+            ob_start();
 
-        require "src/Views/pages/$view.php";
+            require "src/Views/pages/$view.php";
 
-        $content = ob_get_clean();
+            $content = ob_get_clean();
 
-        require "src/Views/layouts/{$layout}.php";
+            require "src/Views/layouts/{$layout}.php";
+        } else {
+            require "src/Views/pages/$view.php";
+        }
     }
 
     protected function getRequestParams(array $defaults = []): array {
