@@ -84,6 +84,25 @@
 	<div class="table-container">
 		<h2>Borrowed Books</h2>
 
+		<div class="row one">
+            <div class="filter-container">
+                <label for="date-column-transactions">Filter by:</label>
+                <select id="date-column-transactions">
+                    <option value="Borrow Date">Borrow Date</option>
+                    <option value="Due Date">Due Date</option>
+                </select>
+
+                <label for="start-date-transactions">From:</label>
+                <input type="date" id="start-date-transactions">
+
+                <label for="end-date-transactions">To:</label>
+                <input type="date" id="end-date-transactions">
+
+                <button id="apply-filter-transactions">Filter</button>
+                <button id="clear-filter-transactions">Clear</button>
+            </div>
+        </div>
+
         <div class="row two">
             <div class="select-entries">
                 <span>
@@ -184,4 +203,13 @@
 
     // Change table if needed
     borrowedBooksTable.renderTable(1);
+
+	// Date range filter
+    borrowedBooksTable.initDateFilter({
+        columnSelectId: "date-column-transactions",
+        startDateId: "start-date-transactions",
+        endDateId: "end-date-transactions",
+        applyBtnId: "apply-filter-transactions",
+        clearBtnId: "clear-filter-transactions"
+    });
 </script>

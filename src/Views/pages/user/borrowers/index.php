@@ -3,6 +3,23 @@
         <!-- If create another table change this -->
         <div class="row one">
             <a href="<?= routeTo("/borrowers/add") ?>" class="button default"><?= "Add Borrower" ?></a>
+
+            <div class="filter-container">
+                <label for="date-column-borrowers">Filter by:</label>
+                <select id="date-column-borrowers">
+                    <option value="Date of Birth">Date of Birth</option>
+                    <option value="Membership Date">Membership Date</option>
+                </select>
+
+                <label for="start-date-borrowers">From:</label>
+                <input type="date" id="start-date-borrowers">
+
+                <label for="end-date-borrowers">To:</label>
+                <input type="date" id="end-date-borrowers">
+
+                <button id="apply-filter-borrowers">Filter</button>
+                <button id="clear-filter-borrowers">Clear</button>
+            </div>
         </div>
 
         <div class="row two">
@@ -97,4 +114,13 @@
 
     // Change table if needed
     borrowersTable.renderTable(1);
+
+    // Date range filter
+    borrowersTable.initDateFilter({
+        columnSelectId: "date-column-borrowers",
+        startDateId: "start-date-borrowers",
+        endDateId: "end-date-borrowers",
+        applyBtnId: "apply-filter-borrowers",
+        clearBtnId: "clear-filter-borrowers"
+    });
 </script>

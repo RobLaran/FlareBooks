@@ -59,7 +59,6 @@ function createDynamicTable(config) {
             if(sortable.includes(header)) {
                 updateHeaderText()
 
-                // 🔹 Add click listener for sorting
                 heading.addEventListener("click", () => {
                     // toggle ASC -> DESC -> UNSORTED
                     if (sortDirection[header] === null) {
@@ -72,8 +71,28 @@ function createDynamicTable(config) {
 
                     if (sortDirection[header] !== null) {
                         filteredData.sort((a, b) => {
-                            if (a[header] < b[header]) return sortDirection[header] ? -1 : 1;
-                            if (a[header] > b[header]) return sortDirection[header] ? 1 : -1;
+                            let valA = a[header];
+                            let valB = b[header];
+
+                            // 🧠 Detect if the values look like a human-readable date (e.g. "October 4, 2025")
+                            const isReadableDate = /[a-zA-Z]+ \d{1,2}, \d{4}/.test(valA);
+
+                            if (isReadableDate) {
+                                // Parse "October 4, 2025" into Date objects
+                                valA = new Date(valA);
+                                valB = new Date(valB);
+
+                                console.log(valA);
+                                console.log(valB);
+                                
+                            } else if (!isNaN(parseFloat(valA)) && !isNaN(parseFloat(valB))) {
+                                // If numeric, compare as numbers
+                                valA = parseFloat(valA);
+                                valB = parseFloat(valB);
+                            }
+
+                            if (valA < valB) return sortDirection[header] ? -1 : 1;
+                            if (valA > valB) return sortDirection[header] ? 1 : -1;
                             return 0;
                         });
                     } else {
@@ -82,6 +101,7 @@ function createDynamicTable(config) {
 
                     renderTable(1);
                 });
+
             } else {
                 heading.innerHTML = header;
             }
@@ -164,9 +184,51 @@ function createDynamicTable(config) {
        }
     }
 
+    function initDateFilter(config) {
+        const {
+            columnSelectId,
+            startDateId,
+            endDateId,
+            applyBtnId,
+            clearBtnId
+        } = config;
+
+        const columnSelect = document.getElementById(columnSelectId);
+        const startDate = document.getElementById(startDateId);
+        const endDate = document.getElementById(endDateId);
+        const applyBtn = document.getElementById(applyBtnId);
+        const clearBtn = document.getElementById(clearBtnId);
+
+        applyBtn.addEventListener("click", () => {
+            const col = columnSelect.value;
+            const start = startDate.value ? new Date(startDate.value) : null;
+            const end = endDate.value ? new Date(endDate.value) : null;
+
+
+            filteredData = [...data].filter(item => {
+                const date = new Date(item[col]);
+                if (isNaN(date)) return false;
+                if (start && date < start) return false;
+                if (end && date > end) return false;
+                return true;
+            });
+
+            renderTable(1);
+        });
+
+        clearBtn.addEventListener("click", () => {
+            startDate.value = "";
+            endDate.value = "";
+            filteredData = [...data];
+            renderTable(1);
+        });
+    }
+
+
     return {
         renderTable,
         changeEntries,
-        search
+        search,
+        initDateFilter
     };
 }

@@ -49,6 +49,26 @@
 	<div class="table-container">
 		<h2>Returned Books</h2>
 
+		<div class="row one">
+            <div class="filter-container">
+                <label for="date-column-returns">Filter by:</label>
+                <select id="date-column-returns">
+                    <option value="Borrow Date">Borrow Date</option>
+                    <option value="Due Date">Due Date</option>
+                    <option value="Return Date">Return Date</option>
+                </select>
+
+                <label for="start-date-returns">From:</label>
+                <input type="date" id="start-date-returns">
+
+                <label for="end-date-returns">To:</label>
+                <input type="date" id="end-date-returns">
+
+                <button id="apply-filter-returns">Filter</button>
+                <button id="clear-filter-returns">Clear</button>
+            </div>
+        </div>
+
         <div class="row two">
             <div class="select-entries">
                 <span>
@@ -143,4 +163,13 @@
     });
 
     booksTable.renderTable(1);
+
+	// Date range filter
+    booksTable.initDateFilter({
+        columnSelectId: "date-column-returns",
+        startDateId: "start-date-returns",
+        endDateId: "end-date-returns",
+        applyBtnId: "apply-filter-returns",
+        clearBtnId: "clear-filter-returns"
+    });
 </script>
