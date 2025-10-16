@@ -45,3 +45,14 @@ function dd($var) {
     echo "</pre>";
     die();
 }
+
+function checkInternetConnection(): bool {
+    $connected = @fsockopen("www.google.com", 80);
+    if ($connected){
+        fclose($connected);
+        return true; // Internet is available
+    }
+    return false; // No connection
+}
+
+
