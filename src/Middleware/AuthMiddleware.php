@@ -7,6 +7,7 @@ use Helpers\RedirectHelper;
 class AuthMiddleware {
     public static function check() {
         if(!isset($_SESSION['user']['id'])) {
+            http_response_code(401);
             RedirectHelper::withFlash('error', 'Forbidden. You must logged in.', '/auth/login');
         }
     }

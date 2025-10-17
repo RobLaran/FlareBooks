@@ -59,11 +59,20 @@ class Router {
 
                 // run middleware if any
                 foreach ($middleware as $mw) {
-                    $mwResult = call_user_func($mw, $params);
+                    if (is_array($mw) && count($mw) >= 2) {
+                        $class = $mw[0];
+                        $method = $mw[1];
+                        $args = $mw[2] ?? []; // optional args, e.g. roles
+                        $mwResult = call_user_func_array([$class, $method], [$args]);
+                    } else {
+                        $mwResult = call_user_func($mw, $params);
+                    }
+
                     if ($mwResult === false) {
                         return; // stop if middleware fails
                     }
                 }
+
 
                 return self::callAction($action, $params);
             }

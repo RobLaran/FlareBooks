@@ -50,6 +50,16 @@
             grid-area: main;
             margin-top: 40px;
 
+            h2 {
+                text-align: center;
+                padding: 24px 8px;
+            }
+
+            > a {
+                color: var(--color-16);
+                text-align: center;
+            }
+
             form > div {
                 display: flex;
                 justify-content: center;
@@ -81,6 +91,8 @@
 
             .form-buttons-container {
                 margin-bottom: 40px;
+                display: flex;
+                justify-content: space-evenly;
             }
         }
     }

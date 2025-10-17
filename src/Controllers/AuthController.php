@@ -2,6 +2,7 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
+use App\Core\Sanitizer;
 use App\Core\ValidationException;
 use App\Models\User;
 use Exception;
@@ -15,64 +16,46 @@ class AuthController extends Controller {
         $this->userModel = new User();
     }
 
-    public function loginUser() {
+     public function login() {
+            $this->view("auth/index", [], "landing_page");
+    }
+
+    public function attemptLogin() {
         try {
-            if(isset($_SESSION['user'])) {
-                RedirectHelper::to('/dashboard');   
+            $role = $_POST['role'] ?: '';
+            $data = [
+                "username" => Sanitizer::clean($_POST['username']),
+                "email" => Sanitizer::clean($_POST['email'], 'email'),
+                "password" => Sanitizer::clean($_POST['password'])
+            ];
+
+             $errors = [];
+
+            if(empty($data['username'])) {     
+                $errors[] = 'Enter Username';
+            } 
+            
+            if(empty($data['email'])) {    
+                $errors[] = 'Email required';
+            } else if(!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {    
+                $errors[] = 'Invalid Email';
             }
 
-            if(!isset($_SESSION['user']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
-                $username = filter_var($_POST['username'], FILTER_SANITIZE_STRING);
-                $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
-                $password = filter_var($_POST['password'], FILTER_SANITIZE_STRING);
-                $errors = [];
-
-                if(empty($username)) {     
-                    $errors[] = 'Enter Username';
-                } 
-                
-                if(empty($email)) {    
-                    $errors[] = 'Email required';
-                } else if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {    
-                    $errors[] = 'Invalid Email';
-                }
-
-                if(empty($password)) {      
-                    $errors[] = 'Empty password';
-                } 
-
-                if($errors) {
-                    throw new ValidationException($errors);
-                }
-
-                $user = $this->userModel->getUser($email, $username);
-
-                if($user === null) {
-                    throw new ValidationException([ 'Wrong username or invalid email' ]);
-                }
-
-                if($user['password'] !== $password) {
-                    throw new ValidationException([ 'Wrong password' ]);
-                }
-
-                if(isset($user['role']) && $user['role'] === 'admin') {
-                    throw new ValidationException([ 'Admins must log in via the admin login page' ]);
-                }
-
-                // Store session
-                $_SESSION['user'] = [
-                    'id'       => $user['user_id'],
-                    'name' => $user['name'],
-                    'username' => $user['username'],
-                    'email'    => $user['email'],
-                    'role'     => $user['role'] == 'user' ? "Librarian" : "System Admin", 
-                    'image'     => $user['image']
-                ];
-
-                RedirectHelper::withFlash('success', 'Login success', '/dashboard');
+            if(empty($data['email'])) {      
+                $errors[] = 'Empty password';
             } 
 
-            $this->view("auth/user/index", [ "title" => $this->title ], "landing_page");
+            if($errors) {
+                throw new ValidationException($errors);
+            }
+
+            if($role === 'librarian') {
+                $this->loginUser($data);
+            } else if($role === 'admin') {
+                $this->loginAdmin($data);
+            } else {
+                throw new Exception('No role specified');
+            }
         } catch(ValidationException $errors) {
             RedirectHelper::withFlash('errors', $errors->getErrors(), '/auth/login');
         } catch (Exception $error) {
@@ -80,40 +63,78 @@ class AuthController extends Controller {
         }
     }
 
-    public function loginAdminForm(): void {
-        $this->view("auth/admin/index", [ "title" => $this->title ], "landing_page");
+    public function loginUser($data) {
+        if(isset($_SESSION['user']) && $_SESSION['user']['role'] === 'Librarian') {
+            RedirectHelper::to('/dashboard');   
+        }
+
+        if(!isset($_SESSION['user']) 
+            && !empty($data)
+            && $_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            $user = $this->userModel->getUser($data['email'], $data['username']);
+
+            if($user === null) {
+                throw new ValidationException([ 'Wrong username or invalid email' ]);
+            }
+
+            if($user['password'] !== $data['password']) {
+                throw new ValidationException([ 'Wrong password' ]);
+            }
+
+            if(isset($user['role']) && $user['role'] != 'user') {
+                throw new ValidationException([ 'You must input the user credentials' ]);
+            }
+
+            // Store session
+            $_SESSION['user'] = [
+                'id'       => $user['user_id'],
+                'name' => $user['name'],
+                'username' => $user['username'],
+                'email'    => $user['email'],
+                'role'     => $user['role'] == 'user' ? "Librarian" : "Admin", 
+                'image'     => $user['image']
+            ];
+
+            RedirectHelper::withFlash('success', 'Login success', '/dashboard');
+        } 
     }
 
-    public function loginAdmin() {
-        try {
-            if(isset($_SESSION['user'])) {
-                RedirectHelper::to('/dashboard');
-            }
-
-            if(!isset($_SESSION['user']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
-                $username = filter_var($_POST['username'], FILTER_SANITIZE_STRING);
-                $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
-                $password = filter_var($_POST['password'], FILTER_SANITIZE_STRING);
-                $confirmPassword = filter_var($_POST['confirm_password'], FILTER_SANITIZE_STRING);
-                $errors = [];
-
-                if(empty($_POST['email'])) {
-                    throw new Exception('Email required');
-                } else if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-                    throw new Exception('Invalid Email');
-                }
-
-                if(empty($_POST['password'])) {
-                    throw new Exception('Empty password');
-                }
-
-                RedirectHelper::withFlash('success', 'Login success', '/dashboard');
-            }
-
-            $this->view("auth/admin/index", [ "title" => $this->title ], "landing_page");
-        } catch(Exception $error) {
-            RedirectHelper::withFlash('error', $error->getMessage(), '/auth/login/admin');
+    public function loginAdmin($data) {
+        if(isset($_SESSION['user']) && $_SESSION['user']['role'] === 'Admin') {
+            RedirectHelper::to('/admin/dashboard');   
         }
+
+        if(!isset($_SESSION['user']) 
+            && !empty($data)
+            && $_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            $user = $this->userModel->getUser($data['email'], $data['username']);
+
+            if($user === null) {
+                throw new ValidationException([ 'Wrong username or invalid email' ]);
+            }
+
+            if($user['password'] !== $data['password']) {
+                throw new ValidationException([ 'Wrong password' ]);
+            }
+
+            if(isset($user['role']) && $user['role'] != 'admin') {
+                throw new ValidationException([ 'You must input the admin credentials' ]);
+            }
+
+            // Store session
+            $_SESSION['user'] = [
+                'id'       => $user['user_id'],
+                'name' => $user['name'],
+                'username' => $user['username'],
+                'email'    => $user['email'],
+                'role'     => $user['role'] == 'user' ? "Librarian" : "Admin", 
+                'image'     => $user['image']
+            ];
+
+            RedirectHelper::withFlash('success', 'Login success', '/admin/dashboard');
+        } 
     }
 
     public function logout() {
