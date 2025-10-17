@@ -36,6 +36,8 @@ Router::get('/admin/reports', 'Admin\AdminController@reports', [[AuthMiddleware:
 
 // Profile
 Router::get('/admin/profile/{id}', 'Admin\AdminController@profile', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
+Router::put('/admin/profile/{id}', 'Admin\AdminController@update', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
+Router::put('/admin/profile/change-password/{id}', 'Admin\AdminController@changePassword', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
 
 
 // ALL USER ROUTES --------------------------------------------------------------------

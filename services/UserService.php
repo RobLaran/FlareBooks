@@ -19,7 +19,6 @@ class UserService {
 
         Validator::validate($user['name'], 'Name', [ 'required' ]);
         Validator::validate($user['email'], 'Email', [ 'required', 'email' ]);
-        Validator::validate($user['image'], 'image', [ 'required' ]);
 
         if(Validator::hasErrors()) throw new ValidationException(Validator::getErrors());
     }
@@ -44,7 +43,7 @@ class UserService {
                     'name' => $user['name'],
                     'username' => $user['username'],
                     'email'    => $user['email'],
-                    'role'     => $user['role'] == 'user' ? "Librarian" : "System Admin", 
+                    'role'     => $user['role'] == 'user' ? "Librarian" : "Admin", 
                     'image'     => $user['image']
                 ];
     }
