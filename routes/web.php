@@ -12,23 +12,30 @@ Router::get('/auth/logout', 'AuthController@logout');
 // ALL Admin ROUTES --------------------------------------------------------------------
 
 // Dashboard
-Router::get('/admin', 'AdminController@dashboard', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
-Router::get('/admin/dashboard', 'AdminController@dashboard', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
+Router::get('/admin', 'Admin\AdminController@dashboard', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
+Router::get('/admin', 'Admin\AdminController@dashboard', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
+Router::get('/admin/dashboard', 'Admin\AdminController@dashboard', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
 
 // Books
-Router::get('/admin/books', 'AdminController@books', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
+Router::get('/admin/books', 'Admin\AdminController@books', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
+Router::get('/admin/books/add', 'Admin\BooksController@create', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
+Router::get('/admin/books/search-books', 'Admin\BooksController@search', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
+Router::post('/admin/books/add', 'Admin\BooksController@add', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
+Router::get('/admin/books/edit/{id}', 'Admin\BooksController@edit', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
+Router::put('/admin/books/update/{id}', 'Admin\BooksController@update', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
+Router::delete('/admin/books/delete/{id}', 'Admin\BooksController@delete', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
 
 // Genres
-Router::get('/admin/genres', 'AdminController@genres', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
+Router::get('/admin/genres', 'Admin\AdminController@genres', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
 
 // Staffs
-Router::get('/admin/staffs', 'AdminController@staffs', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
+Router::get('/admin/staffs', 'Admin\AdminController@staffs', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
 
 // Reports
-Router::get('/admin/reports', 'AdminController@reports', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
+Router::get('/admin/reports', 'Admin\AdminController@reports', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
 
 // Profile
-Router::get('/admin/profile/{id}', 'AdminController@profile', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
+Router::get('/admin/profile/{id}', 'Admin\AdminController@profile', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
 
 
 // ALL USER ROUTES --------------------------------------------------------------------

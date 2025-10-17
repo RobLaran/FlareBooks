@@ -1,6 +1,6 @@
 <?php 
 
-namespace App\Controllers;
+namespace App\Controllers\Admin;
 
 use App\Core\Controller;
 use App\Core\Sanitizer;
@@ -12,8 +12,10 @@ use Helpers\SessionHelper;
 use Services\UserService;
 
 class AdminController extends Controller {
+    private $bookController;
 
     public function __construct() {
+        $this->bookController = new BooksController();
     }
 
     public function dashboard() {
@@ -23,9 +25,7 @@ class AdminController extends Controller {
     }
 
     public function books() {
-        $this->view('/admin/books', [ 
-            "title" => "Books"
-        ], "layout");
+        $this->bookController->index();
     }
 
     public function genres() {
