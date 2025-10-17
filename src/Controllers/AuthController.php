@@ -72,7 +72,7 @@ class AuthController extends Controller {
                 RedirectHelper::withFlash('success', 'Login success', '/dashboard');
             } 
 
-            $this->view("auth/user/index", [ "title" => $this->title ], "auth_layout");
+            $this->view("auth/user/index", [ "title" => $this->title ], "landing_page");
         } catch(ValidationException $errors) {
             RedirectHelper::withFlash('errors', $errors->getErrors(), '/auth/login');
         } catch (Exception $error) {
@@ -81,7 +81,7 @@ class AuthController extends Controller {
     }
 
     public function loginAdminForm(): void {
-        $this->view("auth/admin/index", [ "title" => $this->title ], "auth_layout");
+        $this->view("auth/admin/index", [ "title" => $this->title ], "landing_page");
     }
 
     public function loginAdmin() {
@@ -110,7 +110,7 @@ class AuthController extends Controller {
                 RedirectHelper::withFlash('success', 'Login success', '/dashboard');
             }
 
-            $this->view("auth/admin/index", [ "title" => $this->title ], "auth_layout");
+            $this->view("auth/admin/index", [ "title" => $this->title ], "landing_page");
         } catch(Exception $error) {
             RedirectHelper::withFlash('error', $error->getMessage(), '/auth/login/admin');
         }
