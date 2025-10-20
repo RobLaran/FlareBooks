@@ -7,6 +7,7 @@ use App\Core\ValidationException;
 use App\Models\Book;
 use App\Models\BorrowedBook;
 use App\Models\Borrower;
+use App\Models\Genre;
 use Exception;
 use Helpers\RedirectHelper;
 use Services\BorrowedBookService;
@@ -15,6 +16,7 @@ class BorrowedBooksController extends Controller {
     private $transactionModel;
     private $bookModel;
     private $borrowerModel;
+    private $genreModel;
     private $transactionService;
 
     public function __construct() {
@@ -22,18 +24,21 @@ class BorrowedBooksController extends Controller {
         $this->transactionModel = new BorrowedBook();
         $this->bookModel = new Book();
         $this->borrowerModel = new Borrower();
+        $this->genreModel = new Genre();
         $this->transactionService = new BorrowedBookService($this->transactionModel, $this->bookModel);
     }
     public function index() {
         $transactions = $this->transactionModel->getAllTransactions();
         $books = $this->bookModel->getAllBooks();
         $borrowers = $this->borrowerModel->getAllBorrowers();
+        $genres = $this->genreModel->getAllGenres();
 
         $this->view("/user/borrowed_books", [
             "title" => $this->title ,
             "books" => $books,
             "borrowers" => $borrowers,
-            "transactions" => $transactions
+            "transactions" => $transactions,
+            "genres" => $genres
         ]);
     }
 
@@ -97,6 +102,16 @@ class BorrowedBooksController extends Controller {
 
         header('Content-Type: application/json');
         echo json_encode($borrowers);
+        exit;
+    }
+
+    public function searchByGenre() {
+        $query = $_GET['q'] ?? '';
+
+        $transactions = $this->transactionModel->getAllTransactionsByGenre($query);
+
+        header('Content-Type: application/json');
+        echo json_encode($transactions);
         exit;
     }
 }

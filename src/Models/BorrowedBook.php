@@ -72,6 +72,36 @@ class BorrowedBook extends Model {
         return $this->format($results);
     }
 
+    public function getAllTransactionsByGenre($genreId) {
+        $sql = "SELECT 
+                    b.image AS image,
+                    b.title AS title,
+                    b.author AS author,
+                    b.ISBN AS ISBN,
+                    br.first_name AS fname,
+                    br.last_name AS lname,
+                    bb.borrow_date AS borrow_date,
+                    bb.due_date AS due_date,
+                    bb.borrowed_id AS borrowed_id,
+                    CASE 
+                        WHEN bb.due_date < CURDATE() THEN 1 
+                        ELSE 0 
+                    END AS is_overdue
+                FROM borrowed_books bb
+                    LEFT JOIN books b ON bb.book_id = b.ISBN
+                    LEFT JOIN borrowers br ON bb.borrower_code = br.borrower_code 
+                WHERE b.genre_id = :genreId;
+        ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':genreId', $genreId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $this->format($results);
+    }
+
     public function addTransaction($transaction) {
         $bookID = $transaction['book_id'] ?: null;
         $borrowerCode= $transaction['borrower_code'] ?: null;

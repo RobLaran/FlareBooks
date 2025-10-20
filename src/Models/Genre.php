@@ -14,25 +14,8 @@ class Genre extends Model {
         return $stmt->fetchColumn() ?: null;
     }
 
-    public function getAllGenres($sortBy = "genre", $sortDir = "ASC"): array {
-        // whitelist allowed columns for sorting (map to actual table.column)
-        $allowedSort = [
-            "id" => "g.id",
-            "genre"  => "g.genre",
-        ];
-
-        // fallback if invalid sort
-        $sortBy = $allowedSort[$sortBy] ?? "g.genre";
-
-        // whitelist directions
-        $sortDir = strtoupper($sortDir) === "DESC" ? "DESC" : "ASC";
-
-        $sql = "
-            SELECT 
-                g.* 
-            FROM genres g
-            ORDER BY $sortBy $sortDir
-        ";
+    public function getAllGenres(): array {
+        $sql = "SELECT * FROM genres";
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute();

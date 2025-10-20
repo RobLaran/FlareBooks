@@ -6,6 +6,7 @@ use App\Core\ValidationException;
 use App\Core\Validator;
 use App\Models\Book;
 use App\Models\BorrowedBook;
+use App\Models\Genre;
 use App\Models\ReturnedBook;
 use Exception;
 use Helpers\RedirectHelper;
@@ -13,22 +14,26 @@ use Helpers\RedirectHelper;
 class ReturnsController extends Controller {
     private $bookModel;
     private $transactionModel;
+    private $genreModel;
     private $returnedBookModel;
 
     public function __construct() {
         $this->title = "Returns";
         $this->bookModel = new Book();
         $this->transactionModel = new BorrowedBook();
+        $this->genreModel = new Genre();
         $this->returnedBookModel = new ReturnedBook();
     }
     public function index() {
         $returnedBooks = $this->returnedBookModel->getReturnedBooks();
         $transactions = $this->transactionModel->getAllTransactions(); 
+        $genres = $this->genreModel->getAllGenres();
 
         $this->view("/user/returns", [ 
             "title" => $this->title,
             "transactions" => $transactions,
-            "data" => $returnedBooks
+            "data" => $returnedBooks,
+            "genres" => $genres
         ]);
     }
 
@@ -89,6 +94,16 @@ class ReturnsController extends Controller {
 
         header('Content-Type: application/json');
         echo json_encode($transactions);
+        exit;
+    }
+
+    public function searchByGenre() {
+        $query = $_GET['q'] ?? '';
+
+        $returnedBooks = $this->returnedBookModel->getAllReturnedBooksByGenre($query);
+
+        header('Content-Type: application/json');
+        echo json_encode($returnedBooks);
         exit;
     }
 }

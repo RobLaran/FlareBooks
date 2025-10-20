@@ -172,13 +172,18 @@ function createDynamicTable(config) {
        try {
          const route = input.dataset.route;
 
+         if(query === "") {
+            reset();
+            return;
+         }
+
         fetch(`${route}?q=` + encodeURIComponent(query))
 			.then(response => response.json())
 			.then(results => {
                 filteredData = results;
+                renderTable(1);
             });
             
-        renderTable(1);
        } catch(error) {
             console.log("error");
        }
@@ -222,6 +227,11 @@ function createDynamicTable(config) {
             filteredData = [...data];
             renderTable(1);
         });
+    }
+
+    function reset() {
+        filteredData = [...data];
+        renderTable(1);
     }
 
 

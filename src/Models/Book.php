@@ -121,6 +121,22 @@ class Book extends Model {
         return $this->format($results);
     }
 
+    public function getAllBooksByGenre($genreId) {
+        $sql = "SELECT 
+                    b.*, 
+                    g.genre 
+                FROM books b
+                    LEFT JOIN genres g ON b.genre_id = g.id
+                WHERE genre_id = :genreId";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(":genreId", $genreId, \PDO::PARAM_INT);
+        $stmt->execute();
+        $results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        return $this->format($results);
+    }
+
     public function searchBooks($query) {
         $sql = "SELECT 
                     b.ISBN AS ISBN,

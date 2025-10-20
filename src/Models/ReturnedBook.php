@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Core\Model;
+use PDO;
 
 class ReturnedBook extends Model {
 
@@ -101,6 +102,37 @@ class ReturnedBook extends Model {
         $formattedResults = $this->format($results);
 
         return $formattedResults ?: null;
+    }
+
+    public function getAllReturnedBooksByGenre($genreId) {
+        $sql = "SELECT  
+                        rb.returned_book_id,
+                        rb.borrower_code,
+                        DATE_FORMAT(rb.return_date, '%M %d, %Y') AS return_date,
+                        DATE_FORMAT(rb.borrow_date, '%M %d, %Y') AS borrow_date,
+                        DATE_FORMAT(rb.due_date, '%M %d, %Y') AS due_date,
+                        rb.book_id,
+                        rb.borrower_code,
+                        rb.borrowed_id,
+                        b.image,
+                        b.title,
+                        b.author,
+                        br.first_name,
+                        br.last_name
+                    FROM returned_books rb
+                        LEFT JOIN borrowed_books bb ON rb.borrowed_id = bb.borrowed_id
+                        LEFT JOIN books b ON rb.book_id = b.ISBN
+                        LEFT JOIN borrowers br ON rb.borrower_code = br.borrower_code
+                    WHERE b.genre_id = :genreId
+        ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':genreId', $genreId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $this->format($results);
     }
 
     public function format($results): array|null {

@@ -54,6 +54,7 @@ Router::get('/dashboard', 'DashboardController@index', [[AuthMiddleware::class, 
 Router::get('/books', 'BooksController@index', [[AuthMiddleware::class, 'checkRole', ['Librarian']]]);
 Router::get('/books/add', 'BooksController@create', [[AuthMiddleware::class, 'checkRole', ['Librarian']]]);
 Router::get('/books/search-books', 'BooksController@search', [[AuthMiddleware::class, 'checkRole', ['Librarian']]]);
+Router::get('/books/search-books-by-genre', 'BooksController@searchByGenre', [[AuthMiddleware::class, 'checkRole', ['Librarian']]]);
 Router::post('/books/add', 'BooksController@add', [[AuthMiddleware::class, 'checkRole', ['Librarian']]]);
 Router::get('/books/edit/{id}', 'BooksController@edit', [[AuthMiddleware::class, 'checkRole', ['Librarian']]]);
 Router::put('/books/update/{id}', 'BooksController@update', [[AuthMiddleware::class, 'checkRole', ['Librarian']]]);
@@ -77,6 +78,7 @@ Router::post('/borrowed-books/add', 'BorrowedBooksController@add', [[AuthMiddlew
 Router::get('/borrowed-books/search-borrowed-books', 'BorrowedBooksController@searchBorrowedBooks', [[AuthMiddleware::class, 'checkRole', ['Librarian']]]);
 Router::get('/borrowed-books/search-book', 'BorrowedBooksController@searchBook', [[AuthMiddleware::class, 'checkRole', ['Librarian']]]);
 Router::get('/borrowed-books/search-borrower', 'BorrowedBooksController@searchBorrower', [[AuthMiddleware::class, 'checkRole', ['Librarian']]]);
+Router::get('/borrowed-books/search-books-by-genre', 'BorrowedBooksController@searchByGenre', [[AuthMiddleware::class, 'checkRole', ['Librarian']]]);
 Router::delete('/borrowed-books/delete/{id}', 'BorrowedBooksController@delete', [[AuthMiddleware::class, 'checkRole', ['Librarian']]]);
 
 // Returns
@@ -84,6 +86,7 @@ Router::get('/returns', 'ReturnsController@index', [[AuthMiddleware::class, 'che
 Router::post('/returns/add', 'ReturnsController@add', [[AuthMiddleware::class, 'checkRole', ['Librarian']]]);
 Router::get('/returns/search-returned-books', 'ReturnsController@searchReturnedBooks', [[AuthMiddleware::class, 'checkRole', ['Librarian']]]);
 Router::get('/returns/search-transaction', 'ReturnsController@searchTransaction', [[AuthMiddleware::class, 'checkRole', ['Librarian']]]);
+Router::get('/returns/search-books-by-genre', 'ReturnsController@searchByGenre', [[AuthMiddleware::class, 'checkRole', ['Librarian']]]);
 Router::delete('/returns/delete/{id}', 'ReturnsController@delete', [[AuthMiddleware::class, 'checkRole', ['Librarian']]]);
 
 // Reports

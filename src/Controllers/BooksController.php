@@ -26,10 +26,12 @@ class BooksController extends Controller {
 
     public function index() {
         $books = $this->bookModel->getAllBooks();
+        $genres = $this->genreModel->getAllGenres();
 
         $this->view("/user/books/index", [
             "title" => $this->title,
-            "books" => $books
+            "books" => $books,
+            "genres" => $genres
         ]);
     }
 
@@ -48,6 +50,16 @@ class BooksController extends Controller {
         $query = $_GET['q'] ?? '';
 
         $books = $this->bookModel->searchBooks($query);
+
+        header('Content-Type: application/json');
+        echo json_encode($books);
+        exit;
+    }
+
+    public function searchByGenre() {
+        $query = $_GET['q'] ?? '';
+
+        $books = $this->bookModel->getAllBooksByGenre($query);
 
         header('Content-Type: application/json');
         echo json_encode($books);
