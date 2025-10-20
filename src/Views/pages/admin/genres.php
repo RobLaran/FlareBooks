@@ -107,7 +107,7 @@
         actions: (row) => {
             return `
                 <div class="action-buttons">
-                    <button class="button default" id="open-edit-genre-form" onclick='openEditForm(${JSON.stringify(row)})'>
+                    <button class="button default nobg" id="open-edit-genre-form" onclick='openEditForm(${JSON.stringify(row)})'>
                         <img src="<?= getFile("public/img/edit.png") ?>">
                     </button>
 

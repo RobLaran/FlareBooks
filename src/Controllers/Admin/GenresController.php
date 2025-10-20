@@ -76,4 +76,14 @@ class GenresController extends Controller {
             RedirectHelper::withFlash('error', $error->getMessage(), '/admin/genres');
         }
     }
+
+    public function delete($id) {
+        $result = $this->genreModel->removeGenre($id);
+
+        if(!$result) {
+            RedirectHelper::withFlash('error', 'Failed to remove genre', '/admin/genres');
+        }
+
+        RedirectHelper::withFlash('success', 'Genre successfully removed', '/admin/genres');
+    }
 }

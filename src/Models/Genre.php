@@ -66,6 +66,15 @@ class Genre extends Model {
         return $stmt->execute();
     }
 
+    public function removeGenre($id) {
+        $sql = "DELETE FROM genres WHERE id = :id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(":id", $id, \PDO::PARAM_INT);
+        $result = $stmt->execute();
+
+        return $result;
+    }
+
     public function format($results): array|null {
         if($results == null) {
             return $results;
