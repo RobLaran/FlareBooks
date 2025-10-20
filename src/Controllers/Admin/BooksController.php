@@ -54,6 +54,16 @@ class BooksController extends Controller {
         header('Content-Type: application/json');
         echo json_encode($books);
         exit;
+    }   
+
+    public function searchByGenre() {
+        $query = $_GET['q'] ?? '';
+
+        $books = $this->bookModel->getAllBooksByGenre($query);
+
+        header('Content-Type: application/json');
+        echo json_encode($books);
+        exit;
     }
 
     public function add() {

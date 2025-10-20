@@ -24,6 +24,7 @@ Router::post('/admin/books/add', 'Admin\BooksController@add', [[AuthMiddleware::
 Router::get('/admin/books/edit/{id}', 'Admin\BooksController@edit', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
 Router::put('/admin/books/update/{id}', 'Admin\BooksController@update', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
 Router::delete('/admin/books/delete/{id}', 'Admin\BooksController@delete', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
+Router::get('/admin/books/search-books-by-genre', 'Admin\BooksController@searchByGenre', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
 
 // Genres
 Router::get('/admin/genres', 'Admin\GenresController@index', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
