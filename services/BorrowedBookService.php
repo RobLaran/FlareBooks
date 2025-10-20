@@ -24,7 +24,7 @@ class BorrowedBookService {
         if(Validator::hasErrors()) throw new ValidationException(Validator::getErrors());
     }
 
-    public function process($transaction) {
+    public function process($transaction): mixed {
         $this->bookModel->deductQuantity($transaction['book_id']);
 
         return $this->transactionModel->addTransaction($transaction);

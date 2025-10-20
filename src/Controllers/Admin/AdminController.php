@@ -5,6 +5,7 @@ namespace App\Controllers\Admin;
 use App\Core\Controller;
 use App\Core\Sanitizer;
 use App\Core\ValidationException;
+use App\Models\Genre;
 use App\Models\User;
 use Exception;
 use Helpers\RedirectHelper;
@@ -15,26 +16,19 @@ class AdminController extends Controller {
     private $bookController;
     private $userModel;
     private $userService;
+    private $genreModel;
+
 
     public function __construct() {
         $this->bookController = new BooksController();
         $this->userModel = new User();
+        $this->genreModel = new Genre();
         $this->userService = new UserService($this->userModel);
     }
 
     public function dashboard() {
         $this->view('/admin/dashboard', [ 
             "title" => "Admin Dashboard"
-        ], "layout");
-    }
-
-    public function books() {
-        $this->bookController->index();
-    }
-
-    public function genres() {
-        $this->view('/admin/genres', [ 
-            "title" => "Genres"
         ], "layout");
     }
 

@@ -1,0 +1,129 @@
+/* === Overlay === */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(6px);
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+}
+
+/* === Modal Box === */
+.modal-box {
+    font-family: Arial, sans-serif;
+    background: var(--color-13);
+    border-radius: 16px;
+    width: 90%;
+    max-width: 500px;
+    padding: 1.5rem;
+    transform: translateY(-20px) scale(0.95);
+    opacity: 0;
+    transition: all 0.25s ease;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.modal-box.show {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+
+/* === Header === */
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--color-12);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.modal-title {
+    font-size: 1.65rem;
+    font-weight: 700;
+    color: #333;
+}
+
+.close-modal {
+    background: none;
+    border: none;
+    font-size: 1.75rem;
+    cursor: pointer;
+    color: var(--color-15);
+    transition: color 0.2s;
+}
+.close-modal:hover {
+    color: #333;
+}
+
+/* === Body === */
+.modal-body {
+    margin-bottom: 1rem;
+}
+
+/* === Footer === */
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+/* === Form Styling === */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 1rem;
+}
+
+.input-container {
+            display: flex;
+            flex-direction: column;
+
+            label {
+                font-weight: 700;
+            }
+
+            textarea {
+                height: 120px;
+                resize: none;
+            }
+
+            input,
+            textarea{
+                padding: 10px 4px;
+                font-size: 1.1rem;
+                border-width: 2px;
+                border-color: var(--color-12);
+                border-radius: 10px;
+                background-color: var(--color-4);
+            }
+
+            
+
+            input:focus,
+            textarea:focus {
+                border-color: var(--color-10);
+                outline-color: var(--color-10);
+            }
+	}
+
+/* === Buttons === */
+.btn-primary {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #0069d9, #004a99);
+    transform: translateY(-2px);
+}

@@ -19,30 +19,47 @@ class Genre extends Model {
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
+        $results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $this->format($results);
     }
 
+    public function genreExist($name): bool {
+        $sql = "SELECT COUNT(*) FROM genres WHERE genre = :name";
 
-    public function getPaginatedGenres($limit, $offset, $sortBy = 'genre', $sortDir = 'ASC', $search = ''): array {
-        return $this->paginate(
-        'genres',
-        ['id','genre'],
-        $limit,
-        $offset,
-        $sortBy,
-        $sortDir,
-        $search,
-        ['genre', 'description'] // searchable columns
-    );
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(":name", $name, \PDO::PARAM_STR);
+        $stmt->execute();
+
+        return $stmt->fetchColumn() > 0;
     }
 
-    public function getTotalGenres($search = ''): mixed {
-        return $this->getTotal(
-        'genres',
-        $search,
-        ['genre', 'description'] // searchable columns
-        );
+    public function addGenre($genre) {
+        $name = $genre['name'] ?: null;
+        $description = $genre['description'] ?: null;
+
+        $sql = "INSERT INTO `genres`(`genre`, `description`) 
+        VALUES (:name,:description)";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(":name", $name, \PDO::PARAM_STR);
+        $stmt->bindValue(":description", $description, \PDO::PARAM_STR);
+        $result = $stmt->execute();
+
+        return $result;
     }
 
+    public function format($results): array|null {
+        if($results == null) {
+            return $results;
+        }
+
+        return array_map(function ($row) {
+            return [
+                "id" => $row['id'],
+                "Name" => $row['genre'],
+                "Description" => $row['description'],
+                "Status" => $row['status']
+            ];
+        }, $results);
+    }
 }

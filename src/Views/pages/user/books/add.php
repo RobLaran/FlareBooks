@@ -17,13 +17,6 @@
             <label for="ISBN-input" class="required">ISBN:</label>
             <input type="text" name="ISBN" id="ISBN-input" required value="<?= $old['ISBN'] ?? '' ?>"> 
         </div>
-        <div class="status-field input-container">
-            <label for="status-selection">Status:</label>
-            <select name="status" id="status-selection">
-                <option value="Available" class="online" <?= !empty($old['status']) ? 'selected' : '' ?>>Available</option>
-                <option value="Unavailable" class="offline" <?= !empty($old['status']) ? 'selected' : '' ?>>Unavailable</option>
-            </select>
-        </div>
         <div class="author-field input-container">
             <label for="author-input" class="required">Author:</label>
             <input type="text" name="author" id="author-input" required value="<?= $old['author'] ?? '' ?>"> 
@@ -45,7 +38,7 @@
             <select name="genre" id="genre-selection">
                 <?php if(count($genres) > 0): ?>
                     <?php foreach($genres as $genre): ?>
-                        <option value="<?= $genre['id'] ?>" <?= !empty($old['genre']) ? 'selected' : '' ?>><?= $genre['genre'] ?></option>
+                        <option value="<?= $genre['id'] ?>" <?= !empty($old['genre']) ? 'selected' : '' ?>><?= $genre['Name'] ?></option>
                     <?php endforeach; ?>
                 <?php endif; ?>
             </select>

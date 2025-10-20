@@ -26,10 +26,12 @@ class BooksController extends Controller {
 
     public function index() {
         $books = $this->bookModel->getAllBooks();
+        $genres = $this->genreModel->getAllGenres();
 
         $this->view("/admin/books/index", [
             "title" => $this->title,
-            "books" => $books
+            "books" => $books,
+            "genres" => $genres
         ]);
     }
 
@@ -40,7 +42,7 @@ class BooksController extends Controller {
         $this->view("/admin/books/add", [ 
             "title" => "Add Book", 
             "genres" => $genres,
-            "old" => $old 
+            "old" => $old
         ]);
     }
 

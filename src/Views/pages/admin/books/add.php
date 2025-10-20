@@ -45,7 +45,7 @@
             <select name="genre" id="genre-selection">
                 <?php if(count($genres) > 0): ?>
                     <?php foreach($genres as $genre): ?>
-                        <option value="<?= $genre['id'] ?>" <?= !empty($old['genre']) ? 'selected' : '' ?>><?= $genre['genre'] ?></option>
+                        <option value="<?= $genre['id'] ?>" <?= !empty($old['genre']) ? 'selected' : '' ?>><?= $genre['Name'] ?></option>
                     <?php endforeach; ?>
                 <?php endif; ?>
             </select>

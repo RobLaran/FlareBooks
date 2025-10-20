@@ -1,7 +1,7 @@
 <div class="edit-book-page">
     <form action="<?= routeTo('/books/update/' . $book['ISBN']) ?>" method="POST" class="form-container" id="update-book-form">
         <div class="image-preview">
-            <?php if(isImageUrl($book['image'])): ?>
+            <?php if(isImageUrl($book['image'] ?? "")): ?>
                 <img src="<?= $book['image'] ?? $old['image'] ?>" alt="Image URL Preview " id="image-preview" data-default="<?= getFile('/public/img/image-preview.jpg') ?>">
             <?php else: ?>
                 <img src="<?= getFile('public/img/' . ($book['image']  ?? $old['image'] )) ?>" alt="Image Preview in File" id="image-preview" data-default="<?= getFile('/public/img/image-preview.jpg') ?>">
@@ -22,13 +22,13 @@
             <label for="ISBN-input" class="required">ISBN:</label>
             <input type="text" name="ISBN" id="ISBN-input" value="<?= $book['ISBN'] ?? $old['ISBN'] ?>" required>
         </div>
-        <div class="status-field input-container">
+        <!-- <div class="status-field input-container">
             <label for="status-selection">Status:</label>
             <select name="status" id="status-selection">
                 <option value="Available" class="online" <?= ($book['status'] ?? $old['status']) == 'Available' ? 'selected' : '' ?> >Available</option>
                 <option value="Unavailable" class="offline" <?= ($book['status'] ?? $old['status'])== 'Unavailable' ? 'selected' : '' ?> >Unavailable</option>
             </select>
-        </div>
+        </div> -->
         <div class="author-field input-container">
             <label for="author-input" class="required">Author:</label>
             <input type="text" name="author" id="author-input" value="<?= $book['author'] ?? $old['author'] ?>" required>
@@ -50,7 +50,7 @@
             <select name="genre" id="genre-selection">
                 <?php if(count($genres) > 0): ?>
                     <?php foreach($genres as $genre): ?>
-                        <option value="<?= $genre['id'] ?>" <?= ($book['genre_id'] ?? $old['genre_id']) == $genre['id'] ? 'selected' : '' ?> ><?= $genre['genre'] ?></option>
+                        <option value="<?= $genre['id'] ?>" <?= ($book['genre_id'] ?? $old['genre_id']) == $genre['id'] ? 'selected' : '' ?> ><?= $genre['Name'] ?></option>
                     <?php endforeach; ?>
                 <?php endif; ?>
             </select>

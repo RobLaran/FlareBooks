@@ -1,0 +1,11 @@
+.genres-page {
+    .table-container {
+        .row.one {
+            form {
+                div.inputs-container {
+                    display: flex;
+                }
+            }
+        }
+    }
+}

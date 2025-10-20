@@ -219,7 +219,7 @@ class Book extends Model {
                 "Title" => $row['title'],
                 "Genre" => $row['genre'],
                 "Quantity" => $row['quantity'] ?? 0,
-                "Status" => $row['status']
+                "Status" => $row['quantity'] > 0 ? "Available" : "Unavailable"
             ];
         }, $results);
     }

@@ -50,7 +50,7 @@
             <select name="genre" id="genre-selection">
                 <?php if(count($genres) > 0): ?>
                     <?php foreach($genres as $genre): ?>
-                        <option value="<?= $genre['id'] ?>" <?= ($book['genre_id'] ?? $old['genre_id']) == $genre['id'] ? 'selected' : '' ?> ><?= $genre['genre'] ?></option>
+                        <option value="<?= $genre['id'] ?>" <?= ($book['genre_id'] ?? $old['genre_id']) == $genre['id'] ? 'selected' : '' ?> ><?= $genre['Name'] ?></option>
                     <?php endforeach; ?>
                 <?php endif; ?>
             </select>

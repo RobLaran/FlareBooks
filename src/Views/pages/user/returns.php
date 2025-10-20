@@ -73,7 +73,7 @@
                 <select name="genre-selection" id="genre-filter" data-route="<?= routeTo('/returns/search-books-by-genre') ?>" onchange="booksTable.search(this, this.value)">
                     <option value="">-- Select genre --</option>
                     <?php foreach($genres as $genre): ?>
-                        <option value="<?= $genre['id'] ?>"><?= $genre['genre'] ?></option>
+                        <option value="<?= $genre['id'] ?>"><?= $genre['Name'] ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>

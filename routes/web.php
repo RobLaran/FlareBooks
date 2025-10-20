@@ -17,7 +17,7 @@ Router::get('/admin', 'Admin\AdminController@dashboard', [[AuthMiddleware::class
 Router::get('/admin/dashboard', 'Admin\AdminController@dashboard', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
 
 // Books
-Router::get('/admin/books', 'Admin\AdminController@books', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
+Router::get('/admin/books', 'Admin\BooksController@index', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
 Router::get('/admin/books/add', 'Admin\BooksController@create', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
 Router::get('/admin/books/search-books', 'Admin\BooksController@search', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
 Router::post('/admin/books/add', 'Admin\BooksController@add', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
@@ -26,7 +26,8 @@ Router::put('/admin/books/update/{id}', 'Admin\BooksController@update', [[AuthMi
 Router::delete('/admin/books/delete/{id}', 'Admin\BooksController@delete', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
 
 // Genres
-Router::get('/admin/genres', 'Admin\AdminController@genres', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
+Router::get('/admin/genres', 'Admin\GenresController@index', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
+Router::post('/admin/genres/add', 'Admin\GenresController@add', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
 
 // Staffs
 Router::get('/admin/staffs', 'Admin\AdminController@staffs', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
