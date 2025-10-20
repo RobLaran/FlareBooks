@@ -103,5 +103,58 @@ function createModal() {
         return form;
     }
 
-    return { open, close, addGenreForm };
+    function editGenreForm(route, genre) {
+        const form = document.createElement('form');
+        form.id = 'add-genre-form';
+        form.noValidate = true;
+        form.setAttribute('method', 'POST');
+        form.setAttribute('action', route);
+
+        const inputsContainer = document.createElement('div');
+        inputsContainer.classList.add('inputs-container');
+
+        // Genre
+        const genreGroup = document.createElement('div');
+        genreGroup.classList.add('form-group');
+        genreGroup.innerHTML = `
+            <div class="input-container">
+                <label for="genre-input">Genre</label>
+                <input type="text" id="genre-input" name="name" placeholder="Enter genre name" value="${genre['Name']}">
+            </div>
+        `;
+
+        // Description
+        const descGroup = document.createElement('div');
+        descGroup.classList.add('form-group');
+        descGroup.innerHTML = `
+            <div class="input-container">
+                <label for="description-input">Description</label>
+                <textarea id="description-input" name="description" placeholder="Enter genre description">${genre['Description']}</textarea>
+            </div>
+        `;
+
+        inputsContainer.append(genreGroup, descGroup);
+
+        const hiddenInput = document.createElement('input');
+        hiddenInput.type = "hidden";
+        hiddenInput.name = "_method";
+        hiddenInput.value = "PUT";
+
+        const submitBtn = document.createElement('button');
+        submitBtn.type = 'submit';
+        submitBtn.classList.add('button');
+        submitBtn.classList.add('default');
+        submitBtn.textContent = 'Update Genre';
+
+        form.append(inputsContainer, hiddenInput, submitBtn);
+
+        return form;
+    }
+
+    return { 
+        open, 
+        close, 
+        addGenreForm, 
+        editGenreForm 
+    };
 }

@@ -28,6 +28,8 @@ Router::delete('/admin/books/delete/{id}', 'Admin\BooksController@delete', [[Aut
 // Genres
 Router::get('/admin/genres', 'Admin\GenresController@index', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
 Router::post('/admin/genres/add', 'Admin\GenresController@add', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
+Router::put('/admin/genres/update/{id}', 'Admin\GenresController@update', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
+Router::delete('/books/delete/{id}', 'BooksController@delete', [[AuthMiddleware::class, 'checkRole', ['Librarian']]]);
 
 // Staffs
 Router::get('/admin/staffs', 'Admin\AdminController@staffs', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);

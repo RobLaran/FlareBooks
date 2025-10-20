@@ -48,6 +48,24 @@ class Genre extends Model {
         return $result;
     }
 
+    public function updateGenre($id, $updates) {
+        $name = $updates['name'] ?: null;
+        $description = $updates['description'] ?: null;
+
+        $sql = "UPDATE genres 
+                SET 
+                genre = :name,
+                description = :description
+                WHERE id = :id";
+        
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(":name", $name, \PDO::PARAM_STR);
+        $stmt->bindValue(":description", $description, \PDO::PARAM_STR);
+        $stmt->bindValue(":id", $id, \PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+
     public function format($results): array|null {
         if($results == null) {
             return $results;

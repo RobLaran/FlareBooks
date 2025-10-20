@@ -78,6 +78,16 @@
         modal.open(form, 'Add New Genre');
     });
 
+    // document.getElementById('open-edit-genre-form').addEventListener('click', () => {
+    //     const form = modal.editGenreForm('<?= routeTo('/admin/genres/add') ?>');
+    //     modal.open(form, 'Add New Genre');
+    // });
+
+    function openEditForm(genre) {
+        const form = modal.editGenreForm('<?= routeTo('/admin/genres/update/') ?>' + genre['id'], genre);
+        modal.open(form, 'Add New Genre');
+    }
+
     // Table
     const genresData = <?php echo json_encode([$genres]); ?>;
 
@@ -92,15 +102,16 @@
             "Status": (status) => 
 				`<span class="status ${status ? "online" : "offline"}">${status ? "Active" : "Inactive"}</span>`
         },
-		sortable: [ "Name", "Description", "Status" ],
-		hidden: [ "id" ],
+		sortable: [ "Name", "Description" ],
+		hidden: [ "id", "Status" ],
         actions: (row) => {
             return `
                 <div class="action-buttons">
-                    <a href="<?= routeTo("/admin/genres/edit/") ?>${row['id']}" class="button act-edit safe">
+                    <button class="button default" id="open-edit-genre-form" onclick='openEditForm(${JSON.stringify(row)})'>
                         <img src="<?= getFile("public/img/edit.png") ?>">
-                    </a>
-                    <form class="delete-genre-form" action="<?= routeTo('/admin/genres/delete/') ?>${row["id"]}" method="POST">
+                    </button>
+
+                    <form class="delete-genre-form" action="<?= routeTo('/admin/genres/delete/') ?>${row.id}" method="POST">
                         <input type="hidden" name="_method" value="DELETE">
                         <button type="button" class="button act-remove danger" onclick="showAlert(event)">
                             <img src="<?= getFile("public/img/delete.png") ?>">
@@ -109,6 +120,7 @@
                 </div>
             `;
         }
+
     });
 
     genresTable.renderTable(1);

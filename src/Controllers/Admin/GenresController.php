@@ -51,4 +51,29 @@ class GenresController extends Controller {
             RedirectHelper::withFlash('error', $error->getMessage(), '/admin/genres');
         }
     }
+
+    public function update($id) {
+        try {
+            $updatedGenre = [
+                "name" => Sanitizer::clean($_POST['name']),
+                "description" => Sanitizer::clean($_POST['description'])
+            ];
+
+            Validator::validate($updatedGenre['name'], 'Genre name', ['required']);
+
+            if(Validator::hasErrors()) throw new ValidationException(Validator::getErrors());
+
+            $result = $this->genreModel->updateGenre($id, $updatedGenre);
+
+            if(!$result) {
+                RedirectHelper::withFlash('error', 'Failed to update genre', '/admin/genres');
+            }
+            
+            RedirectHelper::withFlash('success', 'Genre successfully updated', '/admin/genres');
+        } catch(ValidationException $errors) {
+            RedirectHelper::withFlash('errors', $errors->getErrors(), '/admin/genres');
+        } catch(Exception $error) {
+            RedirectHelper::withFlash('error', $error->getMessage(), '/admin/genres');
+        }
+    }
 }
