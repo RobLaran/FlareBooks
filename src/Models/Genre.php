@@ -75,6 +75,22 @@ class Genre extends Model {
         return $result;
     }
 
+    public function searchGenres($query) {
+        $sql = "SELECT 
+                    *
+                FROM genres
+                WHERE genre LIKE :query 
+                    OR description LIKE :query";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(":query", "%$query%", \PDO::PARAM_STR);
+        $stmt->execute();
+
+        $results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        return $this->format($results);
+    }
+
     public function format($results): array|null {
         if($results == null) {
             return $results;

@@ -30,6 +30,7 @@ Router::get('/admin/genres', 'Admin\GenresController@index', [[AuthMiddleware::c
 Router::post('/admin/genres/add', 'Admin\GenresController@add', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
 Router::put('/admin/genres/update/{id}', 'Admin\GenresController@update', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
 Router::delete('/admin/genres/delete/{id}', 'Admin\GenresController@delete', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
+Router::get('/admin/genres/search-genres', 'Admin\GenresController@search', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
 
 // Staffs
 Router::get('/admin/staffs', 'Admin\AdminController@staffs', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);

@@ -86,4 +86,14 @@ class GenresController extends Controller {
 
         RedirectHelper::withFlash('success', 'Genre successfully removed', '/admin/genres');
     }
+
+    public function search() {
+        $query = $_GET['q'] ?? '';
+
+        $genres = $this->genreModel->searchGenres($query);
+
+        header('Content-Type: application/json');
+        echo json_encode($genres);
+        exit;
+    }
 }
