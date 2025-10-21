@@ -171,11 +171,11 @@ function createModal() {
             <div class="image-field input-container">
                 <div class="image-input-container">
                     <label for="image-input">Upload Image(File):</label>
-                    <input type="file" name="image" id="image-input" accept="image/*">
+                    <input type="file" name="imageFile" id="image-input" accept="image/*">
                 </div>
                 <div class="image-url-container">
                     <label for="image-url">Or Image URL:</label>
-                    <input type="text" name="image_url" id="image-url" placeholder="https://example.com/image.jpg">
+                    <input type="text" name="imageURL" id="image-url" placeholder="https://example.com/image.jpg">
                 </div>
             </div>
         `;
@@ -235,6 +235,98 @@ function createModal() {
         return form;
     }
 
+    function editStaffForm(route, staff) {
+        console.log(staff);
+        
+
+        const form = document.createElement('form');
+        form.id = 'add-staff-form';
+        form.noValidate = true;
+        form.setAttribute('method', 'POST');
+        form.setAttribute('action', route);
+
+        const inputsContainer = document.createElement('div');
+        inputsContainer.classList.add('inputs-container');
+
+        const staffImageGroup = document.createElement('div');
+        staffImageGroup.classList.add('form-group');
+        staffImageGroup.classList.add('staff-image');
+        staffImageGroup.innerHTML = `
+            <div class="image-preview">
+                <img src="${staff['Image']}" alt="Image Preview" id="image-preview"" data-default="">
+            </div>
+            <div class="image-field input-container">
+                <div class="image-input-container">
+                    <label for="image-input">Upload Image(File):</label>
+                    <input type="file" name="imageFile" id="image-input" accept="image/*">
+                </div>
+                <div class="image-url-container">
+                    <label for="image-url">Or Image URL:</label>
+                    <input type="text" name="imageURL" id="image-url" placeholder="https://example.com/image.jpg">
+                </div>
+            </div>
+        `;
+
+        const staffNameGroup = document.createElement('div');
+        staffNameGroup.classList.add('form-group');
+        staffNameGroup.innerHTML = `
+            <div class="input-container">
+                <label for="staff-input">Staff Name</label>
+                <input type="text" id="staff-input" name="name" placeholder="Enter staff name" value="${staff['Name']}">
+            </div>
+        `;
+
+        const usernameGroup = document.createElement('div');
+        usernameGroup.classList.add('form-group');
+        usernameGroup.innerHTML = `
+            <div class="input-container">
+                <label for="username-input">Username</label>
+                <input type="text" id="username-input" name="username" placeholder="Enter username" value="${staff['Username']}">
+            </div>
+        `;
+
+        const emailGroup = document.createElement('div');
+        emailGroup.classList.add('form-group');
+        emailGroup.innerHTML = `
+            <div class="input-container">
+                <label for="email-input">Email</label>
+                <input type="email" id="email-input" name="email" placeholder="Enter email" value="${staff['Email']}">
+            </div>
+        `;
+
+        const passwordGroup = document.createElement('div');
+        passwordGroup.classList.add('form-group');
+        passwordGroup.innerHTML = `
+            <div class="input-container">
+                <label for="password-input">Password</label>
+                <input type="text" id="password-input" name="password" placeholder="Enter password" value="${staff['Password']}">
+            </div>
+        `;
+
+        inputsContainer.append(
+            staffImageGroup,
+            staffNameGroup, 
+            usernameGroup,
+            emailGroup,
+            passwordGroup
+        );
+
+        const hiddenInput = document.createElement('input');
+        hiddenInput.type = "hidden";
+        hiddenInput.name = "_method";
+        hiddenInput.value = "PUT";
+
+        const submitBtn = document.createElement('button');
+        submitBtn.type = 'submit';
+        submitBtn.classList.add('button');
+        submitBtn.classList.add('default');
+        submitBtn.textContent = 'Confirm Staff';
+
+        form.append(inputsContainer, hiddenInput, submitBtn);
+
+        return form;
+    }
+
     function imagePreviewAction() {
         const fileInput = document.getElementById('image-input');
         const urlInput = document.getElementById('image-url');
@@ -281,6 +373,7 @@ function createModal() {
         addGenreForm, 
         editGenreForm,
         addStaffForm,
+        editStaffForm,
         imagePreviewAction
     };
 }

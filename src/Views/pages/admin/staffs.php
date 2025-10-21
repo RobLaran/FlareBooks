@@ -70,6 +70,7 @@
     function openEditForm(staff) {
         const form = modal.editStaffForm('<?= routeTo('/admin/staffs/update/') ?>' + staff['id'], staff);
         modal.open(form, 'Edit Staff');
+        modal.imagePreviewAction();
     }
 
     // Table
@@ -87,7 +88,7 @@
                 `<img class="staff-image" src="${image}" width="40" height="50">`  
         },
 		sortable: [],
-		hidden: [ "id"],
+		hidden: [ "id", "Password" ],
         actions: (row) => {
             return `
                 <div class="action-buttons">
@@ -95,7 +96,7 @@
                         <img src="<?= getFile("public/img/edit.png") ?>">
                     </button>
 
-                    <form class="delete-staff-form" action="<?= routeTo('/admin/staff/delete/') ?>${row['id']}" method="POST">
+                    <form class="delete-staff-form" action="<?= routeTo('/admin/staffs/delete/') ?>${row['id']}" method="POST">
                         <input type="hidden" name="_method" value="DELETE">
                         <button type="button" class="button act-remove danger" onclick="showAlert(event)">
                             <img src="<?= getFile("public/img/delete.png") ?>">

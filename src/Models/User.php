@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Core\Model;
 
 class User extends Model {
-    public function userExist($username) {
+    public function usernameExist($username) {
         $sql = "SELECT COUNT(*) FROM users WHERE username = :username";
 
         $stmt = $this->db->prepare($sql);
@@ -58,17 +58,72 @@ class User extends Model {
         $username = $user['username'] ?: null;
         $email = $user['email'] ?: null;
         $password = $user['password'] ?: null;
+        $image = $user['image'] ?: null;
 
-        $sql = "INSERT INTO `users`(`name`, `username`, `email`, `password`) 
-        VALUES (:name,:username,:email,:password)";
+        $sql = "INSERT INTO `users`(`name`, `username`, `email`, `password`, `image`) 
+        VALUES (:name,:username,:email,:password,:image)";
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(":name", $name, \PDO::PARAM_STR);
         $stmt->bindValue(":username", $username, \PDO::PARAM_STR);
         $stmt->bindValue(":email", $email, \PDO::PARAM_STR);
         $stmt->bindValue(":password", $password, \PDO::PARAM_STR);
+        $stmt->bindValue(":image", $image, \PDO::PARAM_STR);
         $result = $stmt->execute();
 
         return $result;
+    }
+
+    public function updateUser($id, $updates) {
+        $name = $updates['name'] ?: null;
+        $username = $updates['username'] ?: null;
+        $email = $updates['email'] ?: null;
+        $password = $updates['password'] ?: null;
+        $image = $updates['image'] ?: null;
+
+        $sql = "UPDATE users 
+                SET 
+                name = :name,
+                username = :username,
+                email = :email,
+                image = :image,
+                password = :password
+                WHERE user_id = :id";
+        
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(":name", $name, \PDO::PARAM_STR);
+        $stmt->bindValue(":username", $username, \PDO::PARAM_STR);
+        $stmt->bindValue(":email", $email, \PDO::PARAM_STR);
+        $stmt->bindValue(":image", $image, \PDO::PARAM_STR);
+        $stmt->bindValue(":password", $password, \PDO::PARAM_STR);
+        $stmt->bindValue(":id", $id, \PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+
+    public function removeUser($id) {
+        $sql = "DELETE FROM users WHERE user_id = :id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(":id", $id, \PDO::PARAM_INT);
+        $result = $stmt->execute();
+
+        return $result;
+    }
+
+    public function searchUsers($query) {
+        $sql = "SELECT 
+                    *
+                FROM users
+                WHERE name LIKE :query 
+                    OR username LIKE :query
+                    OR email LIKE :query";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(":query", "%$query%", \PDO::PARAM_STR);
+        $stmt->execute();
+
+        $results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        return $this->format($results);
     }
 
     public function updateUserInfo($id, $updates) {
@@ -116,6 +171,8 @@ class User extends Model {
                 "Image" => formatImage($row['image'] ?? ""),
                 "Name" => $row['name'],
                 "Username" => $row['username'],
+                "Password" => $row['password'],
+                "Email" => $row['email'],
                 "Role" => $row['role'] == 'user' ? "Librarian" : 'Admin'
             ];
         }, $results);

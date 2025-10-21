@@ -49,7 +49,8 @@ class AdminController extends Controller {
                 "name" => Sanitizer::clean($_POST['name']),
                 "username" => Sanitizer::clean($_POST['username']),
                 "email" => Sanitizer::clean($_POST['email']),
-                "password" => Sanitizer::clean($_POST['password'])
+                "password" => Sanitizer::clean($_POST['password']),
+                "image" => Sanitizer::clean($_POST['imageFile'] ?: $_POST['imageURL'])
             ];
 
             Validator::validate($staff['name'], 'Staff name', ['required']);
@@ -59,7 +60,7 @@ class AdminController extends Controller {
 
             if(Validator::hasErrors()) throw new ValidationException(Validator::getErrors());
 
-            if($this->userModel->userExist($staff['username'])) throw new Exception('Staff username already exist');
+            if($this->userModel->usernameExist($staff['username'])) throw new Exception('Staff username already exist');
 
             $result = $this->userModel->addUser($staff);
 
@@ -73,6 +74,61 @@ class AdminController extends Controller {
         } catch(Exception $error) {
             RedirectHelper::withFlash('error', $error->getMessage(), '/admin/staffs');
         }
+    }
+
+    public function updateStaff($id) {
+        try {
+            $staff = $this->userModel->findUserById($id);
+
+            $updatedStaff = [
+                "name" => Sanitizer::clean($_POST['name']),
+                "username" => Sanitizer::clean($_POST['username']),
+                "email" => Sanitizer::clean($_POST['email']),
+                "password" => Sanitizer::clean($_POST['password']),
+                "image" => Sanitizer::clean(($_POST['imageFile'] ?: $_POST['imageURL']) ?: $staff['image'])
+            ];
+
+            Validator::validate($updatedStaff['name'], 'Staff name', ['required']);
+            Validator::validate($updatedStaff['username'], 'Staff username', ['required']);
+            Validator::validate($updatedStaff['email'], 'Staff email', ['required']);
+            Validator::validate($updatedStaff['password'], 'Staff password', ['required']);
+
+            if(Validator::hasErrors()) throw new ValidationException(Validator::getErrors());
+
+            if($this->userModel->usernameExist($updatedStaff['username']) && $staff['username'] != $updatedStaff['username']) throw new Exception('Staff username already exist');
+
+            $result = $this->userModel->updateUser($id, $updatedStaff);
+
+            if(!$result) {
+                RedirectHelper::withFlash('error', 'Failed to update staff', '/admin/staffs');
+            }
+            
+            RedirectHelper::withFlash('success', 'Staff successfully updated', '/admin/staffs');
+        } catch(ValidationException $errors) {
+            RedirectHelper::withFlash('errors', $errors->getErrors(), '/admin/staffs');
+        } catch(Exception $error) {
+            RedirectHelper::withFlash('error', $error->getMessage(), '/admin/staffs');
+        }
+    }
+
+     public function deleteStaff($id) {
+        $result = $this->userModel->removeUser($id);
+
+        if(!$result) {
+            RedirectHelper::withFlash('error', 'Failed to remove staff', '/admin/staffs');
+        }
+
+        RedirectHelper::withFlash('success', 'Staff successfully removed', '/admin/staffs');
+    }
+
+    public function searchStaffs() {
+        $query = $_GET['q'] ?? '';
+
+        $users = $this->userModel->searchUsers($query);
+
+        header('Content-Type: application/json');
+        echo json_encode($users);
+        exit;
     }
 
     public function profile($id) {
