@@ -22,13 +22,6 @@
             <label for="ISBN-input" class="required">ISBN:</label>
             <input type="text" name="ISBN" id="ISBN-input" value="<?= $book['ISBN'] ?? $old['ISBN'] ?>" required>
         </div>
-        <div class="status-field input-container">
-            <label for="status-selection">Status:</label>
-            <select name="status" id="status-selection">
-                <option value="Available" class="online" <?= ($book['status'] ?? $old['status']) == 'Available' ? 'selected' : '' ?> >Available</option>
-                <option value="Unavailable" class="offline" <?= ($book['status'] ?? $old['status'])== 'Unavailable' ? 'selected' : '' ?> >Unavailable</option>
-            </select>
-        </div>
         <div class="author-field input-container">
             <label for="author-input" class="required">Author:</label>
             <input type="text" name="author" id="author-input" value="<?= $book['author'] ?? $old['author'] ?>" required>

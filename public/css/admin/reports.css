@@ -1,0 +1,132 @@
+.reports-page {
+    background: #f6d3ac;
+    color: #2e2e2e;
+    padding: 2rem;
+    min-height: 100vh;
+}
+
+.reports-header h1 {
+    font-size: 2rem;
+    color: #e65100;
+    margin-bottom: 0.2rem;
+}
+
+.reports-header p {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    color: #444;
+}
+
+.reports-filter {
+    display: flex;
+    align-items: flex-end;
+    gap: 1rem;
+    flex-wrap: wrap;
+    background: #fff7e6;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-group label {
+    font-weight: bold;
+    margin-bottom: 0.3rem;
+}
+
+.filter-group input, 
+.filter-group select {
+    padding: 0.4rem 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.button.default {
+    background-color: #ffb300;
+    border: none;
+    padding: 0.6rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    color: #fff;
+    font-weight: bold;
+}
+
+.button.default:hover {
+    background-color: #e69100;
+}
+
+.reports-result {
+    margin-top: 2rem;
+    background: #fff8ed;
+    border-radius: 10px;
+    padding: 1rem;
+}
+
+#reports-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+#reports-table th, #reports-table td {
+    border: 1px solid #ddd;
+    padding: 0.6rem;
+}
+
+#reports-table th {
+    background-color: #f0a94d;
+    color: #fff;
+    text-align: left;
+}
+
+.no-data {
+    display: none;
+    color: #999;
+    font-style: italic;
+    text-align: center;
+    padding: 1rem;
+}
+
+.reports-actions {
+    text-align: right;
+    margin-top: 1.5rem;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  .reports-result, 
+  .reports-result * {
+    visibility: visible;
+  }
+
+  .reports-result {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+
+  /* Optional: hide “No data” if visible */
+  #no-data {
+    display: none !important;
+  }
+
+  /* Optional: clean print look */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th, td {
+    border: 1px solid #333;
+    padding: 8px;
+    text-align: left;
+  }
+}

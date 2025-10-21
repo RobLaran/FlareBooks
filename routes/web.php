@@ -41,8 +41,8 @@ Router::delete('/admin/staffs/delete/{id}', 'Admin\AdminController@deleteStaff',
 Router::get('/admin/staffs/search-staffs', 'Admin\AdminController@searchStaffs', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
 
 // Reports
-Router::get('/admin/reports', 'Admin\AdminController@reports', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
-
+Router::get('/admin/reports', 'Admin\ReportsController@index', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
+Router::post('/admin/reports/generate', 'Admin\ReportsController@generate', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
 // Profile
 Router::get('/admin/profile/{id}', 'Admin\AdminController@profile', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
 Router::put('/admin/profile/{id}', 'Admin\AdminController@update', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);

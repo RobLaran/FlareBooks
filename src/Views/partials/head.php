@@ -19,6 +19,7 @@ use Helpers\SessionHelper
     <link rel="stylesheet" type="text/css" href="<?= getFile("public/css/user-dashboard.css") ?>">
     <link rel="stylesheet" type="text/css" href="<?= getFile("public/css/user-profile.css") ?>">
     <link rel="stylesheet" type="text/css" href="<?= getFile("public/css/admin/genres.css") ?>">
+    <link rel="stylesheet" type="text/css" href="<?= getFile("public/css/admin/reports.css") ?>">
     <link rel="stylesheet" type="text/css" href="<?= getFile("public/css/modal.css") ?>">
     <script src="https://kit.fontawesome.com/3e9984b045.js" crossorigin="anonymous" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>

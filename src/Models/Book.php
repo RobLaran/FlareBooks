@@ -12,8 +12,8 @@ class Book extends Model {
         $title = $book['title'] ?: null;
         $publisher = $book['publisher'] ?: "No publisher";
         $genre = $book['genre'] ?: null;
-        $quantity = $book['quantity'] ?: null;
-        $status = $book['status'] ?: null;
+        $quantity = $book['quantity'] ?: 0;
+        $status = $book['status'];
         $image = $book['image'] ?: null;
 
         $sql = "INSERT INTO `books`(`ISBN`, `genre_id`, `author`, `title`, `quantity`, `status`, `image`, `publisher`) 
@@ -47,8 +47,8 @@ class Book extends Model {
         $title = $updates['title'] ?: null;
         $publisher = $updates['publisher'] ?: "No publisher";
         $genre = $updates['genre'] ?: null;
-        $quantity = $updates['quantity'] ?: null;
-        $status = $updates['status'] ?: null;
+        $quantity = $updates['quantity'] ?: 0;
+        $status = $updates['status'];
         $image = $updates['image'] ?: null;
 
         $sql = "UPDATE books 
