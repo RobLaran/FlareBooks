@@ -33,7 +33,7 @@ class Report extends Model {
         ];
     }
 
-    public function getBooksReport($from = null, $to = null) {
+    public function getBooksReport($from = null, $to = null): array {
         $sql = "SELECT 
                 b.title AS Title, 
                 b.author AS Author, 
@@ -60,7 +60,7 @@ class Report extends Model {
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    public function getBorrowedBooksReport($from = null, $to = null) {
+    public function getBorrowedBooksReport($from = null, $to = null): array {
         $sql = "SELECT 
                     b.title AS Book, 
                     CONCAT(br.first_name, ' ', br.last_name) AS Borrower, 
@@ -81,7 +81,7 @@ class Report extends Model {
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    public function getBorrowersReport($from = null, $to = null) {
+    public function getBorrowersReport($from = null, $to = null): array {
         $sql = "SELECT 
                     CONCAT(first_name, ' ', last_name) AS Name, 
                     email AS Email, 

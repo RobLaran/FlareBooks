@@ -310,12 +310,6 @@ body.swal2-shown {
     color: var(--color-10);
   }
 
-  .button.nobg {
-    appearance: none;
-    border: none;
-    background: none;
-  }
-
   #web-logo {
     width: 40px;
   }

@@ -92,7 +92,7 @@
         actions: (row) => {
             return `
                 <div class="action-buttons">
-                    <button class="button default nobg" id="open-edit-staff-form" onclick='openEditForm(${JSON.stringify(row)})'>
+                    <button class="button" id="open-edit-staff-form" onclick='openEditForm(${JSON.stringify(row)})'>
                         <img src="<?= getFile("public/img/edit.png") ?>">
                     </button>
 
