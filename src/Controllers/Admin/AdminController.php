@@ -5,6 +5,7 @@ namespace App\Controllers\Admin;
 use App\Core\Controller;
 use App\Core\Sanitizer;
 use App\Core\ValidationException;
+use App\Core\Validator;
 use App\Models\Genre;
 use App\Models\User;
 use Exception;
@@ -33,15 +34,45 @@ class AdminController extends Controller {
     }
 
     public function staffs() {
+        $results = $this->userModel->getAllUsers();
+        $staffs = $this->userModel->format($results);
+
         $this->view('/admin/staffs', [ 
-            "title" => "Staffs"
+            "title" => "Staffs",
+            "staffs" => $staffs
         ], "layout");
     }
 
-    public function reports() {
-        $this->view('/admin/reports', [ 
-            "title" => "Reports"
-        ], "layout");
+    public function addStaff() {
+        try {
+            $staff = [
+                "name" => Sanitizer::clean($_POST['name']),
+                "username" => Sanitizer::clean($_POST['username']),
+                "email" => Sanitizer::clean($_POST['email']),
+                "password" => Sanitizer::clean($_POST['password'])
+            ];
+
+            Validator::validate($staff['name'], 'Staff name', ['required']);
+            Validator::validate($staff['username'], 'Staff username', ['required']);
+            Validator::validate($staff['email'], 'Staff email', ['required']);
+            Validator::validate($staff['password'], 'Staff password', ['required']);
+
+            if(Validator::hasErrors()) throw new ValidationException(Validator::getErrors());
+
+            if($this->userModel->userExist($staff['username'])) throw new Exception('Staff username already exist');
+
+            $result = $this->userModel->addUser($staff);
+
+            if(!$result) {
+                RedirectHelper::withFlash('error', 'Failed to add staff', '/admin/staffs');
+            }
+            
+            RedirectHelper::withFlash('success', 'New staff successfully added', '/admin/staffs');
+        } catch(ValidationException $errors) {
+            RedirectHelper::withFlash('errors', $errors->getErrors(), '/admin/staffs');
+        } catch(Exception $error) {
+            RedirectHelper::withFlash('error', $error->getMessage(), '/admin/staffs');
+        }
     }
 
     public function profile($id) {

@@ -1,18 +1,6 @@
 <div class="genres-page">
 	<div class="table-container">
         <div class="row one">
-            <!-- <form action="">
-                <div class="inputs-container">
-                    <div class="genre-input-container">
-                        <label for="genre-input">Genre: </label>
-                        <input type="text" name="genre" id="genre-input">
-                    </div>
-                    <div class="description-input-container">
-                        <label for="description-input">Description: </label> 
-                        <textarea name="description" id="description-inpu"></textarea>
-                    </div>
-                </div>
-            </form> -->
             <button class="button default" id="open-add-genre-form">Add Genre</button>
         </div>
 

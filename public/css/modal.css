@@ -111,6 +111,15 @@
             }
 	}
 
+.staff-image {
+    flex-direction: row;    
+
+    .image-preview > img { 
+        width: 100px;
+        height: 140px;
+    }
+}
+
 /* === Buttons === */
 .btn-primary {
     background: linear-gradient(135deg, #007bff, #0056b3);

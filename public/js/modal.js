@@ -151,10 +151,136 @@ function createModal() {
         return form;
     }
 
+    function addStaffForm(route) {
+        const form = document.createElement('form');
+        form.id = 'add-staff-form';
+        form.noValidate = true;
+        form.setAttribute('method', 'POST');
+        form.setAttribute('action', route);
+
+        const inputsContainer = document.createElement('div');
+        inputsContainer.classList.add('inputs-container');
+
+        const staffImageGroup = document.createElement('div');
+        staffImageGroup.classList.add('form-group');
+        staffImageGroup.classList.add('staff-image');
+        staffImageGroup.innerHTML = `
+            <div class="image-preview">
+                <img src="" alt="Image Preview" id="image-preview"" data-default="">
+            </div>
+            <div class="image-field input-container">
+                <div class="image-input-container">
+                    <label for="image-input">Upload Image(File):</label>
+                    <input type="file" name="image" id="image-input" accept="image/*">
+                </div>
+                <div class="image-url-container">
+                    <label for="image-url">Or Image URL:</label>
+                    <input type="text" name="image_url" id="image-url" placeholder="https://example.com/image.jpg">
+                </div>
+            </div>
+        `;
+
+        const staffNameGroup = document.createElement('div');
+        staffNameGroup.classList.add('form-group');
+        staffNameGroup.innerHTML = `
+            <div class="input-container">
+                <label for="staff-input">Staff Name</label>
+                <input type="text" id="staff-input" name="name" placeholder="Enter staff name">
+            </div>
+        `;
+
+        const usernameGroup = document.createElement('div');
+        usernameGroup.classList.add('form-group');
+        usernameGroup.innerHTML = `
+            <div class="input-container">
+                <label for="username-input">Username</label>
+                <input type="text" id="username-input" name="username" placeholder="Enter username">
+            </div>
+        `;
+
+        const emailGroup = document.createElement('div');
+        emailGroup.classList.add('form-group');
+        emailGroup.innerHTML = `
+            <div class="input-container">
+                <label for="email-input">Email</label>
+                <input type="email" id="email-input" name="email" placeholder="Enter email">
+            </div>
+        `;
+
+        const passwordGroup = document.createElement('div');
+        passwordGroup.classList.add('form-group');
+        passwordGroup.innerHTML = `
+            <div class="input-container">
+                <label for="password-input">Password</label>
+                <input type="text" id="password-input" name="password" placeholder="Enter password">
+            </div>
+        `;
+
+        inputsContainer.append(
+            staffImageGroup,
+            staffNameGroup, 
+            usernameGroup,
+            emailGroup,
+            passwordGroup
+        );
+
+        const submitBtn = document.createElement('button');
+        submitBtn.type = 'submit';
+        submitBtn.classList.add('button');
+        submitBtn.classList.add('default');
+        submitBtn.textContent = 'Confirm Staff';
+
+        form.append(inputsContainer, submitBtn);
+
+        return form;
+    }
+
+    function imagePreviewAction() {
+        const fileInput = document.getElementById('image-input');
+        const urlInput = document.getElementById('image-url');
+        const preview = document.getElementById('image-preview');
+
+        if(fileInput && urlInput) {
+            // Default preview image
+            const defaultImage = preview.dataset.default;
+
+            // Handle file input
+            fileInput.addEventListener("change", () => {
+                const file = fileInput.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = e => preview.src = e.target.result;
+                    reader.readAsDataURL(file);
+                } else {
+                    preview.src = defaultImage; // reset if no file chosen
+                }
+            });
+
+            // Handle URL input
+            urlInput.addEventListener("input", () => {
+                const url = urlInput.value.trim();
+                if (url) {
+                    preview.src = url;
+                } else {
+                    preview.src = defaultImage;
+                }
+            });
+
+            // Handle invalid image URLs
+            preview.addEventListener("error", () => {
+                preview.src = defaultImage;
+            });
+        }
+
+
+    }
+
     return { 
         open, 
         close, 
         addGenreForm, 
-        editGenreForm 
+        editGenreForm,
+        addStaffForm,
+        imagePreviewAction
     };
 }

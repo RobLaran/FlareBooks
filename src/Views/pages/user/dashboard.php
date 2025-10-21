@@ -23,7 +23,7 @@
             <div class="stat-card borrowers">
                 <div class="stat-icon">👥</div>
                 <div class="stat-value"><?= $borrowerCount ?></div>
-                <div class="stat-label">Active Members</div>
+                <div class="stat-label">Active Borrowers</div>
             </div>
 
             <div class="stat-card overdue">
@@ -55,7 +55,7 @@
 
                 <a href="<?= routeTo("/borrowers/add") ?>" class="quick-action-btn" style="background: linear-gradient(135deg, #667eea, #764ba2);">
                     <span class="quick-action-icon">👤</span>
-                    <span>Add Member</span>
+                    <span>Add Borrower</span>
                 </a>
 
                 <a href="<?= routeTo("/books/add") ?>" class="quick-action-btn secondary"

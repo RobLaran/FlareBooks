@@ -35,6 +35,7 @@ Router::get('/admin/genres/search-genres', 'Admin\GenresController@search', [[Au
 
 // Staffs
 Router::get('/admin/staffs', 'Admin\AdminController@staffs', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
+Router::post('/admin/staffs/add', 'Admin\AdminController@addStaff', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
 
 // Reports
 Router::get('/admin/reports', 'Admin\AdminController@reports', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
