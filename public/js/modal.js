@@ -59,7 +59,138 @@ function createModal() {
         if (e.target === modalOverlay) close();
     });
 
-    // === Example Add Genre Form ===
+    function borrowerInfo(data) {
+        // Root container
+        const content = document.createElement('div');
+        content.classList.add('borrowerModal');
+
+        // ========== Borrower Details ==========
+        const details = document.createElement('div');
+        details.classList.add('borrower-details');
+
+        const infoTable = document.createElement('table');
+        infoTable.classList.add('info-table');
+
+        const infoData = [
+            ['Borrower Code:', `${data['Code'] ?? 'N/A'}`, 'b-code'],
+            ['Name:', `${(data['First Name'] + ' ' + data['Last Name']) ?? 'N/A'}`, 'b-name'],
+            ['Email:', `${data['Email'] ?? 'N/A'}`, 'b-email'],
+            ['Phone:', `${data['Phone Number'] ?? 'N/A'}`, 'b-phone'],
+            ['Address:', `${data['Address'] ?? 'N/A'}`, 'b-address'],
+            ['Date of Birth:', `${data['Date of Birth'] ?? 'N/A'}`, 'b-dob'],
+            ['Membership Date:', `${data['Membership Date'] ?? 'N/A'}`, 'b-membership'],
+            ['Status:', `<span class="status ${data['Status'] == "Active" ? "active" : "inactive"}">${data['Status']}</span>`, 'b-status', true],
+        ];
+
+        infoData.forEach(([label, value, id, isHTML]) => {
+            const tr = document.createElement('tr');
+            const th = document.createElement('th');
+            th.textContent = label;
+
+            const td = document.createElement('td');
+            td.id = id;
+            if (isHTML) td.innerHTML = value;
+            else td.textContent = value;
+
+            tr.append(th, td);
+            infoTable.appendChild(tr);
+        });
+
+        details.appendChild(infoTable);
+
+        // Divider
+        const divider1 = document.createElement('br');
+        const hr = document.createElement('hr');
+        const divider2 = document.createElement('br');
+
+        // ========== Borrower History ==========
+        const history = document.createElement('div');
+        history.classList.add('borrower-history');
+
+        const h4 = document.createElement('h4');
+        h4.textContent = 'Borrowing History';
+        history.appendChild(h4);
+
+        const tableWrapper = document.createElement('div');
+        tableWrapper.classList.add('table-wrapper');
+
+        const table = document.createElement('table');
+        table.id = 'borrowHistory';
+        table.classList.add('history-table');
+
+        // --- Table Head ---
+        const thead = document.createElement('thead');
+        const headRow = document.createElement('tr');
+        ['Book Title', 'Borrow Date', 'Return Date'].forEach(text => {
+            const th = document.createElement('th');
+            th.textContent = text;
+            headRow.appendChild(th);
+        });
+        thead.appendChild(headRow);
+        table.appendChild(thead);
+
+        // --- Table Body ---
+        const tbody = document.createElement('tbody');
+        table.appendChild(tbody);
+        tableWrapper.appendChild(table);
+        history.appendChild(tableWrapper);
+
+        // Combine all
+        content.append(details, divider1, hr, divider2, history);
+
+        // ========== Fetch Borrower History ==========
+        const borrowerCode = data['Code'] ?? data['ID']; // adjust key as needed
+        const route = this.route;
+
+        fetch(`${route}?id=${borrowerCode}`)
+            .then(res => {
+                if (!res.ok) throw new Error('Failed to load borrower history');
+                return res.json();
+            })
+            .then(rows => {
+                tbody.innerHTML = ''; // clear loading state
+
+                if (!rows.length) {
+                    const tr = document.createElement('tr');
+                    const td = document.createElement('td');
+                    td.colSpan = 4;
+                    td.textContent = 'No borrowing history found.';
+                    td.style.textAlign = 'center';
+                    tr.appendChild(td);
+                    tbody.appendChild(tr);
+                    return;
+                }
+
+                rows.forEach(row => {
+                    const tr = document.createElement('tr');
+
+                    const td1 = document.createElement('td');
+                    td1.textContent = row.book_title ?? '—';
+
+                    const td2 = document.createElement('td');
+                    td2.textContent = row.borrow_date ?? '—';
+
+                    const td3 = document.createElement('td');
+                    td3.textContent = row.return_date ?? '—';
+
+                    tr.append(td1, td2, td3);
+                    tbody.appendChild(tr);
+                });
+            })
+            .catch(err => {
+                console.error(err);
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="4" style="text-align:center;color:#999;">Error loading history.</td>
+                    </tr>
+                `;
+            });
+
+        // Return final modal content
+        return content;
+    }
+
+
     function addGenreForm(route) {
         const form = document.createElement('form');
         form.id = 'add-genre-form';
@@ -370,6 +501,7 @@ function createModal() {
     return { 
         open, 
         close, 
+        borrowerInfo,
         addGenreForm, 
         editGenreForm,
         addStaffForm,

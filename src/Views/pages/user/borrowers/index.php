@@ -78,7 +78,17 @@
 </div>
 
 <script src="<?= getFile("public/js/table.js") ?>"></script>
+<script src="<?= getFile("public/js/modal.js") ?>"></script>
 <script>
+    // Modal
+    const modal = createModal();
+    modal.route = "<?= routeTo('/borrowers/search-history') ?>";
+
+    function openModal() {
+        const form = modal.borrowerInfo();
+        modal.open(form, 'Borrower Info');
+    }
+
     // Table
     const borrowersData = <?php echo json_encode([$borrowers]); ?>;
 
@@ -109,7 +119,9 @@
                     </form>
                 </div>
             `;
-        }
+        },
+        modal: modal
+        
     });
 
     // Change table if needed

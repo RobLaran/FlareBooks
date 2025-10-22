@@ -121,7 +121,6 @@
                     font-size: 11px;
                 }
             }
-            
 
             /* This is the magic for the zebra-striping */
             tbody tr:nth-of-type(odd) {

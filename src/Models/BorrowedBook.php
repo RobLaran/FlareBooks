@@ -7,6 +7,23 @@ use PDO;
 
 class BorrowedBook extends Model {
 
+    public function getHistoriesById($id) {
+        $sql = "SELECT 
+                    b.title AS book_title,
+                    DATE_FORMAT(rb.borrow_date, '%M %d, %Y') AS borrow_date,
+                    DATE_FORMAT(rb.return_date, '%M %d, %Y') AS return_date
+                FROM returned_books rb
+                    LEFT JOIN books b ON rb.book_id = b.ISBN
+                WHERE rb.borrower_code = :id 
+        ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':id', $id, PDO::PARAM_STR);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function getTransactionById($id) {
         $sql = "SELECT 
                         b.image,

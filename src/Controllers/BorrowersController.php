@@ -3,6 +3,7 @@ namespace App\Controllers;
 
 use App\Core\Controller;
 use App\Core\Sanitizer;
+use App\Models\BorrowedBook;
 use App\Models\Borrower;
 use Exception;
 use Helpers\RedirectHelper;
@@ -13,11 +14,13 @@ use Services\BorrowerService;
 class BorrowersController extends Controller {
     protected $borrowerModel;
     protected $borrowerService;
+    protected $transactionModel;
 
     public function __construct() {
         $this->title = "Borrowers List";
         $this->borrowerModel = new Borrower();
         $this->borrowerService = new BorrowerService($this->borrowerModel);
+        $this->transactionModel = new BorrowedBook();
     }
 
     public function index() {
@@ -119,6 +122,16 @@ class BorrowersController extends Controller {
 
         header('Content-Type: application/json');
         echo json_encode($borrowers);
+        exit;
+    }
+
+    public function history() {
+        $id = $_GET['id'] ?? '';
+
+        $histories = $this->transactionModel->getHistoriesById($id);
+
+        header('Content-Type: application/json');
+        echo json_encode($histories);
         exit;
     }
 }

@@ -66,11 +66,6 @@
         modal.open(form, 'Add New Genre');
     });
 
-    // document.getElementById('open-edit-genre-form').addEventListener('click', () => {
-    //     const form = modal.editGenreForm('<?= routeTo('/admin/genres/add') ?>');
-    //     modal.open(form, 'Add New Genre');
-    // });
-
     function openEditForm(genre) {
         const form = modal.editGenreForm('<?= routeTo('/admin/genres/update/') ?>' + genre['id'], genre);
         modal.open(form, 'Add New Genre');

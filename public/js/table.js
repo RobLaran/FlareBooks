@@ -1,5 +1,5 @@
 function createDynamicTable(config) {
-    const { data, containerId, headingId, paginationId, itemsPerPage = 5, actions = null, tableVar, columns = {}, sortable = [], hidden = [] } = config;
+    const { data, containerId, headingId, paginationId, itemsPerPage = 5, actions = null, tableVar, columns = {}, sortable = [], hidden = [] , modal = null} = config;
 
     let currentPage = 1;
     let filteredData = [...data];
@@ -119,6 +119,7 @@ function createDynamicTable(config) {
         // 🔹 Rows
         pageItems.forEach((row, index) => {
             const tableRow = document.createElement('tr');
+
             headers.forEach(header => {
                 if(hidden.includes(header)) return;
                 const tableData = document.createElement('td');
@@ -137,6 +138,19 @@ function createDynamicTable(config) {
                 tableData.innerHTML = actions(row, index);
                 tableRow.append(tableData);
             }
+
+            tableRow.addEventListener('click', function (event) {
+                const target = event.target; // get the clicked element
+
+                // Check if a button was clicked (e.g., edit or delete)
+                if (target.classList.contains('button') || target.closest('.button')) {
+                    event.stopPropagation(); // stop the click from bubbling to the row
+                    return;
+                }
+
+                // Otherwise, open the modal for the row
+                modal.open(modal.borrowerInfo(row), 'Borrower Info');
+            });
             
             tableBody.append(tableRow);
         });

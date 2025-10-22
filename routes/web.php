@@ -82,6 +82,7 @@ Router::post('/borrowers/add', 'BorrowersController@add', [[AuthMiddleware::clas
 Router::get('/borrowers/edit/{id}', 'BorrowersController@edit', [[AuthMiddleware::class, 'checkRole', ['Librarian']]]);
 Router::put('/borrowers/update/{id}', 'BorrowersController@update', [[AuthMiddleware::class, 'checkRole', ['Librarian']]]);
 Router::delete('/borrowers/delete/{id}', 'BorrowersController@delete', [[AuthMiddleware::class, 'checkRole', ['Librarian']]]);
+Router::get('/borrowers/search-history', 'BorrowersController@history', [[AuthMiddleware::class, 'checkRole', ['Librarian']]]);
 
 // Borrowed Books
 Router::get('/borrowed-books', 'BorrowedBooksController@index', [[AuthMiddleware::class, 'checkRole', ['Librarian']]]);

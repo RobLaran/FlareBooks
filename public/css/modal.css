@@ -1,7 +1,8 @@
 /* === Overlay === */
 .modal-overlay {
     position: fixed;
-    top: 0; left: 0;
+    top: 0;
+    left: 0;
     width: 100vw;
     height: 100vh;
     display: none;
@@ -17,8 +18,8 @@
     font-family: Arial, sans-serif;
     background: var(--color-13);
     border-radius: 16px;
-    width: 90%;
-    max-width: 500px;
+    width: 40%;
+    max-width: 1500px;
     padding: 1.5rem;
     transform: translateY(-20px) scale(0.95);
     opacity: 0;
@@ -62,6 +63,71 @@
 /* === Body === */
 .modal-body {
     margin-bottom: 1rem;
+
+    .borrower-history > h4 {
+        margin-bottom: 10px;
+    }
+
+    .info-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+    .info-table th,
+    .info-table td,
+    .history-table th,
+    .history-table td {
+        padding: 8px;
+        text-align: left;
+    }
+
+    .table-wrapper {
+        max-height: 200px; /* set the visible height */
+        overflow-y: auto;  /* enable vertical scrolling */
+        overflow-x: hidden;
+        border-radius: 8px;
+        position: relative;
+    }
+
+    .history-table th,
+    .history-table td {
+        border-bottom: 1px solid #ddd;
+    }
+    
+    .history-table thead th {
+        position: sticky;
+        top: 0;
+        background-color: #f8f8f8; /* or match your theme */
+        z-index: 1;
+        box-shadow: 0 2px 2px rgba(0,0,0,0.05);
+    }
+
+    .history-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .status {
+        padding: 5px 10px;
+        border-radius: 8px;
+        color: white;
+        font-weight: bold;
+        font-size: 0.9rem;
+    }
+
+    .status.active {
+        background: #4caf50;
+    }
+    .status.inactive {
+        background: #f44336;
+    }
+    .status.borrowed {
+        background: #f39c12;
+    }
+    .status.returned {
+        background: #2196f3;
+    }
 }
 
 /* === Footer === */
@@ -80,41 +146,39 @@
 }
 
 .input-container {
-            display: flex;
-            flex-direction: column;
+    display: flex;
+    flex-direction: column;
 
-            label {
-                font-weight: 700;
-            }
+    label {
+        font-weight: 700;
+    }
 
-            textarea {
-                height: 120px;
-                resize: none;
-            }
+    textarea {
+        height: 120px;
+        resize: none;
+    }
 
-            input,
-            textarea{
-                padding: 10px 4px;
-                font-size: 1.1rem;
-                border-width: 2px;
-                border-color: var(--color-12);
-                border-radius: 10px;
-                background-color: var(--color-4);
-            }
+    input,
+    textarea {
+        padding: 10px 4px;
+        font-size: 1.1rem;
+        border-width: 2px;
+        border-color: var(--color-12);
+        border-radius: 10px;
+        background-color: var(--color-4);
+    }
 
-            
-
-            input:focus,
-            textarea:focus {
-                border-color: var(--color-10);
-                outline-color: var(--color-10);
-            }
-	}
+    input:focus,
+    textarea:focus {
+        border-color: var(--color-10);
+        outline-color: var(--color-10);
+    }
+}
 
 .staff-image {
-    flex-direction: row;    
+    flex-direction: row;
 
-    .image-preview > img { 
+    .image-preview > img {
         width: 100px;
         height: 140px;
     }
