@@ -50,11 +50,14 @@ class ReturnedBook extends Model {
                         b.title,
                         b.author,
                         br.first_name,
-                        br.last_name
+                        br.last_name,
+                        g.genre AS genre
                     FROM returned_books rb
                         LEFT JOIN borrowed_books bb ON rb.borrowed_id = bb.borrowed_id
                         LEFT JOIN books b ON rb.book_id = b.ISBN
-                        LEFT JOIN borrowers br ON rb.borrower_code = br.borrower_code";
+                        LEFT JOIN borrowers br ON rb.borrower_code = br.borrower_code
+                        LEFT JOIN genres g ON b.genre_id = g.id
+            ";
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
@@ -147,7 +150,8 @@ class ReturnedBook extends Model {
                     "Image" => $row['image'] ?? '',
                     "ISBN" => $row['book_id'] ?? '',
                     "Author" => $row['author'] ?? '',
-                    "Title" => $row['title'] ?? ''
+                    "Title" => $row['title'] ?? '',
+                    "Genre" => $row['genre'] ?? ''
                 ],
                 "Borrower" => trim(($row['first_name'] ?? '') . ' ' . ($row['last_name'] ?? '')),
                 "Borrow Date" => $row['borrow_date'] ?? '',

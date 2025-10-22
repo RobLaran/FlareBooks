@@ -63,13 +63,16 @@ class BorrowedBook extends Model {
                     bb.borrow_date AS borrow_date,
                     bb.due_date AS due_date,
                     bb.borrowed_id AS borrowed_id,
+                    g.genre AS genre,
                     CASE 
                         WHEN bb.due_date < CURDATE() THEN 1 
                         ELSE 0 
                     END AS is_overdue
                 FROM borrowed_books bb
-                LEFT JOIN books b ON bb.book_id = b.ISBN
-                LEFT JOIN borrowers br ON bb.borrower_code = br.borrower_code";
+                    LEFT JOIN books b ON bb.book_id = b.ISBN
+                    LEFT JOIN borrowers br ON bb.borrower_code = br.borrower_code
+                    LEFT JOIN genres g ON b.genre_id = g.id
+                ";
 
         $allowedSort = [
             "first_name" => "br.first_name",
@@ -222,7 +225,8 @@ class BorrowedBook extends Model {
                     "Image" => formatImage($row['image'] ?? ""),
                     "ISBN" => $row['ISBN'] ?? '',
                     "Author" => $row['author'] ?? '',
-                    "Title" => $row['title'] ?? ''
+                    "Title" => $row['title'] ?? '',
+                    "Genre" => $row['genre'] ?? ''
                 ],
                 "Borrower" => trim(($row['fname'] ?? '') . ' ' . ($row['lname'] ?? '')),
                 "Borrow Date" => formatDate($row['borrow_date'] ?? ''),

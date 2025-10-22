@@ -1,11 +1,31 @@
 function createDynamicTable(config) {
     const { data, containerId, headingId, paginationId, itemsPerPage = 5, actions = null, tableVar, columns = {}, sortable = [], hidden = [] , modal = null} = config;
+    const savedFilters = localStorage.getItem(`${tableVar}-filters`);
+    const savedSort = localStorage.getItem(`${tableVar}-sort`);
+
+    let filters = {
+        search: null,      // string
+        column: null,       // { column, value, key }
+        dateRange: null     // { column, start, end }
+    };
 
     let currentPage = 1;
     let filteredData = [...data];
     let rowsPerPage = itemsPerPage;
 
     let sortDirection = {}; // store sorting state for each column
+
+    if (savedFilters) {
+        try {
+            filters = JSON.parse(savedFilters);
+            applyFilters(); // apply saved filters automatically
+        } catch (e) {
+            console.error("Error loading saved filters:", e);
+        }
+    }
+
+    if (savedSort) sortDirection = JSON.parse(savedSort);
+
 
     function renderTable(page) {
         if (!data || data.length === 0) {
@@ -40,6 +60,7 @@ function createDynamicTable(config) {
 
             const heading = document.createElement('th');
             heading.style.cursor = "pointer";
+            heading.setAttribute('id', header);
 
             // 🔹 Initialize sort direction if not set
             if (!(header in sortDirection)) {
@@ -96,10 +117,12 @@ function createDynamicTable(config) {
                             return 0;
                         });
                     } else {
-                        filteredData = [...data]; // reset to original order
+                        filteredData = [...filteredData]; // reset to original order
+                        applyFilters();
                     }
 
                     renderTable(1);
+                    localStorage.setItem(`${tableVar}-sort`, JSON.stringify(sortDirection));
                 });
 
             } else {
@@ -183,24 +206,61 @@ function createDynamicTable(config) {
     }
 
     function search(input, query) {
-       try {
-         const route = input.dataset.route;
+        try {
+            const route = input.dataset.route;
 
-         if(query === "") {
-            reset();
-            return;
-         }
+            // Local search mode
+            if (!route) {
+                filters.search = query;
+                applyFilters();
+                return;
+            }
 
-        fetch(`${route}?q=` + encodeURIComponent(query))
-			.then(response => response.json())
-			.then(results => {
-                filteredData = results;
-                renderTable(1);
+            // Remote (server-side) search
+            if (query === "") {
+                filters.search = null;
+                applyFilters();
+                return;
+            }
+
+            fetch(`${route}?q=` + encodeURIComponent(query))
+                .then(response => response.json())
+                .then(results => {
+                    filteredData = results;
+                    renderTable(1);
+                })
+                .catch(error => console.error("Error fetching search results:", error));
+
+        } catch (error) {
+            console.log("Search error:", error);
+        }
+    }
+
+    function noFetchSearch(query) {
+        filters.search = query?.trim().toLowerCase() || null;
+        applyFilters();
+    }
+
+
+
+    function initColumnFilter(config) {
+        const { columnSelectId, column, key = null, clearBtnId = null } = config;
+
+        const columnSelect = document.getElementById(columnSelectId);
+        const clearBtn = clearBtnId ? document.getElementById(clearBtnId) : null;
+
+        columnSelect.addEventListener("change", () => {
+            filters.column = columnSelect.value === "" ? null : { column, key, value: columnSelect.value };
+            applyFilters();
+        });
+
+        if (clearBtn) {
+            clearBtn.addEventListener("click", () => {
+                columnSelect.value = "";
+                filters.column = null;
+                applyFilters();
             });
-            
-       } catch(error) {
-            console.log("error");
-       }
+        }
     }
 
     function initDateFilter(config) {
@@ -219,40 +279,84 @@ function createDynamicTable(config) {
         const clearBtn = document.getElementById(clearBtnId);
 
         applyBtn.addEventListener("click", () => {
-            const col = columnSelect.value;
-            const start = startDate.value ? new Date(startDate.value) : null;
-            const end = endDate.value ? new Date(endDate.value) : null;
-
-
-            filteredData = [...data].filter(item => {
-                const date = new Date(item[col]);
-                if (isNaN(date)) return false;
-                if (start && date < start) return false;
-                if (end && date > end) return false;
-                return true;
-            });
-
-            renderTable(1);
+            filters.dateRange = {
+                column: columnSelect.value,
+                start: startDate.value ? new Date(startDate.value) : null,
+                end: endDate.value ? new Date(endDate.value) : null
+            };
+            applyFilters();
         });
 
         clearBtn.addEventListener("click", () => {
             startDate.value = "";
             endDate.value = "";
-            filteredData = [...data];
-            renderTable(1);
+            filters.dateRange = null;
+            applyFilters();
         });
     }
 
-    function reset() {
-        filteredData = [...data];
+
+    function applyFilters() {
+        filteredData = [...data].filter(item => {
+            let pass = true;
+
+            // 🔹 Helper for nested search
+            const flattenValues = obj => {
+                let values = [];
+                for (const val of Object.values(obj)) {
+                    if (val && typeof val === "object") {
+                        values = values.concat(flattenValues(val));
+                    } else {
+                        values.push(String(val));
+                    }
+                }
+                return values;
+            };
+
+            // 🔹 Search filter
+            if (filters.search && filters.search.trim() !== "") {
+                const query = filters.search.toLowerCase();
+                const allValues = flattenValues(item);
+                const match = allValues.some(val => val.toLowerCase().includes(query));
+                if (!match) pass = false;
+            }
+
+            // 🔹 Column filter
+            if (filters.column && filters.column.value !== "") {
+                const { column, key, value } = filters.column;
+                const fieldValue = key ? item[key][column] : item[column];
+                if (fieldValue != value) pass = false;
+            }
+
+            // 🔹 Date range filter
+            if (filters.dateRange && filters.dateRange.column) {
+                const { column, start, end } = filters.dateRange;
+                const date = new Date(item[column]);
+                if (isNaN(date)) return false;
+                if (start && date < start) pass = false;
+                if (end && date > end) pass = false;
+            }
+
+            return pass;
+        });
+
         renderTable(1);
+        localStorage.setItem(`${tableVar}-filters`, JSON.stringify(filters));
     }
 
+    function reset() {
+        filters = { search: null, column: null, dateRange: null };
+        filteredData = [...data];
+        localStorage.removeItem(`${tableVar}-filters`);
+        renderTable(1);
+    }
 
     return {
         renderTable,
         changeEntries,
         search,
+        noFetchSearch,
+        initColumnFilter,
         initDateFilter
     };
 }

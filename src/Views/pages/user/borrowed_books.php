@@ -104,12 +104,13 @@
 
 			<div class="filter-container">
                 <span>Filter by Genre:</span>
-                <select name="genre-selection" id="genre-filter" data-route="<?= routeTo('/borrowed-books/search-books-by-genre') ?>" onchange="borrowedBooksTable.search(this, this.value)">
+                <select name="genre-selection" id="genre-filter"">
                     <option value="">-- Select genre --</option>
                     <?php foreach($genres as $genre): ?>
-                        <option value="<?= $genre['id'] ?>"><?= $genre['Name'] ?></option>
+                        <option value="<?= $genre['Name'] ?>"><?= $genre['Name'] ?></option>
                     <?php endforeach; ?>
                 </select>
+                <button id="clear-filter-genres">Clear</button>
             </div>
         </div>
 
@@ -133,10 +134,10 @@
             </div>
 
             <div class="search-input-container">
-				<label for="search-input">Search:</label>
+				<label for="search-borrowed-books-input">Search:</label>
 
                 <!-- If create another table change this -->
-				<input type="text" id="search-input" name="search" data-route="<?= routeTo('/borrowed-books/search-borrowed-books') ?>" onkeyup="borrowedBooksTable.search(this, this.value)">
+				<input type="text" class="search-input" id="search-borrowed-books-input" name="search" oninput="borrowedBooksTable.noFetchSearch(this.value)">
             </div>
 
         </div>
@@ -191,6 +192,7 @@
 					<div class="book-details">
 						<strong>${row.Title}</strong><br>
 						by ${row.Author}<br>
+						Genre: ${row.Genre}<br>
 						ISBN: ${row.ISBN}
 					</div>
 				</div>
@@ -222,4 +224,12 @@
         applyBtnId: "apply-filter-transactions",
         clearBtnId: "clear-filter-transactions"
     });
+
+	// Genre filter
+	borrowedBooksTable.initColumnFilter({
+		columnSelectId: "genre-filter",
+		column: "Genre",
+		key: "Book Info",
+		clearBtnId: "clear-filter-genres"
+	});
 </script>

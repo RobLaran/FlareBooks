@@ -42,10 +42,10 @@
             </div>
 
             <div class="search-input-container">
-				<label for="search-input">Search:</label>
+				<label for="search-borrowers-input">Search:</label>
 
                 <!-- If create another table change this -->
-				<input type="text" id="search-input" name="search" data-route="<?= routeTo('/borrowers/search-borrowers') ?>" onkeyup="borrowersTable.search(this, this.value)">
+				<input type="text" class="search-input" id="search-borrowers-input" name="search" oninput="borrowersTable.noFetchSearch(this.value)">
             </div>
 
         </div>
