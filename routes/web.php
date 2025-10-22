@@ -43,6 +43,8 @@ Router::get('/admin/staffs/search-staffs', 'Admin\AdminController@searchStaffs',
 // Reports
 Router::get('/admin/reports', 'Admin\ReportsController@index', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
 Router::post('/admin/reports/generate', 'Admin\ReportsController@generate', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
+Router::get('/admin/reports/stats', 'Admin\ReportsController@stats', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
+
 // Profile
 Router::get('/admin/profile/{id}', 'Admin\AdminController@profile', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);
 Router::put('/admin/profile/{id}', 'Admin\AdminController@update', [[AuthMiddleware::class, 'checkRole', ['Admin']]]);

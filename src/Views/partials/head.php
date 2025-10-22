@@ -18,6 +18,7 @@ use Helpers\SessionHelper
     <link rel="stylesheet" type="text/css" href="<?= getFile("public/css/returns.css") ?>">
     <link rel="stylesheet" type="text/css" href="<?= getFile("public/css/user-dashboard.css") ?>">
     <link rel="stylesheet" type="text/css" href="<?= getFile("public/css/user-profile.css") ?>">
+    <link rel="stylesheet" type="text/css" href="<?= getFile("public/css/admin/dashboard.css") ?>">
     <link rel="stylesheet" type="text/css" href="<?= getFile("public/css/admin/genres.css") ?>">
     <link rel="stylesheet" type="text/css" href="<?= getFile("public/css/admin/reports.css") ?>">
     <link rel="stylesheet" type="text/css" href="<?= getFile("public/css/modal.css") ?>">

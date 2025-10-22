@@ -40,7 +40,6 @@
 </div>
 
 <script>
-
     document.getElementById("generate-report").addEventListener("click", async () => {
         const type = document.getElementById("report-type").value;
         const from = document.getElementById("from-date").value;
@@ -49,10 +48,6 @@
         const noData = document.getElementById("no-data");
         const title = document.getElementById("report-title");
 
-        if (!type) return alert("Please select a report type first.");
-
-        title.textContent = type.charAt(0).toUpperCase() + type.slice(1) + " Report";
-
         const response = await fetch(`<?= routeTo('/admin/reports/generate') ?>`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -60,6 +55,13 @@
         });
 
         const result = await response.json();
+
+        if (!result.success) {
+            alert(result.message);
+            return;
+        }
+
+        title.textContent = type.charAt(0).toUpperCase() + type.slice(1) + " Report";
 
         if (result.data.length === 0) {
             table.querySelector("thead").innerHTML = "";
