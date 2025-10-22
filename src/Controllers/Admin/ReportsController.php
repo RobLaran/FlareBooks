@@ -25,7 +25,7 @@ class ReportsController extends Controller
     public function stats() {
         try {
             $totals = $this->reportModel->getTotals();
-            $recent = $this->reportModel->getRecentBorrowed(8);
+            $recent = $this->reportModel->getRecentBorrowed();
             $booksByStatus = $this->reportModel->getBooksByStatus();
             $monthlyBorrowed = $this->reportModel->getMonthlyBorrowed(6);
 

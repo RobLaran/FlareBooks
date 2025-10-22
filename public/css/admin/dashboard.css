@@ -18,7 +18,7 @@
         margin-bottom: 22px;
     }
     .card {
-        background: #fff;
+        background: var(--color-4);
         border-radius: 10px;
         padding: 16px;
         box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
@@ -42,7 +42,7 @@
         margin-bottom: 24px;
     }
     .chart-card {
-        background: #fff;
+        background: var(--color-4);
         border-radius: 8px;
         padding: 12px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
@@ -55,7 +55,7 @@
     #recent-table {
         width: 100%;
         border-collapse: collapse;
-        background: #fff;
+        background: var(--color-4);
         border-radius: 8px;
         overflow: hidden;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
@@ -67,7 +67,7 @@
         text-align: left;
     }
     #recent-table th {
-        background: #f7f2ef;
+        background: var(--color-12);
         color: #333;
     }
 
