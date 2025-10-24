@@ -5,12 +5,13 @@
 
             <div class="filter-container">
                 <span>Filter by Genre:</span>
-                <select name="genre-selection" id="genre-filter" data-route="<?= routeTo('/admin/books/search-books-by-genre') ?>" onchange="booksTable.search(this, this.value)">
+                <select name="genre-selection" id="genre-filter">
                     <option value="">-- Select genre --</option>
                     <?php foreach($genres as $genre): ?>
-                        <option value="<?= $genre['id'] ?>"><?= $genre['Name'] ?></option>
+                        <option value="<?= $genre['Name'] ?>"><?= $genre['Name'] ?></option>
                     <?php endforeach; ?>
                 </select>
+                <button id="clear-filter-genres">Clear</button>
             </div>
         </div>
 
@@ -33,8 +34,8 @@
             </div>
 
             <div class="search-input-container">
-				<label for="search-input">Search:</label>
-				<input type="text" id="search-input" name="search" data-route="<?= routeTo('/admin/books/search-books') ?>" onkeyup="booksTable.search(this, this.value)">
+				<label for="search-books-input">Search:</label>
+				<input type="text" class="search-input" id="search-books-input" name="search" oninput="booksTable.noFetchSearch(this.value)">
             </div>
 
         </div>
@@ -102,5 +103,14 @@
         }
     });
 
+    // Genre filter
+	booksTable.initColumnFilter({
+		columnSelectId: "genre-filter",
+		column: "Genre",
+        key: null,
+		clearBtnId: "clear-filter-genres"
+	});
+
     booksTable.renderTable(1);
+    booksTable.reset();
 </script>

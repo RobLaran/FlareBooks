@@ -23,8 +23,8 @@
             </div>
 
             <div class="search-input-container">
-				<label for="search-input">Search:</label>
-				<input type="text" id="search-input" name="search" data-route="<?= routeTo('/admin/genres/search-genres') ?>" onkeyup="genresTable.search(this, this.value)">
+				<label for="search-genre-input">Search:</label>
+				<input type="text" class="search-input" id="search-genre-input" name="search" oninput="genresTable.noFetchSearch(this.value)">
             </div>
 
         </div>

@@ -23,8 +23,8 @@
             </div>
 
             <div class="search-input-container">
-				<label for="search-input">Search:</label>
-				<input type="text" id="search-input" name="search" data-route="<?= routeTo('/admin/staffs/search-staffs') ?>" onkeyup="staffsTable.search(this, this.value)">
+				<label for="search-staff-input">Search:</label>
+				<input type="text" class="search-input" id="search-staff-input" name="search" oninput="staffsTable.noFetchSearch(this.value)">
             </div>
 
         </div>
