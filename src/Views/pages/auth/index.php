@@ -27,13 +27,6 @@
                         <button class="button default" onclick="setRole('librarian')">Login as Librarian</button>
                         <button class="button default" onclick="setRole('admin')">Login as Admin</button>
                     </div>
-                    <div class="form-links-container">
-                        <span>
-                            <a href="<?= routeTo('/auth/login/admin') ?>" style="color: #ff6600">
-                                Login as Admin? <strong>Click here.</strong>
-                            </a>
-                        </span>
-                    </div>
                 </form>
             <?php else: ?>
                 <h2>You are already logged in.</h2>
