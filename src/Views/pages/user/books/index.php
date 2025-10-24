@@ -104,11 +104,14 @@
     });
 
     booksTable.renderTable(1);
-
+    
     // Genre filter
 	booksTable.initColumnFilter({
 		columnSelectId: "genre-filter",
 		column: "Genre",
+        key: null,
 		clearBtnId: "clear-filter-genres"
 	});
+
+    booksTable.reset();
 </script>

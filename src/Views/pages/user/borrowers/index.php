@@ -135,4 +135,6 @@
         applyBtnId: "apply-filter-borrowers",
         clearBtnId: "clear-filter-borrowers"
     });
+
+    borrowersTable.reset();
 </script>

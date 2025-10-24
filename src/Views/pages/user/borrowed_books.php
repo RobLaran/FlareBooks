@@ -232,4 +232,6 @@
 		key: "Book Info",
 		clearBtnId: "clear-filter-genres"
 	});
+
+    borrowedBooksTable.reset();
 </script>

@@ -357,6 +357,7 @@ function createDynamicTable(config) {
         search,
         noFetchSearch,
         initColumnFilter,
-        initDateFilter
+        initDateFilter,
+        reset
     };
 }

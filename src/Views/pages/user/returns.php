@@ -191,4 +191,6 @@
 		key: "Book Info",
 		clearBtnId: "clear-filter-genres"
 	});
+
+    booksTable.reset();
 </script>
