@@ -39,7 +39,7 @@
 			<h2>Borrower Information</h2>
 			<form id="borrowForm" method="POST" action="<?= routeTo('/borrowed-books/add') ?>" novalidate>
 				<div class="search-input input-container">
-					<input type="text" id="borrowerListSearchBox" date-route="<?= routeTo('/borrowed-books/search-borrower') ?>" placeholder="Search by Name, Code, Email, or Address">
+					<input type="text" id="borrowerListSearchBox" data-route="<?= routeTo('/borrowed-books/search-borrower') ?>" placeholder="Search by Name, Code, Email, or Address">
 				</div>
 				<div class="borrower-list" id="borrowerList">
 					<?php if (count($borrowers) > 0): ?>
