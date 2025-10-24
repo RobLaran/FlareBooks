@@ -76,6 +76,7 @@
                         <option value="<?= $genre['Name'] ?>"><?= $genre['Name'] ?></option>
                     <?php endforeach; ?>
                 </select>
+                <button id="clear-filter-genres">Clear</button>
             </div>
         </div>
 
